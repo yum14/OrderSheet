@@ -8,15 +8,18 @@
 import SwiftUI
 
 struct CartButton: View {
-    var onClick: () -> Void = {}
+    var font: Font = .body
+    var width: CGFloat? = 48
+    var height: CGFloat? = 48
+    var onTap: () -> Void = {}
     
     var body: some View {
-        Button(action: self.onClick) {
+        Button(action: self.onTap) {
             Image(systemName: "cart")
                 .foregroundColor(.white)
-                .font(.title)
+                .font(self.font)
         }
-        .padding()
+        .frame(width: self.width, height: self.height, alignment: .center)
         .background(Color("Main"))
         .cornerRadius(50)
     }
