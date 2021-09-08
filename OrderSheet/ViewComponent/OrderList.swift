@@ -34,8 +34,7 @@ struct OrderList_Previews: PreviewProvider {
         let template = "yyyy/MM/dd HH:mm:ss"
         let orders = [Order(name: "オーダー1", createdAt: DateUtility.toDate(dateString: "2021/01/01 01:00:00", template: template)),
                       Order(name: "オーダー2", createdAt: DateUtility.toDate(dateString: "2021/01/01 12:00:00", template: template)),
-                      Order(name: "オーダー3", createdAt: DateUtility.toDate(dateString: "2021/01/02 01:00:00", template: template))
-        ]
+                      Order(name: "オーダー3", createdAt: DateUtility.toDate(dateString: "2021/01/02 01:00:00", template: template))]
         
         OrderList(orders: orders)
     }
