@@ -9,5 +9,5 @@ import Foundation
 
 struct Product: Identifiable, Hashable {
     var id: String = UUID().uuidString
-    var name: String = ""
+    var name: String
 }
