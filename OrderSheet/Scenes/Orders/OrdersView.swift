@@ -10,17 +10,31 @@ import SwiftUI
 struct OrdersView: View {
     @ObservedObject var presenter: OrdersViewPresenter
     var body: some View {
-        OrderList(orders: self.presenter.orders)
+        VStack {
+            OrderList(orders: self.presenter.orders, onRowTap: self.presenter.showOrderSheet)
+        }
+        .sheet(isPresented: self.$presenter.sheetPresented) {
+            ProductList(products: self.presenter.selectedOrder?.items ?? [])
+        }
     }
 }
 
 struct OrdersView_Previews: PreviewProvider {
     static var previews: some View {
         let template = "yyyy/MM/dd HH:mm:ss"
-        let orders = [Order(name: "オーダー1", createdAt: DateUtility.toDate(dateString: "2021/01/01 01:00:00", template: template)),
-                      Order(name: "オーダー2", createdAt: DateUtility.toDate(dateString: "2021/01/01 12:00:00", template: template)),
-                      Order(name: "オーダー3", createdAt: DateUtility.toDate(dateString: "2021/01/02 01:00:00", template: template))]
-                      
-        OrdersView(presenter: OrdersViewPresenter(orders: orders))
+        
+        let products = [Product(name: "たまねぎ"),
+                        Product(name: "にんじん"),
+                        Product(name: "トイレットペーパー")]
+        
+        let orders = [Order(name: "オーダー1", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/01 01:00:00", template: template)),
+                      Order(name: "オーダー2", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/01 12:00:00", template: template)),
+                      Order(name: "オーダー3", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/02 01:00:00", template: template))]
+        
+        let presenter = OrdersViewPresenter(orders: orders)
+        
+        VStack {
+            OrdersView(presenter: presenter)
+        }
     }
 }
