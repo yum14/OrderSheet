@@ -10,6 +10,7 @@ import Foundation
 struct Order: Identifiable, Hashable {
     var id: String = UUID().uuidString
     var name: String
-    var createdAt: Date
+    var items: [Product] = []
+    var createdAt: Date = Date()
     var updatedAt: Date?
 }

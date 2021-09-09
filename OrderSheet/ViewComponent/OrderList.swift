@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OrderList: View {
     var orders: [Order] = []
+    var onRowTap: (Order) -> Void = { _ in }
     
     var body: some View {
         
@@ -21,7 +22,14 @@ struct OrderList: View {
                     let values = group[key]?.compactMap { $0 }.sorted(by: { $0.createdAt > $1.createdAt})
                     
                     ForEach(values!, id: \.id) { value in
-                        Text(value.name)
+                        HStack {
+                            Text(value.name)
+                            Spacer()
+                        }
+                        .background(Color(UIColor.systemBackground))
+                        .onTapGesture {
+                            self.onRowTap(value)
+                        }
                     }
                 }
             }

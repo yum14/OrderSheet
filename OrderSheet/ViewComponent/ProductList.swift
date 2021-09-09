@@ -28,9 +28,9 @@ struct ProductList: View {
 
 struct ProductList_Previews: PreviewProvider {
     static var previews: some View {
-        let products = [Product(id: "a", name: "だいこん"),
-                        Product(id: "b", name: "にんじん"),
-                        Product(id: "c", name: "たまねぎ")]
+        let products = [Product(name: "だいこん"),
+                        Product(name: "にんじん"),
+                        Product(name: "たまねぎ")]
         
         ProductList(products: products)
     }
