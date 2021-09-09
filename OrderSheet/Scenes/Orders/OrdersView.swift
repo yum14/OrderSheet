@@ -14,7 +14,7 @@ struct OrdersView: View {
             OrderList(orders: self.presenter.orders, onRowTap: self.presenter.showOrderSheet)
         }
         .sheet(isPresented: self.$presenter.sheetPresented) {
-            ProductList(products: self.presenter.selectedOrder?.items ?? [])
+            OrderSheetView(presenter: OrderSheetViewPresenter(order: self.presenter.selectedOrder!, commitButtonTap: { self.presenter.sheetPresented.toggle() }))
         }
     }
 }
