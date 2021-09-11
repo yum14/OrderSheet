@@ -1,5 +1,5 @@
 //
-//  OrderSheetViewPresenter.swift
+//  OrderDetailPresenter.swift
 //  OrderSheet
 //
 //  Created by yum on 2021/09/09.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-final class OrderSheetViewPresenter: ObservableObject {
+final class OrderDetailPresenter: ObservableObject {
     @Published var order: Order
     var commitButtonTap: () -> Void = {}
     

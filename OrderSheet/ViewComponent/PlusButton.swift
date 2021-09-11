@@ -1,21 +1,21 @@
 //
-//  CartButton.swift
+//  PlusButton.swift
 //  OrderSheet
 //
-//  Created by yum on 2021/09/07.
+//  Created by yum on 2021/09/10.
 //
 
 import SwiftUI
 
-struct CartButton: View {
-    var font: Font = .headline
-    var width: CGFloat? = 40
-    var height: CGFloat? = 40
+struct PlusButton: View {
+    var font: Font = .body
+    var width: CGFloat? = 24
+    var height: CGFloat? = 24
     var onTap: () -> Void = {}
     
     var body: some View {
         Button(action: self.onTap) {
-            Image(systemName: "cart")
+            Image(systemName: "plus")
                 .foregroundColor(.white)
                 .font(self.font)
         }
@@ -25,8 +25,8 @@ struct CartButton: View {
     }
 }
 
-struct CartButton_Previews: PreviewProvider {
+struct PlusButton_Previews: PreviewProvider {
     static var previews: some View {
-        CartButton()
+        PlusButton()
     }
 }
