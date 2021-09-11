@@ -1,5 +1,5 @@
 //
-//  OrderSheetView.swift
+//  OrderDetailView.swift
 //  OrderSheet
 //
 //  Created by yum on 2021/09/09.
@@ -7,15 +7,24 @@
 
 import SwiftUI
 
-struct OrderSheetView: View {
-    @ObservedObject var presenter: OrderSheetViewPresenter
+struct OrderDetailView: View {
+    @ObservedObject var presenter: OrderDetailPresenter
     
     var body: some View {
         NavigationView {
             VStack {
-                ProductList(products: self.presenter.order.items,
-                            onListItemTap: { _ in },
-                            onCartButtonTap: { _ in })
+                Form {
+                    Section(header: Text("アイテム")) {
+                        ProductList(products: self.presenter.order.items,
+                                    onListItemTap: { _ in },
+                                    onCartButtonTap: { _ in })
+                    }
+                    
+                    Section(header: Text("コメント")) {
+                        Text(self.presenter.order.comment)
+                    }
+                }
+
                 
                 HStack {
                     Spacer()
@@ -30,14 +39,14 @@ struct OrderSheetView: View {
     }
 }
 
-struct OrderSheetView_Previews: PreviewProvider {
+struct OrderView_Previews: PreviewProvider {
     static var previews: some View {
         let order = Order(name: "オーダー1",
                           items: [Product(name: "たまねぎ"),
                                   Product(name: "にんじん"),
                                   Product(name: "トイレットペーパー")])
-        let presenter = OrderSheetViewPresenter(order: order)
+        let presenter = OrderDetailPresenter(order: order)
         
-        OrderSheetView(presenter: presenter)
+        OrderDetailView(presenter: presenter)
     }
 }

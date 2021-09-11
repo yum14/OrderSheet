@@ -1,5 +1,5 @@
 //
-//  OrdersView.swift
+//  OrderListView.swift
 //  OrderSheet
 //
 //  Created by yum on 2021/09/09.
@@ -7,19 +7,27 @@
 
 import SwiftUI
 
-struct OrdersView: View {
-    @ObservedObject var presenter: OrdersViewPresenter
+struct OrderListView: View {
+    @ObservedObject var presenter: OrderListPresenter
+    
     var body: some View {
-        VStack {
-            OrderList(orders: self.presenter.orders, onRowTap: self.presenter.showOrderSheet)
-        }
-        .sheet(isPresented: self.$presenter.sheetPresented) {
-            OrderSheetView(presenter: OrderSheetViewPresenter(order: self.presenter.selectedOrder!, commitButtonTap: { self.presenter.sheetPresented.toggle() }))
+        NavigationView {
+            VStack {
+                OrderList(orders: self.presenter.orders,
+                          onRowTap: self.presenter.showOrderSheet)
+            }
+            .sheet(isPresented: self.$presenter.sheetPresented) {
+                self.presenter.makeAboutOrderDetailView()
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(trailing: self.presenter.linkBuilder {
+                Image(systemName: "plus")
+            })
         }
     }
 }
 
-struct OrdersView_Previews: PreviewProvider {
+struct OrderListView_Previews: PreviewProvider {
     static var previews: some View {
         let template = "yyyy/MM/dd HH:mm:ss"
         
@@ -31,10 +39,10 @@ struct OrdersView_Previews: PreviewProvider {
                       Order(name: "オーダー2", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/01 12:00:00", template: template)),
                       Order(name: "オーダー3", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/02 01:00:00", template: template))]
         
-        let presenter = OrdersViewPresenter(orders: orders)
+        let presenter = OrderListPresenter(orders: orders)
         
         VStack {
-            OrdersView(presenter: presenter)
+            OrderListView(presenter: presenter)
         }
     }
 }

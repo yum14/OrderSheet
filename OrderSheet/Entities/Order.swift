@@ -11,6 +11,7 @@ struct Order: Identifiable, Hashable {
     var id: String = UUID().uuidString
     var name: String
     var items: [Product] = []
+    var comment: String = ""
     var createdAt: Date = Date()
     var updatedAt: Date?
 }
