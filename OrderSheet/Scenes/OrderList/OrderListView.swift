@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleSignIn
 
 struct OrderListView: View {
     @ObservedObject var presenter: OrderListPresenter
@@ -20,7 +21,11 @@ struct OrderListView: View {
                 self.presenter.makeAboutOrderDetailView()
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: self.presenter.linkBuilder {
+            .navigationBarItems(leading: Button(action: { FirebaseAuth
+                                                    .signOut() }, label: {
+                Text("ログアウト")
+            }),
+            trailing: self.presenter.linkBuilder {
                 Image(systemName: "plus")
             })
         }

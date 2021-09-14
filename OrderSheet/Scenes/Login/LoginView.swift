@@ -8,13 +8,20 @@
 import SwiftUI
 
 struct LoginView: View {
+    @ObservedObject var presenter: LoginPresenter
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            GoogleSignInButton(signedIn: self.presenter.firebaseSignIn)
+                .padding(.horizontal, 40)
+            
+        }
     }
 }
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        let presenter = LoginPresenter()
+        LoginView(presenter: presenter)
     }
 }
