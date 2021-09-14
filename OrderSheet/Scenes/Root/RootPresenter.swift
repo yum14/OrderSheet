@@ -6,3 +6,16 @@
 //
 
 import Foundation
+import SwiftUI
+
+class RootPresenter: ObservableObject {
+    private let router = RootRouter()
+    
+    func makeAboutLoginView() -> some View {
+        router.makeLoginView()
+    }
+    
+    func makeAboutOrderListView() -> some View {
+        router.makeOrderListView()
+    }
+}
