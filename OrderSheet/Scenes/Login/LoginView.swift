@@ -13,8 +13,8 @@ struct LoginView: View {
     var body: some View {
         VStack {
             GoogleSignInButton(signedIn: self.presenter.firebaseSignIn)
-                .padding(.horizontal, 40)
-            
+//                .padding(.horizontal, 40)
+            AppleSignInButton(signedIn: self.presenter.firebaseSignIn)
         }
     }
 }

@@ -10,7 +10,7 @@ import Firebase
 import GoogleSignIn
 
 struct GoogleSignInButton: View {
-    let signedIn: (AuthCredential) -> Void
+    var signedIn: (AuthCredential) -> Void
     
     var body: some View {
         VStack {
@@ -33,7 +33,7 @@ struct GoogleSignInRepresent: UIViewRepresentable {
     
     init(signedIn: @escaping (AuthCredential) -> Void = { _ in }) {
         self.signedIn = signedIn
-        
+
         if let clientID = FirebaseApp.app()?.options.clientID {
             config = GIDConfiguration(clientID: clientID)
         } else {
