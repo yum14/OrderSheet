@@ -13,7 +13,18 @@ struct RootView: View {
     
     var body: some View {
         if self.authState.isSignedIn {
-            self.presenter.makeAboutOrderListView()
+            TabView {
+                self.presenter.makeAboutHomeView()
+                    .tabItem {
+                        Image(systemName: "house")
+                    }
+                
+                self.presenter.makeAboutOrderListView()
+                    .tabItem {
+                        Image(systemName: "list.bullet.rectangle")
+                    }
+            }
+            
         } else {
             self.presenter.makeAboutLoginView()
         }

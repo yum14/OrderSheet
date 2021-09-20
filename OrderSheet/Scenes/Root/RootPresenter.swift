@@ -18,4 +18,8 @@ class RootPresenter: ObservableObject {
     func makeAboutOrderListView() -> some View {
         router.makeOrderListView()
     }
+    
+    func makeAboutHomeView() -> some View {
+        router.makeHomeView()
+    }
 }
