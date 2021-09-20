@@ -8,8 +8,24 @@
 import SwiftUI
 
 struct AddButton: View {
+    var backgroundColor: Color = Color("Main")
+    var disabledBackgroundColor: Color = .gray
+    var font: Font = .body
+    var width: CGFloat? = 64
+    var height: CGFloat? = 28
+    var disabled: Bool = false
+    var onTap: () -> Void = {}
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button(action: self.onTap) {
+            Image(systemName: "plus")
+                .foregroundColor(.white)
+                .font(self.font)
+                .frame(width: self.width, height: self.height, alignment: .center)
+                .background(self.disabled ? self.disabledBackgroundColor : self.backgroundColor)
+                .cornerRadius(50)
+        }
+        .disabled(self.disabled)
     }
 }
 
