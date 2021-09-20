@@ -1,5 +1,5 @@
 //
-//  PlusMinusButton.swift
+//  RemoveButton.swift
 //  OrderSheet
 //
 //  Created by yum on 2021/09/10.
@@ -7,13 +7,7 @@
 
 import SwiftUI
 
-enum IconType: String {
-    case plus = "plus"
-    case minus = "minus"
-}
-
-struct PlusMinusButton: View {
-    var icon: IconType = .plus
+struct RemoveButton: View {
     var backgroundColor: Color = Color("Main")
     var disabledBackgroundColor: Color = .gray
     var font: Font = .body
@@ -24,7 +18,7 @@ struct PlusMinusButton: View {
     
     var body: some View {
         Button(action: self.onTap) {
-            Image(systemName: self.icon.rawValue)
+            Image(systemName: "minus")
                 .foregroundColor(.white)
                 .font(self.font)
                 .frame(width: self.width, height: self.height, alignment: .center)
@@ -35,11 +29,10 @@ struct PlusMinusButton: View {
     }
 }
 
-struct PlusMinusButton_Previews: PreviewProvider {
+struct RemoveButton_Previews: PreviewProvider {
     static var previews: some View {
         HStack {
-            PlusMinusButton(icon: .plus)
-            PlusMinusButton(icon: .minus, backgroundColor: .gray)
+            RemoveButton()
         }
     }
 }

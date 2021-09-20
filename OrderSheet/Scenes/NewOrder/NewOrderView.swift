@@ -16,18 +16,19 @@ struct NewOrderView: View {
                 TextField("新しいオーダー", text: self.$presenter.title)
             }
             
-            Section(header: Text("アイテム")) {
-                HStack {
-                    TextField("", text: self.$presenter.name)
-                    PlusButton(onTap: {})
-                }
-                HStack {
-                    TextField("", text: self.$presenter.name)
-                    PlusButton(onTap: {})
-                }
-                HStack {
-                    TextField("", text: self.$presenter.name)
-                    PlusButton(onTap: {})
+            Section(header: Text("アイテム"),
+                    footer:
+                        HStack {
+                            Spacer()
+                            AddButton(disabled: self.presenter.addItemButtonDisabled) {
+                                self.presenter.addItem()
+                            }
+                        }) {
+                
+                EditableList(contents: self.$presenter.items)
+                
+                if self.presenter.showNewItem {
+                    CustomTextField("新しいアイテム", text: self.$presenter.newItemText, isFirstResponder: true, onCommit: self.presenter.commitNewItemInput)
                 }
             }
             

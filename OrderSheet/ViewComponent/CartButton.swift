@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct CartButton: View {
-    var font: Font = .headline
-    var width: CGFloat? = 40
-    var height: CGFloat? = 40
+    var font: Font = .callout
+    var width: CGFloat? = 32
+    var height: CGFloat? = 32
     var onTap: () -> Void = {}
     
     var body: some View {
@@ -18,10 +18,10 @@ struct CartButton: View {
             Image(systemName: "cart")
                 .foregroundColor(.white)
                 .font(self.font)
+                .frame(width: self.width, height: self.height, alignment: .center)
+                .background(Color("Main"))
+                .cornerRadius(50)
         }
-        .frame(width: self.width, height: self.height, alignment: .center)
-        .background(Color("Main"))
-        .cornerRadius(50)
     }
 }
 

@@ -15,14 +15,11 @@ struct ProductList: View {
     var body: some View {
         List {
             ForEach(self.products, id: \.self) { product in
-                ZStack {
-                    HStack {
-                        Text(product.name)
-                            .lineLimit(0)
-                            .padding(.vertical, 12)
-                        Spacer()
-                        CartButton(font: .title2, onTap: { self.onCartButtonTap(product) })
-                    }
+                HStack {
+                    Text(product.name)
+                        .lineLimit(0)
+                    Spacer()
+                    CartButton(onTap: { self.onCartButtonTap(product) })
                 }
             }
         }
