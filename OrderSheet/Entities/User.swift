@@ -11,6 +11,6 @@ import UIKit
 struct User: Identifiable, Hashable {
     var id: String = UUID().uuidString
     var name: String
-    var avotor: Data?
-    var teams: [Team]
+    var avotarImage: Data?
+    var teams: [String]
 }

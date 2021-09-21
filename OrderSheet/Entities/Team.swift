@@ -10,4 +10,11 @@ import Foundation
 struct Team: Identifiable, Hashable {
     var id: String = UUID().uuidString
     var name: String
+    var avotarImage: Data?
+    var members: [Member]
+}
+
+
+struct Member: Identifiable, Hashable {
+    var id: String = UUID().uuidString
 }
