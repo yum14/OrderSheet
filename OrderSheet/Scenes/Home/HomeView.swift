@@ -35,7 +35,7 @@ struct HomeView: View {
                     }
                     
                     Section {
-                        Button(action: {}, label: {
+                        Button(action: self.presenter.toggleShowNewTeamSheet, label: {
                             HStack {
                                 Spacer()
                                 Text("チームを作成する")
@@ -51,6 +51,11 @@ struct HomeView: View {
                             }
                         })
                     }
+                }
+            }
+            .sheet(isPresented: self.$presenter.sheetPresented) {
+                NavigationView {
+                    self.presenter.makeAboutNewTeamView()
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

@@ -12,6 +12,7 @@ import Combine
 final class HomePresenter: ObservableObject {
     @Published var user: User
     @Published var teams: [Team]
+    @Published var sheetPresented = false
     private let router = HomeRouter()
     
     init(user: User, teams: [Team]) {
@@ -27,5 +28,20 @@ final class HomePresenter: ObservableObject {
         return NavigationLink(destination: router.makeTeamDetailView(team: team, members: members)) {
             content()
         }
+    }
+    
+    func toggleShowNewTeamSheet() -> Void {
+        self.sheetPresented.toggle()
+    }
+    
+    func makeAboutNewTeamView() -> some View {
+        let presenter = NewTeamPresenter(onCommit: self.newTeamInputCommit, onCanceled: self.toggleShowNewTeamSheet)
+        return NewTeamView(presenter: presenter)
+    }
+    
+    func newTeamInputCommit(text: String) {
+        // TODO: 登録
+        teams.append(Team(name: text, members: []))
+        toggleShowNewTeamSheet()
     }
 }
