@@ -12,9 +12,19 @@ import Combine
 final class TeamDetailPresenter: ObservableObject {
     @Published var team: Team
     @Published var members: [User]
+    @Published var sheetPresented = false
     
     init(team: Team, members: [User]) {
         self.team = team
         self.members = members
+    }
+    
+    func showTeamQRCodeView() -> Void {
+        self.sheetPresented = true
+    }
+    
+    func makeAboutTeamQRCodeView() -> some View {
+        let presenter = TeamQRCodePresenter(teamId: team.id)
+        return TeamQRCodeView(presenter: presenter)
     }
 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		750355FF26FE02C4004FA7E7 /* QRCodeMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750355FE26FE02C4004FA7E7 /* QRCodeMaker.swift */; };
+		7503560226FE039B004FA7E7 /* TeamQRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560126FE039B004FA7E7 /* TeamQRCodeView.swift */; };
+		7503560426FE03AA004FA7E7 /* TeamQRCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560326FE03AA004FA7E7 /* TeamQRCodePresenter.swift */; };
 		759626A926FDE91900460629 /* OrderSheetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626A826FDE91900460629 /* OrderSheetApp.swift */; };
 		759626AB26FDE91900460629 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626AA26FDE91900460629 /* ContentView.swift */; };
 		759626AD26FDE91B00460629 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 759626AC26FDE91B00460629 /* Assets.xcassets */; };
@@ -74,6 +77,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		750355FE26FE02C4004FA7E7 /* QRCodeMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeMaker.swift; sourceTree = "<group>"; };
+		7503560126FE039B004FA7E7 /* TeamQRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQRCodeView.swift; sourceTree = "<group>"; };
+		7503560326FE03AA004FA7E7 /* TeamQRCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQRCodePresenter.swift; sourceTree = "<group>"; };
 		759626A526FDE91900460629 /* OrderSheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrderSheet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		759626A826FDE91900460629 /* OrderSheetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSheetApp.swift; sourceTree = "<group>"; };
 		759626AA26FDE91900460629 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -153,6 +159,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7503560026FE0389004FA7E7 /* TeamQRCode */ = {
+			isa = PBXGroup;
+			children = (
+				7503560126FE039B004FA7E7 /* TeamQRCodeView.swift */,
+				7503560326FE03AA004FA7E7 /* TeamQRCodePresenter.swift */,
+			);
+			path = TeamQRCode;
+			sourceTree = "<group>";
+		};
 		7596269C26FDE91900460629 = {
 			isa = PBXGroup;
 			children = (
@@ -222,6 +237,7 @@
 				759626D326FDE9DA00460629 /* DateUtility.swift */,
 				759626D426FDE9DA00460629 /* FirebaseAuth.swift */,
 				759626D526FDE9DA00460629 /* UIApplicationExtension.swift */,
+				750355FE26FE02C4004FA7E7 /* QRCodeMaker.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -241,6 +257,7 @@
 		759626DC26FDE9DB00460629 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				7503560026FE0389004FA7E7 /* TeamQRCode */,
 				759626DD26FDE9DB00460629 /* Home */,
 				759626E126FDE9DB00460629 /* NewTeam */,
 				759626E426FDE9DB00460629 /* TeamDetail */,
@@ -492,6 +509,7 @@
 				7596271B26FDE9DB00460629 /* NewOrderPresenter.swift in Sources */,
 				7596271226FDE9DB00460629 /* RootRouter.swift in Sources */,
 				7596271F26FDE9DB00460629 /* EditableList.swift in Sources */,
+				7503560226FE039B004FA7E7 /* TeamQRCodeView.swift in Sources */,
 				7596271026FDE9DB00460629 /* TeamDetailView.swift in Sources */,
 				7596272226FDE9DB00460629 /* OrderList.swift in Sources */,
 				7596271326FDE9DB00460629 /* RootView.swift in Sources */,
@@ -502,6 +520,7 @@
 				7596272326FDE9DB00460629 /* CustomTextField.swift in Sources */,
 				7596271826FDE9DB00460629 /* OrderListPresenter.swift in Sources */,
 				7596272626FDE9DB00460629 /* ProductList.swift in Sources */,
+				750355FF26FE02C4004FA7E7 /* QRCodeMaker.swift in Sources */,
 				7596271A26FDE9DB00460629 /* NewOrderView.swift in Sources */,
 				7596270E26FDE9DB00460629 /* NewTeamPresenter.swift in Sources */,
 				7596271926FDE9DB00460629 /* OrderListRouter.swift in Sources */,
@@ -521,6 +540,7 @@
 				7596270D26FDE9DB00460629 /* HomePresenter.swift in Sources */,
 				7596270A26FDE9DB00460629 /* Product.swift in Sources */,
 				7596270326FDE9DB00460629 /* DateUtility.swift in Sources */,
+				7503560426FE03AA004FA7E7 /* TeamQRCodePresenter.swift in Sources */,
 				759626A926FDE91900460629 /* OrderSheetApp.swift in Sources */,
 				7596271E26FDE9DB00460629 /* CartButton.swift in Sources */,
 			);
@@ -610,7 +630,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -665,7 +685,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -694,7 +714,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -727,7 +747,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
