@@ -32,7 +32,7 @@ struct TeamDetailView: View {
                 }
                 
                 Section {
-                    Button(action: {}, label: {
+                    Button(action: self.presenter.showTeamQRCodeView, label: {
                         HStack {
                             Spacer()
                             Text("招待QRコード表示")
@@ -50,6 +50,11 @@ struct TeamDetailView: View {
                     })
                 }
                 
+            }
+        }
+        .sheet(isPresented: self.$presenter.sheetPresented) {
+            NavigationView {
+                self.presenter.makeAboutTeamQRCodeView()
             }
         }
         .navigationBarTitleDisplayMode(.inline)
