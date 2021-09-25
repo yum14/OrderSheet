@@ -1,5 +1,5 @@
 //
-//  TeamQRCodeView.swift
+//  TeamQrCodeView.swift
 //  OrderSheet
 //
 //  Created by yum on 2021/09/24.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct TeamQRCodeView: View {
-    @ObservedObject var presenter: TeamQRCodePresenter
+struct TeamQrCodeView: View {
+    @ObservedObject var presenter: TeamQrCodePresenter
     
     var body: some View {
         VStack {
             Group {
-                if let qrCode = self.presenter.qrCodeImage {
-                    Image(uiImage: qrCode)
+                if let QrCode = self.presenter.QrCodeImage {
+                    Image(uiImage: QrCode)
                 } else {
                     Text("Loading...")
                         .frame(height: 248)
@@ -30,9 +30,9 @@ struct TeamQRCodeView: View {
     }
 }
 
-struct TeamQRCodeView_Previews: PreviewProvider {
+struct TeamQrCodeView_Previews: PreviewProvider {
     static var previews: some View {
-        let presenter = TeamQRCodePresenter(teamId: UUID().uuidString)
-        TeamQRCodeView(presenter: presenter)
+        let presenter = TeamQrCodePresenter(teamId: UUID().uuidString)
+        TeamQrCodeView(presenter: presenter)
     }
 }

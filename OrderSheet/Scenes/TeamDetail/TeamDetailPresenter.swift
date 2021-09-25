@@ -24,7 +24,7 @@ final class TeamDetailPresenter: ObservableObject {
     }
     
     func makeAboutTeamQRCodeView() -> some View {
-        let presenter = TeamQRCodePresenter(teamId: team.id)
-        return TeamQRCodeView(presenter: presenter)
+        let presenter = TeamQrCodePresenter(teamId: team.id)
+        return TeamQrCodeView(presenter: presenter)
     }
 }
