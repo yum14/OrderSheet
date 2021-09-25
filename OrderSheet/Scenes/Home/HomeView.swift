@@ -43,19 +43,30 @@ struct HomeView: View {
                             }
                         })
                         
-                        Button(action: {}, label: {
+                        Button(action: self.presenter.toggleShowTeamQrScannerSheet, label: {
                             HStack {
                                 Spacer()
                                 Text("チームに参加する")
                                 Spacer()
                             }
                         })
+                            .alert(isPresented: self.$presenter.teamJoinAlertPresented) {
+                                Alert(title: Text("チーム名"),
+                                      message: Text("チームに参加しますか？"),
+                                      primaryButton: .default(Text("参加する"), action: {}),
+                                      secondaryButton: .cancel({}))
+                            }
                     }
                 }
             }
-            .sheet(isPresented: self.$presenter.sheetPresented) {
+            .sheet(isPresented: self.$presenter.newTeamViewPresented) {
                 NavigationView {
                     self.presenter.makeAboutNewTeamView()
+                }
+            }
+            .fullScreenCover(isPresented: self.$presenter.teamQrCodeScannerViewPresented) {
+                NavigationView {
+                    self.presenter.makeAboutTeamQrCodeScannerView()
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

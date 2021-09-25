@@ -1,5 +1,5 @@
 //
-//  QRCodeMaker.swift
+//  QrCodeMaker.swift
 //  OrderSheet
 //
 //  Created by yum on 2021/09/24.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class QRCodeMaker {
+class QrCodeMaker {
     static func make(message:String) -> UIImage? {
         guard let data = message.data(using: .utf8) else {
             return nil
