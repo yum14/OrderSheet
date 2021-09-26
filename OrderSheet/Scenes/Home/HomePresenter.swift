@@ -41,12 +41,14 @@ final class HomePresenter: ObservableObject {
     }
     
     func makeAboutNewTeamView() -> some View {
-        let presenter = NewTeamPresenter(onCommit: self.newTeamInputCommit, onCanceled: self.toggleShowNewTeamSheet)
-        return NewTeamView(presenter: presenter)
+        return router.makeNewTeamView(user: self.user,
+                                      onCommit: self.newTeamInputCommit,
+                                      onCanceled: self.toggleShowNewTeamSheet)
     }
 
     func makeAboutTeamQrCodeScannerView() -> some View {
-        let presenter = TeamQrCodeScannerPresenter(
+        
+        return router.makeTeamQrCodeScannerView(
             onFound: { code in
                 // TODO: code（ID）でRealmからチームを検索する
                 self.toggleShowTeamQrScannerSheet()
@@ -55,16 +57,12 @@ final class HomePresenter: ObservableObject {
                     self.teamJoinAlertPresented = true
                 }
             },
-            onDismiss: {
-                self.toggleShowTeamQrScannerSheet()
-                
-            })
-        return TeamQrCodeScannerView(presenter: presenter)
+            onDismiss: self.toggleShowTeamQrScannerSheet)
     }
     
     func newTeamInputCommit(text: String) {
         // TODO: 登録
-        teams.append(Team(name: text, members: []))
+//        teams.append(Team(name: text, members: []))
         toggleShowNewTeamSheet()
     }
 }
