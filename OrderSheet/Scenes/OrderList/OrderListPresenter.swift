@@ -29,8 +29,7 @@ final class OrderListPresenter: ObservableObject {
     }
     
     func makeAboutOrderDetailView() -> some View {
-        OrderDetailView(presenter: OrderDetailPresenter(order: self.selectedOrder!,
-                                                            commitButtonTap: { self.sheetPresented.toggle() }))
+        return router.makeOrderDetailView(order: self.selectedOrder!, commitButtonTap: { self.sheetPresented.toggle() })
     }
     
     func linkBuilder<Content: View>(@ViewBuilder content: () -> Content) -> some View {

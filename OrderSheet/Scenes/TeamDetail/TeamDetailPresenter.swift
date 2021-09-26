@@ -14,6 +14,8 @@ final class TeamDetailPresenter: ObservableObject {
     @Published var members: [User]
     @Published var sheetPresented = false
     
+    private let router = TeamDetailRouter()
+    
     init(team: Team, members: [User]) {
         self.team = team
         self.members = members
@@ -24,7 +26,6 @@ final class TeamDetailPresenter: ObservableObject {
     }
     
     func makeAboutTeamQRCodeView() -> some View {
-        let presenter = TeamQrCodePresenter(teamId: team.id)
-        return TeamQrCodeView(presenter: presenter)
+        return router.makeTeamQRCodeView(teamId: self.team.id)
     }
 }

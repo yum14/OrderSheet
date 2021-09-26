@@ -40,7 +40,7 @@ struct NewTeamView: View {
 
 struct NewTeamView_Previews: PreviewProvider {
     static var previews: some View {
-        let presenter = NewTeamPresenter()
+        let presenter = NewTeamPresenter(interactor: NewTeamInteractor(store: TeamStore()), user: User(name: "test", teams: []))
         NavigationView {
             NewTeamView(presenter: presenter)
         }
