@@ -26,7 +26,7 @@
 		7596270626FDE9DB00460629 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626D726FDE9DB00460629 /* Order.swift */; };
 		7596270726FDE9DB00460629 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626D826FDE9DB00460629 /* Team.swift */; };
 		7596270826FDE9DB00460629 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626D926FDE9DB00460629 /* User.swift */; };
-		7596270926FDE9DB00460629 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626DA26FDE9DB00460629 /* AuthState.swift */; };
+		7596270926FDE9DB00460629 /* AuthStateObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626DA26FDE9DB00460629 /* AuthStateObserver.swift */; };
 		7596270A26FDE9DB00460629 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626DB26FDE9DB00460629 /* Product.swift */; };
 		7596270B26FDE9DB00460629 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626DE26FDE9DB00460629 /* HomeView.swift */; };
 		7596270C26FDE9DB00460629 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626DF26FDE9DB00460629 /* HomeRouter.swift */; };
@@ -66,6 +66,7 @@
 		75F5DE7A27008D690044A782 /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 75F5DE7927008D690044A782 /* FirebaseFirestoreSwift-Beta */; };
 		75F5DE7C27008D690044A782 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 75F5DE7B27008D690044A782 /* FirebaseMessaging */; };
 		75F5DE7E2700A45B0044A782 /* TeamDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE7D2700A45B0044A782 /* TeamDetailRouter.swift */; };
+		75F5DE802700A8900044A782 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE7F2700A8900044A782 /* UserStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,7 +109,7 @@
 		759626D726FDE9DB00460629 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		759626D826FDE9DB00460629 /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		759626D926FDE9DB00460629 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		759626DA26FDE9DB00460629 /* AuthState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
+		759626DA26FDE9DB00460629 /* AuthStateObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthStateObserver.swift; sourceTree = "<group>"; };
 		759626DB26FDE9DB00460629 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		759626DE26FDE9DB00460629 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		759626DF26FDE9DB00460629 /* HomeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
@@ -145,6 +146,7 @@
 		75DDA6992700580F009854AE /* TeamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamStore.swift; sourceTree = "<group>"; };
 		75F5DE72270082370044A782 /* NewTeamInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTeamInteractor.swift; sourceTree = "<group>"; };
 		75F5DE7D2700A45B0044A782 /* TeamDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailRouter.swift; sourceTree = "<group>"; };
+		75F5DE7F2700A8900044A782 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,7 +279,7 @@
 				759626D726FDE9DB00460629 /* Order.swift */,
 				759626D826FDE9DB00460629 /* Team.swift */,
 				759626D926FDE9DB00460629 /* User.swift */,
-				759626DA26FDE9DB00460629 /* AuthState.swift */,
+				759626DA26FDE9DB00460629 /* AuthStateObserver.swift */,
 				759626DB26FDE9DB00460629 /* Product.swift */,
 			);
 			path = Entities;
@@ -398,6 +400,7 @@
 			isa = PBXGroup;
 			children = (
 				75DDA6992700580F009854AE /* TeamStore.swift */,
+				75F5DE7F2700A8900044A782 /* UserStore.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -546,7 +549,7 @@
 			files = (
 				7596270626FDE9DB00460629 /* Order.swift in Sources */,
 				7596270C26FDE9DB00460629 /* HomeRouter.swift in Sources */,
-				7596270926FDE9DB00460629 /* AuthState.swift in Sources */,
+				7596270926FDE9DB00460629 /* AuthStateObserver.swift in Sources */,
 				7596270F26FDE9DB00460629 /* NewTeamView.swift in Sources */,
 				7596272426FDE9DB00460629 /* AppleSignInButton.swift in Sources */,
 				7596271B26FDE9DB00460629 /* NewOrderPresenter.swift in Sources */,
@@ -580,6 +583,7 @@
 				7596272126FDE9DB00460629 /* GoogleSignInButton.swift in Sources */,
 				7596271726FDE9DB00460629 /* OrderListView.swift in Sources */,
 				7596270B26FDE9DB00460629 /* HomeView.swift in Sources */,
+				75F5DE802700A8900044A782 /* UserStore.swift in Sources */,
 				7596270826FDE9DB00460629 /* User.swift in Sources */,
 				75DDA69A2700580F009854AE /* TeamStore.swift in Sources */,
 				7596271C26FDE9DB00460629 /* LoginView.swift in Sources */,

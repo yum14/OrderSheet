@@ -16,7 +16,7 @@ struct HomeView: View {
                 VStack {
                     Circle()
                         .frame(width: 48, height: 48)
-                    Text(self.presenter.user.name)
+                    Text(self.presenter.user.displayName)
                 }
                 .padding()
                 
@@ -77,7 +77,7 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        let presenter = HomePresenter(user: User(name: "アカウント名", teams: []), teams: [Team(name: "チーム1", members: []), Team(name: "チーム2", members: [])])
+        let presenter = HomePresenter(user: User(displayName: "アカウント名", teams: []), teams: [Team(name: "チーム1", members: []), Team(name: "チーム2", members: [])])
         
         HomeView(presenter: presenter)
     }

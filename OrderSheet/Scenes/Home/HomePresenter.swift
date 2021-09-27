@@ -25,7 +25,7 @@ final class HomePresenter: ObservableObject {
     func linkBuilder<Content: View>(team: Team, @ViewBuilder content: () -> Content) -> some View {
         
         // TODO: ここでDBからmemberを取得することになると思う
-        let members = [User(name: "メンバー1", teams: []), User(name: "メンバー2", teams: [])]
+        let members = [User(displayName: "メンバー1", teams: []), User(displayName: "メンバー2", teams: [])]
         
         return NavigationLink(destination: router.makeTeamDetailView(team: team, members: members)) {
             content()

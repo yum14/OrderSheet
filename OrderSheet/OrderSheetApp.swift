@@ -13,17 +13,17 @@ import GoogleSignIn
 struct OrderSheetApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
-    var authState: AuthState
+    var authStateObserver: AuthStateObserver
     
     init() {
         FirebaseApp.configure()
-        self.authState = AuthState()
+        self.authStateObserver = AuthStateObserver()
     }
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(self.authState)
+                .environmentObject(self.authStateObserver)
         }
     }
     

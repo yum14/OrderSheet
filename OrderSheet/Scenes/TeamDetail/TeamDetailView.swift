@@ -25,7 +25,7 @@ struct TeamDetailView: View {
                         HStack {
                             Circle()
                                 .frame(width: 24, height: 24)
-                            Text(member.name)
+                            Text(member.displayName)
                             Spacer()
                         }
                     }
@@ -64,7 +64,7 @@ struct TeamDetailView: View {
 
 struct TeamDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let presenter = TeamDetailPresenter(team: Team(name: "チーム名", members: []), members: [User(name: "メンバー1", teams: []), User(name: "メンバー2", teams: [])])
+        let presenter = TeamDetailPresenter(team: Team(name: "チーム名", members: []), members: [User(displayName: "メンバー1", teams: []), User(displayName: "メンバー2", teams: [])])
         
         NavigationView {
             TeamDetailView(presenter: presenter)

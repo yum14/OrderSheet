@@ -9,10 +9,10 @@ import SwiftUI
 
 struct RootView: View {
     @ObservedObject var presenter: RootPresenter
-    @EnvironmentObject var authState: AuthState
+    @EnvironmentObject var authStateObserver: AuthStateObserver
     
     var body: some View {
-        if self.authState.isSignedIn {
+        if self.authStateObserver.isSignedIn {
             TabView {
                 self.presenter.makeAboutHomeView()
                     .tabItem {
