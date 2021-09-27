@@ -32,7 +32,7 @@ final class TeamStore {
         }
     }
     
-    func set(team: Team, completion: @escaping (Result<(), Error>) -> Void = { _ in }) {
+    func set(_ team: Team, completion: @escaping (Result<(), Error>) -> Void = { _ in }) {
         let result = Result {
             try db.collection(self.collectionName).document(team.id).setData(from: team)
         }

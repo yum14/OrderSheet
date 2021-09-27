@@ -24,7 +24,7 @@ extension NewTeamInteractor: NewTeamUsecase {
 
         let newTeam = Team(name: name, members: [Member(id: uid, owner: true)], createdAt: Date())
 
-        self.store.set(team: newTeam, completion: { result in
+        self.store.set(newTeam, completion: { result in
             switch result {
             case .success():
                 completion(.success(newTeam))

@@ -30,7 +30,7 @@ final class RootRouter {
     }
     
     func makeHomeView() -> some View {
-        let presenter = HomePresenter(user: User(name: "アカウント名", teams: []), teams: [Team(name: "チーム1", members: []), Team(name: "チーム2", members: [])])
+        let presenter = HomePresenter(user: User(displayName: "アカウント名", teams: []), teams: [Team(name: "チーム1", members: []), Team(name: "チーム2", members: [])])
         let view = HomeView(presenter: presenter)
         return view
     }

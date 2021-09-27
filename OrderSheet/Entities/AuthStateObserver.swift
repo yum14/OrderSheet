@@ -1,5 +1,5 @@
 //
-//  AuthState.swift
+//  AuthStateObserver.swift
 //  OrderSheet
 //
 //  Created by yum on 2021/09/14.
@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-class AuthState: ObservableObject {
+class AuthStateObserver: ObservableObject {
     var isSignedIn: Bool {
         return self.uid != nil
     }
@@ -19,6 +19,7 @@ class AuthState: ObservableObject {
     @Published var photoURL: URL?
     
     private var listener: AuthStateDidChangeListenerHandle!
+    private let store = UserStore()
 
     init() {
         listener = Auth.auth().addStateDidChangeListener { (auth, user) in
@@ -46,6 +47,16 @@ class AuthState: ObservableObject {
                 self.token = token
             }
             print("sign in")
+            
+            let newUser = User(id: user.uid, displayName: user.displayName ?? "", email: user.email, photoUrl: user.photoURL?.absoluteString, avatarImage: nil, teams: [], lastLogin: Date())
+            self.store.set(newUser, completion: { result in
+                switch result {
+                case .success():
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            })
         }
     }
 
