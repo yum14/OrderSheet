@@ -13,9 +13,10 @@ import FirebaseAuth
 
 struct AppleSignInButton: View {
     var signedIn: (AuthCredential) -> Void
+    var onTapped: () -> Void = {}
     
     var body: some View {
-        AppleSignInButtonViewController(signedIn: self.signedIn)
+        AppleSignInButtonViewController(signedIn: self.signedIn, onTapped: self.onTapped)
             .frame(width: 130, height: 30)
     }
 }
@@ -26,18 +27,20 @@ struct AppleSignInButton_Previews: PreviewProvider {
     }
 }
 
-
 struct AppleSignInButtonViewController: UIViewControllerRepresentable {
     
     var signedIn: (AuthCredential) -> Void
+    var onTapped: () -> Void
     
-    init(signedIn: @escaping (AuthCredential) -> Void) {
+    init(signedIn: @escaping (AuthCredential) -> Void, onTapped: @escaping () -> Void) {
         self.signedIn = signedIn
+        self.onTapped = onTapped
     }
     
     func makeUIViewController(context: Context) -> UIViewController {
         let viewController = AppleSignInViewController()
         viewController.signedIn = self.signedIn
+        viewController.onTapped = self.onTapped
         
         return viewController
     }
@@ -51,6 +54,7 @@ struct AppleSignInButtonViewController: UIViewControllerRepresentable {
 class AppleSignInViewController: UIViewController {
 
     var signedIn: ((AuthCredential) -> Void)?
+    var onTapped: (() -> Void)?
     fileprivate var currentNonce: String?
     
     override func viewDidLoad() {
@@ -62,6 +66,7 @@ class AppleSignInViewController: UIViewController {
     }
     
     @objc func appleSignInButtonTapped(sender: Any) {
+        self.onTapped?()
         startSignInWithAppleFlow()
     }
     

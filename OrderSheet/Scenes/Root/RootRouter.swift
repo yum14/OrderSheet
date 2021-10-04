@@ -9,7 +9,11 @@ import Foundation
 import SwiftUI
 
 final class RootRouter {
-    func makeOrderListView() -> some View {
+    let orderListPresenter: OrderListPresenter
+    let loginPresener: LoginPresenter
+    let homePresenter: HomePresenter
+    
+    init() {
         let products = [Product(name: "たまねぎ"),
                         Product(name: "にんじん"),
                         Product(name: "トイレットペーパー")]
@@ -18,20 +22,24 @@ final class RootRouter {
                       Order(name: "オーダー2", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/01 12:00:00", template: template)),
                       Order(name: "オーダー3", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/02 01:00:00", template: template))]
         
-        let presenter = OrderListPresenter(orders: orders)
-        let view = OrderListView(presenter: presenter)
+        self.orderListPresenter = OrderListPresenter(orders: orders)
+        self.loginPresener = LoginPresenter()
+        self.homePresenter = HomePresenter(user: User(displayName: "アカウント名", teams: []), teams: [Team(name: "チーム1", members: []), Team(name: "チーム2", members: [])])
+    }
+    
+
+    func makeOrderListView() -> some View {
+        let view = OrderListView(presenter: self.orderListPresenter)
         return view
     }
     
     func makeLoginView() -> some View {
-        let presenter = LoginPresenter()
-        let view = LoginView(presenter: presenter)
+        let view = LoginView(presenter: self.loginPresener)
         return view
     }
     
     func makeHomeView() -> some View {
-        let presenter = HomePresenter(user: User(displayName: "アカウント名", teams: []), teams: [Team(name: "チーム1", members: []), Team(name: "チーム2", members: [])])
-        let view = HomeView(presenter: presenter)
+        let view = HomeView(presenter: self.homePresenter)
         return view
     }
 }

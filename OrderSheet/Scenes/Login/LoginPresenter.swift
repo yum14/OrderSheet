@@ -10,11 +10,48 @@ import SwiftUI
 import Firebase
 
 class LoginPresenter: ObservableObject {
+    enum Mode {
+        case signIn
+        case createNewAccount
+        case nothing
+    }
     
-    init() { }
+    @Published var sheetPresented = false
+    @Published var mode: LoginPresenter.Mode = .nothing
+    @Published var showCreateAccountDummyView = false
+    @Published var showNoAccountDummyView = false
     
-    func firebaseSignIn(credential: AuthCredential) {
-        FirebaseAuth.signIn(credential: credential)
+    init() {}
+
+    func showAcountCreationSheet() {
+        self.sheetPresented = true
+    }
+    
+    func hideAccountCreationSheet() {
+        self.sheetPresented = false
+    }
+
+    func onFirebaseSignIn() {
+        self.mode = .createNewAccount
+        self.showNoAccountDummyView = true
+    }
+    
+    func onFirebaseSignInWithCreateAccount() {
+//        self.sheetPresented = false
+        self.mode = .createNewAccount
+        self.showCreateAccountDummyView = true
+    }
+    
+    func onCreateAccountCancel() {
+        self.mode = .nothing
+        self.showNoAccountDummyView = false
+        self.showCreateAccountDummyView = false
+    }
+    
+    func onCreateAccountAccept() {
+        self.mode = .nothing
+        self.showNoAccountDummyView = false
+        self.showCreateAccountDummyView = false
     }
     
 }

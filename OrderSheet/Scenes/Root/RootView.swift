@@ -12,7 +12,7 @@ struct RootView: View {
     @EnvironmentObject var authStateObserver: AuthStateObserver
     
     var body: some View {
-        if self.authStateObserver.isSignedIn {
+        if self.authStateObserver.isSignedIn == true {
             TabView {
                 self.presenter.makeAboutHomeView()
                     .tabItem {
