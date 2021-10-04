@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var presenter: HomePresenter
+    @EnvironmentObject var authStateObserver: AuthStateObserver
     
     var body: some View {
         NavigationView {
@@ -16,7 +17,7 @@ struct HomeView: View {
                 VStack {
                     Circle()
                         .frame(width: 48, height: 48)
-                    Text(self.presenter.user.displayName)
+                    Text(self.authStateObserver.appUser!.displayName)
                 }
                 .padding()
                 
