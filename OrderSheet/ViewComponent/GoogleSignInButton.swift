@@ -11,10 +11,11 @@ import GoogleSignIn
 
 struct GoogleSignInButton: View {
     var signedIn: (AuthCredential) -> Void
+    var onTapped: () -> Void = {}
     
     var body: some View {
         VStack {
-            GoogleSignInRepresent(signedIn: self.signedIn)
+            GoogleSignInRepresent(signedIn: self.signedIn, onTapped: self.onTapped)
                 .frame(height: 48)
         }
     }
@@ -28,11 +29,13 @@ struct GoogleSignInButton_Previews: PreviewProvider {
 
 struct GoogleSignInRepresent: UIViewRepresentable {
     let signedIn: (AuthCredential) -> Void
+    let onTapped: () -> Void
     
     private let config: GIDConfiguration?
     
-    init(signedIn: @escaping (AuthCredential) -> Void = { _ in }) {
+    init(signedIn: @escaping (AuthCredential) -> Void = { _ in }, onTapped: @escaping () -> Void = {}) {
         self.signedIn = signedIn
+        self.onTapped = onTapped
 
         if let clientID = FirebaseApp.app()?.options.clientID {
             config = GIDConfiguration(clientID: clientID)
@@ -48,8 +51,13 @@ struct GoogleSignInRepresent: UIViewRepresentable {
             guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else { return }
             guard let config = self.config else { return }
             
+            self.onTapped()
+            
             GIDSignIn.sharedInstance.signIn(with: config, presenting: presentingViewController) { user, error in
-
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
                 guard let authentication = user?.authentication, let idToken = authentication.idToken else {
                     print("authentication error.")
                     return

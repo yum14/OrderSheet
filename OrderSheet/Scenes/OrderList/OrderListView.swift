@@ -10,6 +10,7 @@ import GoogleSignIn
 
 struct OrderListView: View {
     @ObservedObject var presenter: OrderListPresenter
+    @EnvironmentObject var authStateObserver: AuthStateObserver
     
     var body: some View {
         NavigationView {
@@ -21,11 +22,10 @@ struct OrderListView: View {
                 self.presenter.makeAboutOrderDetailView()
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading: Button(action: { FirebaseAuth
-                                                    .signOut() }, label: {
+            .navigationBarItems(leading: Button(action: self.authStateObserver.signOut) {
                 Text("ログアウト")
-            }),
-            trailing: self.presenter.linkBuilder {
+            },
+                                trailing: self.presenter.linkBuilder {
                 Image(systemName: "plus")
             })
         }
@@ -45,9 +45,11 @@ struct OrderListView_Previews: PreviewProvider {
                       Order(name: "オーダー3", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/02 01:00:00", template: template))]
         
         let presenter = OrderListPresenter(orders: orders)
+        let authStateObserver = AuthStateObserver()
         
         VStack {
             OrderListView(presenter: presenter)
+                .environmentObject(authStateObserver)
         }
     }
 }
