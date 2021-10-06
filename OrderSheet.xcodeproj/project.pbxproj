@@ -13,6 +13,7 @@
 		7503560926FF28CB004FA7E7 /* QrCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560826FF28CB004FA7E7 /* QrCodeScannerView.swift */; };
 		7503560D26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560C26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift */; };
 		7503560F26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560E26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift */; };
+		758BA3F3270DE0A0005C2407 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */; };
 		759626A926FDE91900460629 /* OrderSheetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626A826FDE91900460629 /* OrderSheetApp.swift */; };
 		759626AB26FDE91900460629 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626AA26FDE91900460629 /* ContentView.swift */; };
 		759626AD26FDE91B00460629 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 759626AC26FDE91B00460629 /* Assets.xcassets */; };
@@ -95,6 +96,7 @@
 		7503560826FF28CB004FA7E7 /* QrCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerView.swift; sourceTree = "<group>"; };
 		7503560C26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodeScannerView.swift; sourceTree = "<group>"; };
 		7503560E26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodeScannerPresenter.swift; sourceTree = "<group>"; };
+		758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 		759626A526FDE91900460629 /* OrderSheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrderSheet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		759626A826FDE91900460629 /* OrderSheetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSheetApp.swift; sourceTree = "<group>"; };
 		759626AA26FDE91900460629 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 			children = (
 				759626DE26FDE9DB00460629 /* HomeView.swift */,
 				759626E026FDE9DB00460629 /* HomePresenter.swift */,
+				758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */,
 				759626DF26FDE9DB00460629 /* HomeRouter.swift */,
 			);
 			path = Home;
@@ -560,6 +563,7 @@
 				7596272426FDE9DB00460629 /* AppleSignInButton.swift in Sources */,
 				7596271B26FDE9DB00460629 /* NewOrderPresenter.swift in Sources */,
 				7503560F26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift in Sources */,
+				758BA3F3270DE0A0005C2407 /* HomeInteractor.swift in Sources */,
 				7596271226FDE9DB00460629 /* RootRouter.swift in Sources */,
 				7596271F26FDE9DB00460629 /* EditableList.swift in Sources */,
 				7503560226FE039B004FA7E7 /* TeamQrCodeView.swift in Sources */,

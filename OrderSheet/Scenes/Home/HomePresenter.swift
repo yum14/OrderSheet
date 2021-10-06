@@ -15,11 +15,22 @@ final class HomePresenter: ObservableObject {
     @Published var newTeamViewPresented = false
     @Published var teamQrCodeScannerViewPresented = false
     @Published var teamJoinAlertPresented = false
-    private let router = HomeRouter()
     
-    init(user: User, teams: [Team]) {
+    private var interactor: HomeUsecase
+    private var router: HomeRouter
+    
+    init(interactor: HomeUsecase, router: HomeRouter, user: User, teams: [Team]) {
+        self.router = HomeRouter()
         self.user = user
         self.teams = teams
+        self.interactor = interactor
+        self.router = router
+    }
+    
+    func addSnapshotListener() {
+        self.interactor.addSnapshotListener(onListen: { teams in
+            self.teams = teams
+        })
     }
     
     func linkBuilder<Content: View>(team: Team, @ViewBuilder content: () -> Content) -> some View {
