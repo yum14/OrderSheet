@@ -73,12 +73,17 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("アカウント")
         }
+        .onAppear {
+            self.presenter.addSnapshotListener()
+        }
     }
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        let presenter = HomePresenter(user: User(displayName: "アカウント名", teams: []), teams: [Team(name: "チーム1", members: []), Team(name: "チーム2", members: [])])
+        let interactor = HomeInteractor()
+        let router = HomeRouter()
+        let presenter = HomePresenter(interactor: interactor, router: router, user: User(displayName: "アカウント名", teams: []), teams: [Team(name: "チーム1", members: []), Team(name: "チーム2", members: [])])
         
         HomeView(presenter: presenter)
     }
