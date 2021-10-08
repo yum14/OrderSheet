@@ -59,6 +59,7 @@
 		7596272626FDE9DB00460629 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7596270126FDE9DB00460629 /* ProductList.swift */; };
 		7596272726FDE9DB00460629 /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7596270226FDE9DB00460629 /* AddButton.swift */; };
 		7596273126FDFA2300460629 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7596273026FDFA2300460629 /* GoogleService-Info.plist */; };
+		75CBFB42270F236D00E7EE93 /* TeamDetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CBFB41270F236D00E7EE93 /* TeamDetailInteractor.swift */; };
 		75DDA69A2700580F009854AE /* TeamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DDA6992700580F009854AE /* TeamStore.swift */; };
 		75F5DE6327005E5F0044A782 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 75F5DE6227005E5F0044A782 /* GoogleSignIn */; };
 		75F5DE73270082370044A782 /* NewTeamInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE72270082370044A782 /* NewTeamInteractor.swift */; };
@@ -147,6 +148,7 @@
 		7596272E26FDF8D900460629 /* OrderSheet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OrderSheet.entitlements; sourceTree = "<group>"; };
 		7596272F26FDF90700460629 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7596273026FDFA2300460629 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		75CBFB41270F236D00E7EE93 /* TeamDetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailInteractor.swift; sourceTree = "<group>"; };
 		75DDA6992700580F009854AE /* TeamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamStore.swift; sourceTree = "<group>"; };
 		75F5DE72270082370044A782 /* NewTeamInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTeamInteractor.swift; sourceTree = "<group>"; };
 		75F5DE7D2700A45B0044A782 /* TeamDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailRouter.swift; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 				759626E526FDE9DB00460629 /* TeamDetailView.swift */,
 				759626E626FDE9DB00460629 /* TeamDetailPresenter.swift */,
 				75F5DE7D2700A45B0044A782 /* TeamDetailRouter.swift */,
+				75CBFB41270F236D00E7EE93 /* TeamDetailInteractor.swift */,
 			);
 			path = TeamDetail;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 			files = (
 				7596270626FDE9DB00460629 /* Order.swift in Sources */,
 				7596270C26FDE9DB00460629 /* HomeRouter.swift in Sources */,
+				75CBFB42270F236D00E7EE93 /* TeamDetailInteractor.swift in Sources */,
 				7596270926FDE9DB00460629 /* FirebaseAuthStateObserver.swift in Sources */,
 				7596270F26FDE9DB00460629 /* NewTeamView.swift in Sources */,
 				7596272426FDE9DB00460629 /* AppleSignInButton.swift in Sources */,

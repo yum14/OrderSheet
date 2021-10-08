@@ -74,7 +74,7 @@ struct HomeView: View {
             .navigationTitle("アカウント")
         }
         .onAppear {
-            self.presenter.addSnapshotListener()
+            self.presenter.loadTeams()
         }
     }
 }

@@ -60,6 +60,34 @@ final class TeamStore {
             }
     }
     
+    func get(completion: @escaping (Result<[Team]?, Error>) -> Void = { _ in }) {
+        db.collection(self.collectionName).getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(Result.failure(error))
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                completion(Result.success(nil))
+                return
+            }
+
+            var teams: [Team] = []
+            
+            for document in documents {
+                do {
+                    let data = try document.data(as: Team.self)!
+                    teams.append(data)
+                } catch(let error) {
+                    completion(Result.failure(error))
+                    return
+                }
+            }
+            
+            completion(Result.success(teams))
+        }
+    }
+    
     func get(id: String, completion: @escaping (Result<Team?, Error>) -> Void = { _ in }) {
         
         db.collection(self.collectionName).document(id).getDocument { (document, error) in
