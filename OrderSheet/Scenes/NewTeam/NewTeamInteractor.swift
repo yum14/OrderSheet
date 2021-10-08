@@ -12,11 +12,9 @@ protocol NewTeamUsecase {
 }
 
 final class NewTeamInteractor {
-    private let store: TeamStore
+    private let store = TeamStore()
     
-    init(store: TeamStore) {
-        self.store = store
-    }
+    init() {}
 }
 
 extension NewTeamInteractor: NewTeamUsecase {

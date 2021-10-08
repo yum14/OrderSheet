@@ -10,12 +10,20 @@ import SwiftUI
 
 final class HomeRouter {
     
+//    let newTeamInteractor: NewTeamUsecase
+//    let newTeamPresenter: NewTeamPresenter
+//    let teamQrCodeScannerPresenter: TeamQrCodeScannerPresenter
+//    let teamDetailRouter: TeamDetailRouter
+//    let teamDetailInteractor: TeamDetailUsecase
+//    let teamDetailPresenter: TeamDetailPresenter
+    
+    
+    
     func makeNewTeamView(user: User,
                          onCommit: @escaping (String) -> Void = { _ in },
                          onCanceled: @escaping () -> Void = {}) -> some View {
         
-        let store = TeamStore()
-        let interactor = NewTeamInteractor(store: store)
+        let interactor = NewTeamInteractor()
         let presenter = NewTeamPresenter(interactor: interactor,
                                          user: user,
                                          onCommit: onCommit,
@@ -31,8 +39,10 @@ final class HomeRouter {
         return TeamQrCodeScannerView(presenter: presenter)
     }
     
-    func makeTeamDetailView(team: Team, members: [User]) -> some View {
-        let presenter = TeamDetailPresenter(team: team, members: members)
+    func makeTeamDetailView(id: String) -> some View {
+        let router = TeamDetailRouter()
+        let interactor = TeamDetailInteractor()
+        let presenter = TeamDetailPresenter(interactor: interactor, router: router, teamId: id)
         let view = TeamDetailView(presenter: presenter)
         return view
     }

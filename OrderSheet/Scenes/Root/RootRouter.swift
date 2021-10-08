@@ -27,7 +27,7 @@ final class RootRouter {
         
         let homeInteractor = HomeInteractor()
         let homeRouter = HomeRouter()
-        self.homePresenter = HomePresenter(interactor: homeInteractor, router: homeRouter, user: User(displayName: "アカウント名", teams: []), teams: [Team(name: "チーム1", members: []), Team(name: "チーム2", members: [])])
+        self.homePresenter = HomePresenter(interactor: homeInteractor, router: homeRouter, user: User(displayName: "アカウント名", teams: []))
     }
     
 

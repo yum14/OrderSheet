@@ -19,6 +19,14 @@ final class HomePresenter: ObservableObject {
     private var interactor: HomeUsecase
     private var router: HomeRouter
     
+    init(interactor: HomeUsecase, router: HomeRouter, user: User) {
+        self.router = HomeRouter()
+        self.user = user
+        self.teams = []
+        self.interactor = interactor
+        self.router = router
+    }
+
     init(interactor: HomeUsecase, router: HomeRouter, user: User, teams: [Team]) {
         self.router = HomeRouter()
         self.user = user
@@ -33,12 +41,25 @@ final class HomePresenter: ObservableObject {
         })
     }
     
+    func loadTeams() {
+        self.interactor.loadTeams(completion: { result in
+            switch result {
+            case .success(let teams):
+                if let teams = teams {
+                    self.teams = teams
+                } else {
+                    self.teams = []
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        })
+    }
+    
     func linkBuilder<Content: View>(team: Team, @ViewBuilder content: () -> Content) -> some View {
-        
-        // TODO: ここでDBからmemberを取得することになると思う
-        let members = [User(displayName: "メンバー1", teams: []), User(displayName: "メンバー2", teams: [])]
-        
-        return NavigationLink(destination: router.makeTeamDetailView(team: team, members: members)) {
+        return NavigationLink(destination:
+                                router.makeTeamDetailView(id: team.id)
+                                .onDisappear { self.loadTeams() }) {
             content()
         }
     }

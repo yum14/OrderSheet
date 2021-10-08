@@ -15,7 +15,10 @@ struct TeamDetailView: View {
             VStack {
                 Circle()
                     .frame(width: 48, height: 48)
-                Text(self.presenter.team.name)
+                TextField("チーム名",
+                          text: self.$presenter.inputName,
+                          onEditingChanged: self.presenter.onNameEditingChanged,
+                          onCommit: self.presenter.onNameCommit )
             }
             .padding()
             
@@ -57,6 +60,9 @@ struct TeamDetailView: View {
                 self.presenter.makeAboutTeamQRCodeView()
             }
         }
+        .onAppear {
+            self.presenter.load()
+        }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("チーム")
     }
@@ -64,7 +70,9 @@ struct TeamDetailView: View {
 
 struct TeamDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let presenter = TeamDetailPresenter(team: Team(name: "チーム名", members: []), members: [User(displayName: "メンバー1", teams: []), User(displayName: "メンバー2", teams: [])])
+        let router = TeamDetailRouter()
+        let interactor = TeamDetailInteractor()
+        let presenter = TeamDetailPresenter(interactor: interactor, router: router, team: Team(name: "チーム名", members: []), members: [User(displayName: "メンバー1", teams: []), User(displayName: "メンバー2", teams: [])])
         
         NavigationView {
             TeamDetailView(presenter: presenter)
