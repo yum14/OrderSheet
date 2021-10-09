@@ -76,6 +76,9 @@ final class HomePresenter: ObservableObject {
         return router.makeNewTeamView(user: self.user,
                                       onCommit: self.newTeamInputCommit,
                                       onCanceled: self.toggleShowNewTeamSheet)
+            .onDisappear {
+                self.loadTeams()
+            }
     }
 
     func makeAboutTeamQrCodeScannerView() -> some View {
