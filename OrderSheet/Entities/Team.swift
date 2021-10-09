@@ -12,14 +12,16 @@ struct Team: Identifiable, Hashable, Codable {
     var id: String
     var name: String
     var avatarImage: Data?
-    var members: [Member]
+    var members: [String]
+    var owner: String
     var createdAt: Timestamp?
     var updatedAt: Timestamp?
     
     init(id: String = UUID().uuidString,
          name: String,
          avatarImage: Data? = nil,
-         members: [Member],
+         members: [String],
+         owner: String,
          createdAt: Date? = nil,
          updatedAt: Date? = nil) {
         
@@ -27,6 +29,7 @@ struct Team: Identifiable, Hashable, Codable {
         self.name = name
         self.avatarImage = avatarImage
         self.members = members
+        self.owner = owner
         self.createdAt = createdAt != nil ? Timestamp(date: createdAt!) : nil
         self.updatedAt = updatedAt != nil ? Timestamp(date: updatedAt!) : nil
     }
@@ -36,18 +39,10 @@ struct Team: Identifiable, Hashable, Codable {
         case id
         case name
         case avatarImage = "avatar_image"
-        case members
+        case members = "members"
+        case owner = "owner"
         case createdAt = "created_at"
         case updatedAt = "updated_at"
     }
 }
 
-struct Member: Identifiable, Hashable, Codable {
-    var id: String
-    var owner: Bool
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case owner
-    }
-}

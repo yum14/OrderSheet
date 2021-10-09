@@ -19,13 +19,11 @@ final class HomeRouter {
     
     
     
-    func makeNewTeamView(user: User,
-                         onCommit: @escaping (String) -> Void = { _ in },
+    func makeNewTeamView(onCommit: @escaping (String) -> Void = { _ in },
                          onCanceled: @escaping () -> Void = {}) -> some View {
         
         let interactor = NewTeamInteractor()
         let presenter = NewTeamPresenter(interactor: interactor,
-                                         user: user,
                                          onCommit: onCommit,
                                          onCanceled: onCanceled)
         return NewTeamView(presenter: presenter)

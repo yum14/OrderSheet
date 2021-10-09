@@ -72,7 +72,7 @@ struct TeamDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let router = TeamDetailRouter()
         let interactor = TeamDetailInteractor()
-        let presenter = TeamDetailPresenter(interactor: interactor, router: router, team: Team(name: "チーム名", members: []), members: [User(displayName: "メンバー1", teams: []), User(displayName: "メンバー2", teams: [])])
+        let presenter = TeamDetailPresenter(interactor: interactor, router: router, team: Team(name: "チーム名", members: [], owner: ""), members: [User(displayName: "メンバー1", teams: []), User(displayName: "メンバー2", teams: [])])
         
         NavigationView {
             TeamDetailView(presenter: presenter)

@@ -34,6 +34,23 @@ struct User: Identifiable, Hashable, Codable {
         self.lastLogin = Timestamp(date: lastLogin)
     }
     
+    init(id: String = UUID().uuidString,
+         displayName: String,
+         email: String? = nil,
+         photoUrl: String? = nil,
+         avatarImage: Data? = nil,
+         teams: [String],
+         lastLogin: Timestamp?
+    ) {
+        self.id = id
+        self.displayName = displayName
+        self.email = email
+        self.photoUrl = photoUrl
+        self.avatarImage = avatarImage
+        self.teams = teams
+        self.lastLogin = lastLogin
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id
         case displayName = "display_name"

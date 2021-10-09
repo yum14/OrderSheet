@@ -63,6 +63,7 @@ final class TeamDetailPresenter: ObservableObject {
                            name: self.inputName,
                            avatarImage: team.avatarImage,
                            members: team.members,
+                           owner: team.owner,
                            createdAt: team.createdAt?.dateValue(),
                            updatedAt: Date())
         self.interactor.set(newTeam)

@@ -14,6 +14,10 @@ final class AuthStateObserver: ObservableObject {
         case failed
     }
     
+    init(user: User) {
+        self.appUser = user
+    }
+    
     @Published var appUser: User?
     @Published var token: String?
     @Published var firebaseLoginUser: Firebase.User?
