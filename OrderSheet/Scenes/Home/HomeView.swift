@@ -24,7 +24,7 @@ struct HomeView: View {
                 Form {
                     Section(header: Text("参加中のチーム")) {
                         ForEach(self.presenter.teams, id: \.self) { team in
-                            self.presenter.linkBuilder(team: team) {
+                            self.presenter.linkBuilder(userId: self.authStateObserver.appUser!.id, team: team) {
                                 HStack {
                                     Circle()
                                         .frame(width: 24, height: 24)
@@ -54,15 +54,19 @@ struct HomeView: View {
                             .alert(isPresented: self.$presenter.teamJoinAlertPresented) {
                                 Alert(title: Text("チーム名"),
                                       message: Text("チームに参加しますか？"),
-                                      primaryButton: .default(Text("参加する"), action: {}),
-                                      secondaryButton: .cancel({}))
+                                      primaryButton: .default(Text("参加する")) {
+                                    self.presenter.teamJoinComfirm(user: self.authStateObserver.appUser!)
+                                },
+                                      secondaryButton: .cancel() {
+                                    self.presenter.teamJoinCancel()
+                                })
                             }
                     }
                 }
             }
             .sheet(isPresented: self.$presenter.newTeamViewPresented) {
                 NavigationView {
-                    self.presenter.makeAboutNewTeamView()
+                    self.presenter.makeAboutNewTeamView(userId: self.authStateObserver.appUser!.id)
                 }
             }
             .fullScreenCover(isPresented: self.$presenter.teamQrCodeScannerViewPresented) {
@@ -74,7 +78,7 @@ struct HomeView: View {
             .navigationTitle("アカウント")
         }
         .onAppear {
-            self.presenter.loadTeams()
+            self.presenter.loadTeams(userId: self.authStateObserver.appUser!.id)
         }
     }
 }
@@ -83,8 +87,9 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         let interactor = HomeInteractor()
         let router = HomeRouter()
-        let presenter = HomePresenter(interactor: interactor, router: router, user: User(displayName: "アカウント名", teams: []), teams: [Team(name: "チーム1", members: []), Team(name: "チーム2", members: [])])
+        let presenter = HomePresenter(interactor: interactor, router: router)
         
         HomeView(presenter: presenter)
+            .environmentObject(AuthStateObserver(user: User(displayName: "アカウント名", teams: [])))
     }
 }

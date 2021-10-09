@@ -10,7 +10,6 @@ import SwiftUI
 import Combine
 
 final class HomePresenter: ObservableObject {
-    @Published var user: User
     @Published var teams: [Team]
     @Published var newTeamViewPresented = false
     @Published var teamQrCodeScannerViewPresented = false
@@ -19,30 +18,23 @@ final class HomePresenter: ObservableObject {
     private var interactor: HomeUsecase
     private var router: HomeRouter
     
-    init(interactor: HomeUsecase, router: HomeRouter, user: User) {
+    private var joinTeam: Team?
+    
+    init(interactor: HomeUsecase, router: HomeRouter) {
         self.router = HomeRouter()
-        self.user = user
         self.teams = []
         self.interactor = interactor
         self.router = router
     }
 
-    init(interactor: HomeUsecase, router: HomeRouter, user: User, teams: [Team]) {
-        self.router = HomeRouter()
-        self.user = user
-        self.teams = teams
-        self.interactor = interactor
-        self.router = router
-    }
-    
     func addSnapshotListener() {
         self.interactor.addSnapshotListener(onListen: { teams in
             self.teams = teams
         })
     }
     
-    func loadTeams() {
-        self.interactor.loadTeams(completion: { result in
+    func loadTeams(userId: String) {
+        self.interactor.loadTeams(userId: userId) { result in
             switch result {
             case .success(let teams):
                 if let teams = teams {
@@ -53,13 +45,13 @@ final class HomePresenter: ObservableObject {
             case .failure(let error):
                 print(error.localizedDescription)
             }
-        })
+        }
     }
     
-    func linkBuilder<Content: View>(team: Team, @ViewBuilder content: () -> Content) -> some View {
+    func linkBuilder<Content: View>(userId: String, team: Team, @ViewBuilder content: () -> Content) -> some View {
         return NavigationLink(destination:
                                 router.makeTeamDetailView(id: team.id)
-                                .onDisappear { self.loadTeams() }) {
+                                .onDisappear { self.loadTeams(userId: userId) }) {
             content()
         }
     }
@@ -72,12 +64,11 @@ final class HomePresenter: ObservableObject {
         self.teamQrCodeScannerViewPresented.toggle()
     }
     
-    func makeAboutNewTeamView() -> some View {
-        return router.makeNewTeamView(user: self.user,
-                                      onCommit: self.newTeamInputCommit,
+    func makeAboutNewTeamView(userId: String) -> some View {
+        return router.makeNewTeamView(onCommit: self.newTeamInputCommit,
                                       onCanceled: self.toggleShowNewTeamSheet)
             .onDisappear {
-                self.loadTeams()
+                self.loadTeams(userId: userId)
             }
     }
 
@@ -85,11 +76,24 @@ final class HomePresenter: ObservableObject {
         
         return router.makeTeamQrCodeScannerView(
             onFound: { code in
-                // TODO: code（ID）でRealmからチームを検索する
-                self.toggleShowTeamQrScannerSheet()
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self.teamJoinAlertPresented = true
+                // TODO: ここかQRCodeスキャナーViewでスキームが本アプリのものかチェックする
+                // TODO: そうしないと無駄にFirestoreに接続することになる
+                self.interactor.getTeam(id: code) { result in
+                    switch result {
+                    case .success(let team):
+                        
+                        self.toggleShowTeamQrScannerSheet()
+
+                        if let team = team {
+                            self.joinTeam = team
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                self.teamJoinAlertPresented = true
+                            }
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
                 }
             },
             onDismiss: self.toggleShowTeamQrScannerSheet)
@@ -99,5 +103,24 @@ final class HomePresenter: ObservableObject {
         // TODO: 登録
 //        teams.append(Team(name: text, members: []))
         toggleShowNewTeamSheet()
+    }
+    
+    func teamJoinComfirm(user: User) {
+        if let team = self.joinTeam {
+            self.interactor.addTeam(user: user, teamId: team.id, completion: { result in
+                switch result {
+                case .success():
+                    self.loadTeams(userId: user.id)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                
+                self.joinTeam = nil
+            })
+        }
+    }
+    
+    func teamJoinCancel() {
+        self.joinTeam = nil
     }
 }

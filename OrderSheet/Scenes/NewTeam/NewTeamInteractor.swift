@@ -8,27 +8,49 @@
 import Foundation
 
 protocol NewTeamUsecase {
-    func addTeam(uid: String, name: String, completion: @escaping (Result<Team?, Error>) -> Void)
+    func addTeam(user: User, name: String, completion: @escaping (Result<Team?, Error>) -> Void)
 }
 
 final class NewTeamInteractor {
-    private let store = TeamStore()
+    private let teamStore = TeamStore()
+    private let userStore = UserStore()
     
     init() {}
 }
 
 extension NewTeamInteractor: NewTeamUsecase {
-    func addTeam(uid: String, name: String, completion: @escaping (Result<Team?, Error>) -> Void = { _ in }) {
+    func addTeam(user: User, name: String, completion: @escaping (Result<Team?, Error>) -> Void = { _ in }) {
+        
+        let newTeam = Team(name: name, members: [user.id], owner: user.id, createdAt: Date())
 
-        let newTeam = Team(name: name, members: [Member(id: uid, owner: true)], createdAt: Date())
-
-        self.store.set(newTeam, completion: { result in
-            switch result {
+        var teams = user.teams
+        teams.append(newTeam.id)
+        
+        let newUser = User(id: user.id,
+                           displayName: user.displayName,
+                           email: user.email,
+                           photoUrl: user.photoUrl,
+                           avatarImage: user.avatarImage,
+                           teams: teams,
+                           lastLogin: user.lastLogin)
+        
+        
+        self.userStore.set(newUser) { userResult in
+            switch userResult {
             case .success():
-                completion(.success(newTeam))
+                self.teamStore.set(newTeam) { result in
+                    switch result {
+                    case .success():
+                        completion(Result.success(newTeam))
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                        completion(Result.failure(error))
+                    }
+                }
             case .failure(let error):
-                completion(.failure(error))
+                print(error.localizedDescription)
+                completion(Result.failure(error))
             }
-        })
+        }
     }
 }

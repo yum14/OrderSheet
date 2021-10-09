@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NewTeamView: View {
     @ObservedObject var presenter: NewTeamPresenter
+    @EnvironmentObject var authStateObserver: AuthStateObserver
     
     var body: some View {
         Form {
@@ -17,7 +18,7 @@ struct NewTeamView: View {
             }
             
             Section {
-                Button(action: self.presenter.inputCommit) {
+                Button(action: { self.presenter.inputCommit(user: self.authStateObserver.appUser!) }) {
                     HStack {
                         Spacer()
                         Text("作成する")
@@ -41,9 +42,10 @@ struct NewTeamView: View {
 struct NewTeamView_Previews: PreviewProvider {
     static var previews: some View {
         let interactor = NewTeamInteractor()
-        let presenter = NewTeamPresenter(interactor: interactor, user: User(displayName: "test", teams: []))
+        let presenter = NewTeamPresenter(interactor: interactor)
         NavigationView {
             NewTeamView(presenter: presenter)
+                .environmentObject(AuthStateObserver(user: User(displayName: "アカウント名", teams: [])))
         }
     }
 }
