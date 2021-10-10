@@ -130,11 +130,15 @@ final class TeamStore {
     }
     
     
-    func set(_ team: Team, completion: @escaping (Result<(), Error>) -> Void = { _ in }) {
+    func set(_ team: Team, completion: ((Result<(), Error>) -> Void)? = { _ in }) {
         let result = Result {
             try db.collection(self.collectionName).document(team.id).setData(from: team)
         }
         
-        completion(result)
+        completion?(result)
+    }
+    
+    func delete(id: String, completion: ((Error?) -> Void)?) {
+        db.collection(self.collectionName).document(id).delete(completion: completion)
     }
 }

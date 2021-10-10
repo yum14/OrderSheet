@@ -337,8 +337,8 @@
 			children = (
 				759626E526FDE9DB00460629 /* TeamDetailView.swift */,
 				759626E626FDE9DB00460629 /* TeamDetailPresenter.swift */,
-				75F5DE7D2700A45B0044A782 /* TeamDetailRouter.swift */,
 				75CBFB41270F236D00E7EE93 /* TeamDetailInteractor.swift */,
+				75F5DE7D2700A45B0044A782 /* TeamDetailRouter.swift */,
 			);
 			path = TeamDetail;
 			sourceTree = "<group>";

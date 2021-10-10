@@ -11,17 +11,20 @@ import SwiftUI
 protocol TeamDetailUsecase {
     func get(id: String, completion: @escaping (Team?) -> Void)
     func set(_ newValue: Team)
+    func leaveMember(user: User, team: Team, completion: ((Error?) -> Void)?)
+    func deleteTeamAndOrder(id: String, completion: ((Error?) -> Void)?)
 }
 
 final class TeamDetailInteractor {
-    let store = TeamStore()
+    let teamStore = TeamStore()
+    let userStore = UserStore()
     
     init() {}
 }
 
 extension TeamDetailInteractor: TeamDetailUsecase {
     func get(id: String, completion: @escaping (Team?) -> Void) {
-        self.store.get(id: id, completion: { result in
+        self.teamStore.get(id: id, completion: { result in
             switch result {
             case .success(let team):
                 if let team = team {
@@ -37,6 +40,68 @@ extension TeamDetailInteractor: TeamDetailUsecase {
     }
     
     func set(_ newValue: Team) {
-        store.set(newValue)
+        self.teamStore.set(newValue)
+    }
+    
+    func leaveMember(user: User, team: Team, completion: ((Error?) -> Void)?) {
+        guard let teamIndex = team.members.firstIndex(where: { $0 == user.id }) else {
+            return
+        }
+                
+        guard let userIndex = user.teams.firstIndex(where: { $0 == team.id }) else {
+            return
+        }
+
+        var newTeams = user.teams
+        newTeams.remove(at: userIndex)
+        
+        let newUser = User(id: user.id,
+                           displayName: user.displayName,
+                           email: user.email,
+                           photoUrl: user.photoUrl,
+                           avatarImage: user.avatarImage,
+                           teams: newTeams,
+                           lastLogin: user.lastLogin)
+        
+        self.userStore.set(newUser) { result in
+            switch result {
+            case .success():
+                break
+            case .failure(let error):
+                print(error.localizedDescription)
+                completion?(error)
+                return
+            }
+            
+            var newMembers = team.members
+            newMembers.remove(at: teamIndex)
+            let newTeam = Team(id: team.id,
+                               name: team.name,
+                               avatarImage: team.avatarImage,
+                               members: newMembers,
+                               owner: team.owner,
+                               createdAt: team.createdAt?.dateValue(),
+                               updatedAt: Date())
+            
+            self.teamStore.set(newTeam) { result in
+                switch result {
+                case .success():
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    completion?(error)
+                    return
+                }
+                
+                completion?(nil)
+            }
+        }
+    }
+    
+    func deleteTeamAndOrder(id: String, completion: ((Error?) -> Void)?) {
+        self.teamStore.delete(id: id, completion: completion)
+        
+        // TODO: Orderを消すこと
+        
     }
 }
