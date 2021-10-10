@@ -14,6 +14,8 @@ final class TeamDetailPresenter: ObservableObject {
     @Published var members: [User] = []
     @Published var sheetPresented = false
     @Published var inputName: String = ""
+    @Published var leaveTeamConfirmAlertPresented = false
+    @Published var deleteTeamConfirmAlertPresented = false
     
     private let interactor: TeamDetailUsecase
     private let router: TeamDetailRouter
@@ -78,6 +80,58 @@ final class TeamDetailPresenter: ObservableObject {
     func showTeamQRCodeView() -> Void {
         self.sheetPresented = true
     }
+    
+    func showLeaveTeamConfirmAlert() {
+        self.leaveTeamConfirmAlertPresented = true
+    }
+    
+    func leaveTeam(user: User, completion: (() -> Void)? = {}) {
+        guard let team = self.team else {
+            return
+        }
+        
+        if !team.members.contains(user.id) {
+            return
+        }
+        
+        if team.members.count <= 1 {
+            self.deleteTeamConfirmAlertPresented = true
+            return
+        }
+        
+        self.interactor.leaveMember(user: user, team: team) { error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            completion?()
+        }
+    }
+    
+    func leaveAndDeleteTeam(user: User, completion: (() -> Void)? = {}) {
+        guard let team = self.team else {
+            return
+        }
+        
+        self.interactor.leaveMember(user: user, team: team) { error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            self.interactor.deleteTeamAndOrder(id: team.id) { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
+                
+                completion?()
+            }
+        }
+
+    }
+    
     
     func makeAboutTeamQRCodeView() -> some View {
         return router.makeTeamQRCodeView(teamId: self.team?.id ?? "")
