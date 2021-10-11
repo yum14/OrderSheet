@@ -48,18 +48,14 @@ final class AuthStateObserver: ObservableObject {
                 }
                 self.firebaseLoginUser = user
 
-                self.store.get(id: user.uid) { result in
-                    switch result {
-                    case .success(let dbUser):
-                        if let dbUser = dbUser {
-                            self.appUser = dbUser
-                            self.signInStatus = .success
-                        } else {
-                            self.appUser = nil
-                            self.signInStatus = .failed
-                        }
-                    case .failure(let error):
-                        print(error.localizedDescription)
+                
+                self.store.setListener(id: user.uid) { user in
+                    if let user = user {
+                        self.appUser = user
+                        self.signInStatus = .success
+                    } else {
+                        self.appUser = nil
+                        self.signInStatus = .failed
                     }
                 }
             },
