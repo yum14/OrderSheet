@@ -21,6 +21,7 @@ struct TeamDetailView: View {
                           text: self.$presenter.inputName,
                           onEditingChanged: self.presenter.onNameEditingChanged,
                           onCommit: self.presenter.onNameCommit )
+                    .multilineTextAlignment(.center)
             }
             .padding()
             

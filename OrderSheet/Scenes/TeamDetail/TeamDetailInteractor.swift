@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 protocol TeamDetailUsecase {
-    func get(id: String, completion: @escaping (Team?) -> Void)
+    func teamLoad(id: String, completion: @escaping (Team?) -> Void)
+    func memberLoad(ids: [String], completion: @escaping ([User]?) -> Void)
     func set(_ newValue: Team)
     func leaveMember(user: User, team: Team, completion: ((Error?) -> Void)?)
     func deleteTeamAndOrder(id: String, completion: ((Error?) -> Void)?)
@@ -23,7 +24,7 @@ final class TeamDetailInteractor {
 }
 
 extension TeamDetailInteractor: TeamDetailUsecase {
-    func get(id: String, completion: @escaping (Team?) -> Void) {
+    func teamLoad(id: String, completion: @escaping (Team?) -> Void) {
         self.teamStore.get(id: id, completion: { result in
             switch result {
             case .success(let team):
@@ -38,6 +39,24 @@ extension TeamDetailInteractor: TeamDetailUsecase {
             completion(nil)
         })
     }
+    
+    func memberLoad(ids: [String], completion: @escaping ([User]?) -> Void) {
+        self.userStore.get(ids: ids) { result in
+            switch result {
+            case .success(let users):
+                if let users = users {
+                    completion(users)
+                    return
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            
+            completion(nil)
+        }
+        
+    }
+    
     
     func set(_ newValue: Team) {
         self.teamStore.set(newValue)
