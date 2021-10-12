@@ -22,7 +22,9 @@ final class RootRouter {
                       Order(name: "オーダー2", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/01 12:00:00", template: template)),
                       Order(name: "オーダー3", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/02 01:00:00", template: template))]
         
-        self.orderListPresenter = OrderListPresenter(orders: orders)
+        let orderListInteractor = OrderListInteractor()
+        let orderListRouter = OrderListRouter()
+        self.orderListPresenter = OrderListPresenter(interactor: orderListInteractor, router: orderListRouter, orders: orders)
         self.loginPresener = LoginPresenter()
         
         let homeInteractor = HomeInteractor()

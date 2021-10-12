@@ -13,13 +13,19 @@ final class OrderListPresenter: ObservableObject {
     @Published var orders: [Order] = []
     @Published var selectedOrder: Order?
     @Published var sheetPresented = false
+    @Published var selectedTeam: Team?
     
-    private let router = OrderListRouter()
+    private let interactor: OrderListUsecase
+    private let router: OrderListRouter
     
-    init() {
+    init(interactor: OrderListUsecase, router: OrderListRouter) {
+        self.interactor = interactor
+        self.router = router
     }
     
-    init(orders: [Order]) {
+    init(interactor: OrderListUsecase, router: OrderListRouter, orders: [Order]) {
+        self.interactor = interactor
+        self.router = router
         self.orders = orders
     }
     
@@ -35,6 +41,17 @@ final class OrderListPresenter: ObservableObject {
     func linkBuilder<Content: View>(@ViewBuilder content: () -> Content) -> some View {
         NavigationLink(destination: router.makeNewOrderView()) {
             content()
+        }
+    }
+    
+    func load(user: User) {
+        // 1番最初の選択チームはなんでもよし
+        guard let teamId = user.selectedTeam ?? user.teams.first else {
+            return
+        }
+        
+        self.interactor.loadCurrentTeam(id: teamId) { team in
+            self.selectedTeam = team
         }
     }
 }

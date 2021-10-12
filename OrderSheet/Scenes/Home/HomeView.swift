@@ -63,6 +63,10 @@ struct HomeView: View {
                             }
                     }
                 }
+                
+                Button(action: self.authStateObserver.signOut) {
+                    Text("ログアウト")
+                }
             }
             .sheet(isPresented: self.$presenter.newTeamViewPresented) {
                 NavigationView {

@@ -17,14 +17,15 @@ struct OrderListView: View {
             VStack {
                 OrderList(orders: self.presenter.orders,
                           onRowTap: self.presenter.showOrderSheet)
+                .onAppear {
+                    self.presenter.load(user: self.authStateObserver.appUser!)
+                }
             }
             .sheet(isPresented: self.$presenter.sheetPresented) {
                 self.presenter.makeAboutOrderDetailView()
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading: Button(action: self.authStateObserver.signOut) {
-                Text("ログアウト")
-            },
+            .navigationBarItems(leading: Text(self.presenter.selectedTeam?.name ?? ""),
                                 trailing: self.presenter.linkBuilder {
                 Image(systemName: "plus")
             })
@@ -44,7 +45,9 @@ struct OrderListView_Previews: PreviewProvider {
                       Order(name: "オーダー2", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/01 12:00:00", template: template)),
                       Order(name: "オーダー3", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/02 01:00:00", template: template))]
         
-        let presenter = OrderListPresenter(orders: orders)
+        let interactor = OrderListInteractor()
+        let router = OrderListRouter()
+        let presenter = OrderListPresenter(interactor: interactor, router: router, orders: orders)
         let authStateObserver = AuthStateObserver()
         
         VStack {
