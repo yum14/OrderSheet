@@ -40,14 +40,23 @@ final class TeamDetailPresenter: ObservableObject {
     }
     
     func load() {
-        self.interactor.get(id: self.id, completion: { team in
+        self.interactor.teamLoad(id: self.id, completion: { team in
             guard let team = team else {
                 self.team = nil
                 return
             }
-            
+
             self.team = team
             self.inputName = team.name
+            
+            self.interactor.memberLoad(ids: team.members) { users in
+                guard let users = users else {
+                    self.members = []
+                    return
+                }
+                
+                self.members = users
+            }
         })
     }
     

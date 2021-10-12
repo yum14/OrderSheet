@@ -56,6 +56,37 @@ class UserStore {
         }
     }
     
+    func get(ids: [String], completion: @escaping (Result<[User]?, Error>) -> Void = { _ in }) {
+        
+        db.collection(self.collectionName).whereField("id", in: ids).getDocuments { querySnapshot, error in
+            if let error = error {
+                completion(Result.failure(error))
+                return
+            }
+            
+            guard let documents = querySnapshot?.documents else {
+                completion(Result.success(nil))
+                return
+            }
+
+            var users: [User] = []
+            
+            for document in documents {
+                do {
+                    let data = try document.data(as: User.self)!
+                    users.append(data)
+                } catch(let error) {
+                    completion(Result.failure(error))
+                    return
+                }
+            }
+            
+            completion(Result.success(users))
+        }
+        
+    }
+    
+    
     func set(_ user: User, completion: @escaping (Result<(), Error>) -> Void = { _ in }) {
         let result = Result {
             try db.collection(collectionName).document(user.id).setData(from: user)
