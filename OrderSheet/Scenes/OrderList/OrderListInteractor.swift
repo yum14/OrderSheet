@@ -9,10 +9,12 @@ import Foundation
 
 protocol OrderListUsecase {
     func loadCurrentTeam(id: String, completion: @escaping (Team?) -> Void)
+    func setUser(_ newUser: User, completion: @escaping (Error?) -> Void)
 }
 
 final class OrderListInteractor {
     let teamStore = TeamStore()
+    let userStore = UserStore()
 }
 
 extension OrderListInteractor: OrderListUsecase {
@@ -27,6 +29,17 @@ extension OrderListInteractor: OrderListUsecase {
             }
 
             completion(nil)
+        }
+    }
+    
+    func setUser(_ newUser: User, completion: @escaping (Error?) -> Void) {
+        self.userStore.set(newUser) { result in
+            switch result {
+            case .success():
+                completion(nil)
+            case .failure(let error):
+                completion(error)
+            }
         }
     }
 }

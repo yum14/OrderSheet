@@ -52,6 +52,30 @@ final class OrderListPresenter: ObservableObject {
         
         self.interactor.loadCurrentTeam(id: teamId) { team in
             self.selectedTeam = team
+            
+            guard let team = team else {
+                return
+            }
+            
+            if user.selectedTeam != nil {
+                return
+            }
+            
+            let newUser = User(id: user.id,
+                               displayName: user.displayName,
+                               email: user.email,
+                               photoUrl: user.photoUrl,
+                               avatarImage: user.avatarImage,
+                               teams: user.teams,
+                               selectedTeam: team.id,
+                               lastLogin: user.lastLogin)
+            
+            self.interactor.setUser(newUser) { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+            
         }
     }
 }
