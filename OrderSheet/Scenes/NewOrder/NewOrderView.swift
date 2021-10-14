@@ -9,41 +9,58 @@ import SwiftUI
 
 struct NewOrderView: View {
     @ObservedObject var presenter: NewOrderPresenter
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        Form {
-            Section(header: Text("タイトル")) {
-                TextField("新しいオーダー", text: self.$presenter.title)
-            }
-            
-            Section(header: Text("アイテム"),
-                    footer:
+        NavigationView {
+            Form {
+                Section(header: Text("タイトル")) {
+                    TextField("新しいオーダー", text: self.$presenter.title)
+                }
+                
+                Section(header: Text("アイテム"),
+                        footer:
+                            HStack {
+                    Spacer()
+                    AddButton(disabled: self.presenter.addItemButtonDisabled) {
+                        self.presenter.addItem()
+                    }
+                }) {
+                    
+                    EditableList(contents: self.$presenter.items)
+                    
+                    if self.presenter.showNewItem {
+                        CustomTextField("新しいアイテム", text: self.$presenter.newItemText, isFirstResponder: true, onCommit: self.presenter.commitNewItemInput)
+                    }
+                }
+                
+                Section(header: Text("コメント")) {
+                    TextField("コメント", text: self.$presenter.comment)
+                }
+                
+                Section {
+                    Button(action: {
+                        self.presenter.createNewOrder()
+                        dismiss()
+                    }, label: {
                         HStack {
                             Spacer()
-                            AddButton(disabled: self.presenter.addItemButtonDisabled) {
-                                self.presenter.addItem()
-                            }
-                        }) {
-                
-                EditableList(contents: self.$presenter.items)
-                
-                if self.presenter.showNewItem {
-                    CustomTextField("新しいアイテム", text: self.$presenter.newItemText, isFirstResponder: true, onCommit: self.presenter.commitNewItemInput)
+                            Text("作成")
+                            Spacer()
+                        }
+                    })
                 }
             }
-            
-            Section(header: Text("コメント")) {
-                TextField("コメント", text: self.$presenter.comment)
-            }
+            .navigationTitle("新しいオーダー")
+            .navigationBarTitleDisplayMode(.large)
         }
-        .navigationTitle("新しいオーダー")
-        .navigationBarTitleDisplayMode(.large)
     }
 }
 
 struct NewOrderView_Previews: PreviewProvider {
     static var previews: some View {
-        let presenter = NewOrderPresenter()
+        let interactor = NewOrderInteractor()
+        let presenter = NewOrderPresenter(interactor: interactor, team: Team(name: "チーム", members: [], owner: "owner"))
         
         NavigationView {
             NewOrderView(presenter: presenter)

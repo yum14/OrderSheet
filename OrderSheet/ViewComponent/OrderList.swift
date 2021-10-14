@@ -6,21 +6,21 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct OrderList: View {
     var orders: [Order] = []
     var onRowTap: (Order) -> Void = { _ in }
     
     var body: some View {
-        
-        let group = Dictionary(grouping: self.orders, by: { DateUtility.toString(date: $0.createdAt, template: "ydMMM") })
+        let group = Dictionary(grouping: self.orders, by: { DateUtility.toString(date: $0.createdAt.dateValue(), template: "ydMMM") })
         let keys = group.map { $0.key }.sorted(by: { $0 > $1 })
-        
+
         List {
             ForEach(keys, id: \.self) { key in
                 Section(header: Text(key)) {
-                    let values = group[key]?.compactMap { $0 }.sorted(by: { $0.createdAt > $1.createdAt})
-                    
+                    let values = group[key]?.compactMap { $0 }.sorted(by: { $0.createdAt.dateValue() > $1.createdAt.dateValue()})
+
                     ForEach(values!, id: \.id) { value in
                         HStack {
                             Text(value.name)

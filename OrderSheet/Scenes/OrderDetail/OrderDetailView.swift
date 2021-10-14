@@ -21,7 +21,7 @@ struct OrderDetailView: View {
                     }
                     
                     Section(header: Text("コメント")) {
-                        Text(self.presenter.order.comment)
+                        Text(self.presenter.order.comment ?? "")
                     }
                 }
 

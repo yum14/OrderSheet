@@ -16,17 +16,21 @@ struct OrderListView: View {
         NavigationView {
             VStack {
                 OrderList(orders: self.presenter.orders,
-                          onRowTap: self.presenter.showOrderSheet)
+                          onRowTap: self.presenter.showOrderDetailSheet)
                 .onAppear {
                     self.presenter.load(user: self.authStateObserver.appUser!)
                 }
             }
             .sheet(isPresented: self.$presenter.sheetPresented) {
-                self.presenter.makeAboutOrderDetailView()
+                if let sheetType = self.presenter.sheetType, sheetType == .OrderDetail {
+                    self.presenter.makeAboutOrderDetailSheetView()
+                } else {
+                    self.presenter.makeAboutNewOrderSheetView()
+                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: Text(self.presenter.selectedTeam?.name ?? ""),
-                                trailing: self.presenter.linkBuilder {
+                                trailing: Button(action: self.presenter.showNewOrderSheet) {
                 Image(systemName: "plus")
             })
         }

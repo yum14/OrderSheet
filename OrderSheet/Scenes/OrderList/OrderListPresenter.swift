@@ -10,10 +10,16 @@ import SwiftUI
 import Combine
 
 final class OrderListPresenter: ObservableObject {
+    enum SheetType {
+        case OrderDetail
+        case NewOrder
+    }
+    
     @Published var orders: [Order] = []
     @Published var selectedOrder: Order?
     @Published var sheetPresented = false
     @Published var selectedTeam: Team?
+    var sheetType: SheetType?
     
     private let interactor: OrderListUsecase
     private let router: OrderListRouter
@@ -29,20 +35,31 @@ final class OrderListPresenter: ObservableObject {
         self.orders = orders
     }
     
-    func showOrderSheet(order: Order) -> Void {
+    func showOrderDetailSheet(order: Order) -> Void {
         self.selectedOrder = order
-        self.sheetPresented.toggle()
+        self.sheetType = .OrderDetail
+        self.sheetPresented = true
     }
     
-    func makeAboutOrderDetailView() -> some View {
-        return router.makeOrderDetailView(order: self.selectedOrder!, commitButtonTap: { self.sheetPresented.toggle() })
+    func showNewOrderSheet() -> Void {
+        self.selectedOrder = nil
+        self.sheetType = .NewOrder
+        self.sheetPresented = true
     }
     
-    func linkBuilder<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-        NavigationLink(destination: router.makeNewOrderView()) {
-            content()
-        }
+    func makeAboutOrderDetailSheetView() -> some View {
+        return router.makeOrderDetailView(order: self.selectedOrder!, commitButtonTap: { self.sheetPresented = false })
     }
+    
+    func makeAboutNewOrderSheetView() -> some View {
+        return router.makeNewOrderView(team: self.selectedTeam!)
+    }
+    
+//    func linkBuilder<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+//        NavigationLink(destination: router.makeNewOrderView()) {
+//            content()
+//        }
+//    }
     
     func load(user: User) {
         // 1番最初の選択チームはなんでもよし

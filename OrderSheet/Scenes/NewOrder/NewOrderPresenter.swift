@@ -17,7 +17,13 @@ final class NewOrderPresenter: ObservableObject {
     @Published var showNewItem: Bool
     @Published var newItemText: String
     
-    init() {
+    private var interactor: NewOrderInteractor
+    private var team: Team
+    
+    init(interactor: NewOrderInteractor,
+         team: Team) {
+        self.interactor = interactor
+        self.team = team
         self.title = ""
         self.name = ""
         self.items = []
@@ -46,5 +52,19 @@ final class NewOrderPresenter: ObservableObject {
     
     var addItemButtonDisabled: Bool {
         return self.showNewItem
+    }
+    
+    func createNewOrder() {
+        self.interactor.addNewOrder(teamId: self.team.id,
+                                    self.name,
+                                    items: self.items.map { Product(name: $0.text) },
+                                    comment: self.comment) { result in
+            switch result {
+            case .success(_):
+                break
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
