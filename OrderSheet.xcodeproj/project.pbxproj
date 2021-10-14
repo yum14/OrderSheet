@@ -13,6 +13,8 @@
 		7503560926FF28CB004FA7E7 /* QrCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560826FF28CB004FA7E7 /* QrCodeScannerView.swift */; };
 		7503560D26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560C26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift */; };
 		7503560F26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560E26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift */; };
+		751F62B22717357E00D19E8F /* NewOrderInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751F62B12717357E00D19E8F /* NewOrderInteractor.swift */; };
+		751F62B42717360400D19E8F /* OrderStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751F62B32717360400D19E8F /* OrderStore.swift */; };
 		755AE30D2715C67E001EE2D3 /* OrderListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */; };
 		758BA3F3270DE0A0005C2407 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */; };
 		759626A926FDE91900460629 /* OrderSheetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626A826FDE91900460629 /* OrderSheetApp.swift */; };
@@ -98,6 +100,8 @@
 		7503560826FF28CB004FA7E7 /* QrCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerView.swift; sourceTree = "<group>"; };
 		7503560C26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodeScannerView.swift; sourceTree = "<group>"; };
 		7503560E26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodeScannerPresenter.swift; sourceTree = "<group>"; };
+		751F62B12717357E00D19E8F /* NewOrderInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOrderInteractor.swift; sourceTree = "<group>"; };
+		751F62B32717360400D19E8F /* OrderStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStore.swift; sourceTree = "<group>"; };
 		755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListInteractor.swift; sourceTree = "<group>"; };
 		758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 		759626A526FDE91900460629 /* OrderSheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrderSheet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -380,6 +384,7 @@
 			children = (
 				759626F326FDE9DB00460629 /* NewOrderView.swift */,
 				759626F426FDE9DB00460629 /* NewOrderPresenter.swift */,
+				751F62B12717357E00D19E8F /* NewOrderInteractor.swift */,
 			);
 			path = NewOrder;
 			sourceTree = "<group>";
@@ -416,6 +421,7 @@
 			children = (
 				75DDA6992700580F009854AE /* TeamStore.swift */,
 				75F5DE7F2700A8900044A782 /* UserStore.swift */,
+				751F62B32717360400D19E8F /* OrderStore.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -575,6 +581,7 @@
 				7596271F26FDE9DB00460629 /* EditableList.swift in Sources */,
 				7503560226FE039B004FA7E7 /* TeamQrCodeView.swift in Sources */,
 				7503560D26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift in Sources */,
+				751F62B22717357E00D19E8F /* NewOrderInteractor.swift in Sources */,
 				7596271026FDE9DB00460629 /* TeamDetailView.swift in Sources */,
 				7596272226FDE9DB00460629 /* OrderList.swift in Sources */,
 				7596271326FDE9DB00460629 /* RootView.swift in Sources */,
@@ -605,6 +612,7 @@
 				75F5DE802700A8900044A782 /* UserStore.swift in Sources */,
 				7596270826FDE9DB00460629 /* User.swift in Sources */,
 				75DDA69A2700580F009854AE /* TeamStore.swift in Sources */,
+				751F62B42717360400D19E8F /* OrderStore.swift in Sources */,
 				7596271C26FDE9DB00460629 /* LoginView.swift in Sources */,
 				7596270526FDE9DB00460629 /* UIApplicationExtension.swift in Sources */,
 				7596272526FDE9DB00460629 /* RemoveButton.swift in Sources */,
@@ -703,7 +711,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -758,7 +766,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -787,7 +795,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -820,7 +828,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

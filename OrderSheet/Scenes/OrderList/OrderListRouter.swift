@@ -16,8 +16,9 @@ final class OrderListRouter {
         return view
     }
     
-    func makeNewOrderView() -> some View {
-        let presenter = NewOrderPresenter()
+    func makeNewOrderView(team: Team) -> some View {
+        let interactor = NewOrderInteractor()
+        let presenter = NewOrderPresenter(interactor: interactor, team: team)
         let view = NewOrderView(presenter: presenter)
         return view
     }
