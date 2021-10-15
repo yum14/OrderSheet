@@ -20,11 +20,44 @@ class OrderStore {
         db.settings = settings
     }
     
-    func set(teamId: String, _ newOrder: Order, completion: @escaping (Result<(), Error>) -> Void = { _ in }) {
+    func setListener(teamId: String, completion: (([Order]?) -> Void)?) {
+        db.collection(self.parentCollectionName).document(teamId).collection(self.collectionName)
+            .addSnapshotListener { querySnapshot, error in
+                self.snapshotListen(querySnapshot, error, completion: completion)
+            }
+    }
+
+    private func snapshotListen(_ querySnapshot: QuerySnapshot?, _ error: Error?, completion: (([Order]?) -> Void)?) {
+        guard let documents = querySnapshot?.documents else {
+            print("Error fetching documents: \(error!)")
+            return
+        }
+        
+        let orders: [Order] = documents.compactMap { snapshot in
+            let result = Result {
+                try snapshot.data(as: Order.self)
+            }
+            
+            switch result {
+            case .success(let order):
+                if let order = order {
+                    return order
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            
+            return nil
+        }
+
+        completion?(orders)
+    }
+    
+    func set(teamId: String, _ newOrder: Order, completion: ((Result<(), Error>) -> Void)?) {
         let result = Result {
             try db.collection(self.parentCollectionName).document(teamId).collection(self.collectionName).document(newOrder.id).setData(from: newOrder)
         }
         
-        completion(result)
+        completion?(result)
     }
 }

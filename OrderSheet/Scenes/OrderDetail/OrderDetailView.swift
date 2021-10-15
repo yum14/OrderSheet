@@ -33,7 +33,6 @@ struct OrderDetailView: View {
                 }
             }
             .navigationTitle(self.presenter.order.name)
-            .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(StackNavigationViewStyle())
         }
     }

@@ -73,11 +73,17 @@ final class OrderListPresenter: ObservableObject {
             guard let team = team else {
                 return
             }
+
+            // OrderのListener設定
+            self.interactor.setOrderListener(teamId: team.id) { orders in
+                self.orders = orders ?? []
+            }
             
             if user.selectedTeam != nil {
                 return
             }
             
+            // はじめての使用の場合は選択チームが存在しないので、最初のチームを選択チームに更新する
             let newUser = User(id: user.id,
                                displayName: user.displayName,
                                email: user.email,

@@ -8,37 +8,43 @@
 import Foundation
 
 protocol OrderListUsecase {
-    func loadCurrentTeam(id: String, completion: @escaping (Team?) -> Void)
-    func setUser(_ newUser: User, completion: @escaping (Error?) -> Void)
+    func loadCurrentTeam(id: String, completion: ((Team?) -> Void)?)
+    func setOrderListener(teamId: String, completion: (([Order]?) -> Void)?)
+    func setUser(_ newUser: User, completion: ((Error?) -> Void)?)
 }
 
 final class OrderListInteractor {
     let teamStore = TeamStore()
     let userStore = UserStore()
+    let orderStore = OrderStore()
 }
 
 extension OrderListInteractor: OrderListUsecase {
-    func loadCurrentTeam(id: String, completion: @escaping (Team?) -> Void) {
+    func loadCurrentTeam(id: String, completion: ((Team?) -> Void)?) {
         self.teamStore.get(id: id) { result in
             switch result {
             case .success(let team):
-                completion(team)
+                completion?(team)
                 return
             case .failure(let error):
                 print(error.localizedDescription)
             }
-
-            completion(nil)
+            
+            completion?(nil)
         }
     }
     
-    func setUser(_ newUser: User, completion: @escaping (Error?) -> Void) {
+    func setOrderListener(teamId: String, completion: (([Order]?) -> Void)?) {
+        self.orderStore.setListener(teamId: teamId, completion: completion)
+    }
+    
+    func setUser(_ newUser: User, completion: ((Error?) -> Void)?) {
         self.userStore.set(newUser) { result in
             switch result {
             case .success():
-                completion(nil)
+                completion?(nil)
             case .failure(let error):
-                completion(error)
+                completion?(error)
             }
         }
     }
