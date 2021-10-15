@@ -11,7 +11,6 @@ import Combine
 
 final class NewOrderPresenter: ObservableObject {
     @Published var title: String
-    @Published var name: String
     @Published var items: [EditableListContent]
     @Published var comment: String
     @Published var showNewItem: Bool
@@ -25,7 +24,6 @@ final class NewOrderPresenter: ObservableObject {
         self.interactor = interactor
         self.team = team
         self.title = ""
-        self.name = ""
         self.items = []
         self.comment = ""
         
@@ -56,7 +54,7 @@ final class NewOrderPresenter: ObservableObject {
     
     func createNewOrder() {
         self.interactor.addNewOrder(teamId: self.team.id,
-                                    self.name,
+                                    self.title,
                                     items: self.items.map { Product(name: $0.text) },
                                     comment: self.comment) { result in
             switch result {
