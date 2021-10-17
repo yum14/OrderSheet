@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		750355FF26FE02C4004FA7E7 /* QrCodeMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750355FE26FE02C4004FA7E7 /* QrCodeMaker.swift */; };
+		750355FF26FE02C4004FA7E7 /* TeamQrCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750355FE26FE02C4004FA7E7 /* TeamQrCodeManager.swift */; };
 		7503560226FE039B004FA7E7 /* TeamQrCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560126FE039B004FA7E7 /* TeamQrCodeView.swift */; };
 		7503560426FE03AA004FA7E7 /* TeamQrCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560326FE03AA004FA7E7 /* TeamQrCodePresenter.swift */; };
 		7503560926FF28CB004FA7E7 /* QrCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560826FF28CB004FA7E7 /* QrCodeScannerView.swift */; };
 		7503560D26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560C26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift */; };
 		7503560F26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560E26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift */; };
+		7504C5C82719CADE00C13FD3 /* BannerContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7504C5C72719CADE00C13FD3 /* BannerContent.swift */; };
+		7504C5CB271BE0D700C13FD3 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 7504C5CA271BE0D700C13FD3 /* PopupView */; };
+		75119BF4271C1CCB00187EB3 /* QrCodeScannerBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75119BF3271C1CCB00187EB3 /* QrCodeScannerBanner.swift */; };
 		751F62B22717357E00D19E8F /* NewOrderInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751F62B12717357E00D19E8F /* NewOrderInteractor.swift */; };
 		751F62B42717360400D19E8F /* OrderStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751F62B32717360400D19E8F /* OrderStore.swift */; };
 		755AE30D2715C67E001EE2D3 /* OrderListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */; };
@@ -21,9 +24,6 @@
 		759626AB26FDE91900460629 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626AA26FDE91900460629 /* ContentView.swift */; };
 		759626AD26FDE91B00460629 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 759626AC26FDE91B00460629 /* Assets.xcassets */; };
 		759626B026FDE91B00460629 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 759626AF26FDE91B00460629 /* Preview Assets.xcassets */; };
-		759626BA26FDE91B00460629 /* OrderSheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626B926FDE91B00460629 /* OrderSheetTests.swift */; };
-		759626C426FDE91B00460629 /* OrderSheetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626C326FDE91B00460629 /* OrderSheetUITests.swift */; };
-		759626C626FDE91B00460629 /* OrderSheetUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626C526FDE91B00460629 /* OrderSheetUITestsLaunchTests.swift */; };
 		7596270326FDE9DB00460629 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626D326FDE9DA00460629 /* DateUtility.swift */; };
 		7596270426FDE9DB00460629 /* FirebaseAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626D426FDE9DA00460629 /* FirebaseAuth.swift */; };
 		7596270526FDE9DB00460629 /* UIApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626D526FDE9DA00460629 /* UIApplicationExtension.swift */; };
@@ -62,6 +62,7 @@
 		7596272626FDE9DB00460629 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7596270126FDE9DB00460629 /* ProductList.swift */; };
 		7596272726FDE9DB00460629 /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7596270226FDE9DB00460629 /* AddButton.swift */; };
 		7596273126FDFA2300460629 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7596273026FDFA2300460629 /* GoogleService-Info.plist */; };
+		759F6E99271BFF01009DCD72 /* UIColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759F6E98271BFF01009DCD72 /* UIColorHex.swift */; };
 		75CBFB42270F236D00E7EE93 /* TeamDetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CBFB41270F236D00E7EE93 /* TeamDetailInteractor.swift */; };
 		75DDA69A2700580F009854AE /* TeamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DDA6992700580F009854AE /* TeamStore.swift */; };
 		75F5DE6327005E5F0044A782 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 75F5DE6227005E5F0044A782 /* GoogleSignIn */; };
@@ -76,30 +77,15 @@
 		75F5DE842702178A0044A782 /* AuthStateObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE832702178A0044A782 /* AuthStateObserver.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		759626B626FDE91B00460629 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7596269D26FDE91900460629 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 759626A426FDE91900460629;
-			remoteInfo = OrderSheet;
-		};
-		759626C026FDE91B00460629 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7596269D26FDE91900460629 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 759626A426FDE91900460629;
-			remoteInfo = OrderSheet;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		750355FE26FE02C4004FA7E7 /* QrCodeMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeMaker.swift; sourceTree = "<group>"; };
+		750355FE26FE02C4004FA7E7 /* TeamQrCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodeManager.swift; sourceTree = "<group>"; };
 		7503560126FE039B004FA7E7 /* TeamQrCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodeView.swift; sourceTree = "<group>"; };
 		7503560326FE03AA004FA7E7 /* TeamQrCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodePresenter.swift; sourceTree = "<group>"; };
 		7503560826FF28CB004FA7E7 /* QrCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerView.swift; sourceTree = "<group>"; };
 		7503560C26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodeScannerView.swift; sourceTree = "<group>"; };
 		7503560E26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodeScannerPresenter.swift; sourceTree = "<group>"; };
+		7504C5C72719CADE00C13FD3 /* BannerContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerContent.swift; sourceTree = "<group>"; };
+		75119BF3271C1CCB00187EB3 /* QrCodeScannerBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerBanner.swift; sourceTree = "<group>"; };
 		751F62B12717357E00D19E8F /* NewOrderInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOrderInteractor.swift; sourceTree = "<group>"; };
 		751F62B32717360400D19E8F /* OrderStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStore.swift; sourceTree = "<group>"; };
 		755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListInteractor.swift; sourceTree = "<group>"; };
@@ -109,11 +95,6 @@
 		759626AA26FDE91900460629 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		759626AC26FDE91B00460629 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		759626AF26FDE91B00460629 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		759626B526FDE91B00460629 /* OrderSheetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrderSheetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		759626B926FDE91B00460629 /* OrderSheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSheetTests.swift; sourceTree = "<group>"; };
-		759626BF26FDE91B00460629 /* OrderSheetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrderSheetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		759626C326FDE91B00460629 /* OrderSheetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSheetUITests.swift; sourceTree = "<group>"; };
-		759626C526FDE91B00460629 /* OrderSheetUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSheetUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		759626D326FDE9DA00460629 /* DateUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		759626D426FDE9DA00460629 /* FirebaseAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAuth.swift; sourceTree = "<group>"; };
 		759626D526FDE9DA00460629 /* UIApplicationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIApplicationExtension.swift; sourceTree = "<group>"; };
@@ -154,6 +135,7 @@
 		7596272E26FDF8D900460629 /* OrderSheet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OrderSheet.entitlements; sourceTree = "<group>"; };
 		7596272F26FDF90700460629 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7596273026FDFA2300460629 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		759F6E98271BFF01009DCD72 /* UIColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorHex.swift; sourceTree = "<group>"; };
 		75CBFB41270F236D00E7EE93 /* TeamDetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailInteractor.swift; sourceTree = "<group>"; };
 		75DDA6992700580F009854AE /* TeamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamStore.swift; sourceTree = "<group>"; };
 		75F5DE72270082370044A782 /* NewTeamInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTeamInteractor.swift; sourceTree = "<group>"; };
@@ -168,25 +150,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7504C5CB271BE0D700C13FD3 /* PopupView in Frameworks */,
 				75F5DE6327005E5F0044A782 /* GoogleSignIn in Frameworks */,
 				75F5DE7A27008D690044A782 /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				75F5DE7C27008D690044A782 /* FirebaseMessaging in Frameworks */,
 				75F5DE7627008D690044A782 /* FirebaseAuth in Frameworks */,
 				75F5DE7827008D690044A782 /* FirebaseFirestore in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		759626B226FDE91B00460629 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		759626BC26FDE91B00460629 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,8 +185,6 @@
 			isa = PBXGroup;
 			children = (
 				759626A726FDE91900460629 /* OrderSheet */,
-				759626B826FDE91B00460629 /* OrderSheetTests */,
-				759626C226FDE91B00460629 /* OrderSheetUITests */,
 				759626A626FDE91900460629 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -226,8 +193,6 @@
 			isa = PBXGroup;
 			children = (
 				759626A526FDE91900460629 /* OrderSheet.app */,
-				759626B526FDE91B00460629 /* OrderSheetTests.xctest */,
-				759626BF26FDE91B00460629 /* OrderSheetUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,30 +224,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		759626B826FDE91B00460629 /* OrderSheetTests */ = {
-			isa = PBXGroup;
-			children = (
-				759626B926FDE91B00460629 /* OrderSheetTests.swift */,
-			);
-			path = OrderSheetTests;
-			sourceTree = "<group>";
-		};
-		759626C226FDE91B00460629 /* OrderSheetUITests */ = {
-			isa = PBXGroup;
-			children = (
-				759626C326FDE91B00460629 /* OrderSheetUITests.swift */,
-				759626C526FDE91B00460629 /* OrderSheetUITestsLaunchTests.swift */,
-			);
-			path = OrderSheetUITests;
-			sourceTree = "<group>";
-		};
 		759626D226FDE9DA00460629 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				759626D326FDE9DA00460629 /* DateUtility.swift */,
 				759626D426FDE9DA00460629 /* FirebaseAuth.swift */,
 				759626D526FDE9DA00460629 /* UIApplicationExtension.swift */,
-				750355FE26FE02C4004FA7E7 /* QrCodeMaker.swift */,
+				750355FE26FE02C4004FA7E7 /* TeamQrCodeManager.swift */,
+				759F6E98271BFF01009DCD72 /* UIColorHex.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -296,6 +245,7 @@
 				759626DA26FDE9DB00460629 /* FirebaseAuthStateObserver.swift */,
 				759626DB26FDE9DB00460629 /* Product.swift */,
 				75F5DE832702178A0044A782 /* AuthStateObserver.swift */,
+				7504C5C72719CADE00C13FD3 /* BannerContent.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -412,6 +362,7 @@
 				7596270026FDE9DB00460629 /* RemoveButton.swift */,
 				7596270126FDE9DB00460629 /* ProductList.swift */,
 				7596270226FDE9DB00460629 /* AddButton.swift */,
+				75119BF3271C1CCB00187EB3 /* QrCodeScannerBanner.swift */,
 			);
 			path = ViewComponent;
 			sourceTree = "<group>";
@@ -448,46 +399,11 @@
 				75F5DE7727008D690044A782 /* FirebaseFirestore */,
 				75F5DE7927008D690044A782 /* FirebaseFirestoreSwift-Beta */,
 				75F5DE7B27008D690044A782 /* FirebaseMessaging */,
+				7504C5CA271BE0D700C13FD3 /* PopupView */,
 			);
 			productName = OrderSheet;
 			productReference = 759626A526FDE91900460629 /* OrderSheet.app */;
 			productType = "com.apple.product-type.application";
-		};
-		759626B426FDE91B00460629 /* OrderSheetTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 759626CC26FDE91B00460629 /* Build configuration list for PBXNativeTarget "OrderSheetTests" */;
-			buildPhases = (
-				759626B126FDE91B00460629 /* Sources */,
-				759626B226FDE91B00460629 /* Frameworks */,
-				759626B326FDE91B00460629 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				759626B726FDE91B00460629 /* PBXTargetDependency */,
-			);
-			name = OrderSheetTests;
-			productName = OrderSheetTests;
-			productReference = 759626B526FDE91B00460629 /* OrderSheetTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		759626BE26FDE91B00460629 /* OrderSheetUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 759626CF26FDE91B00460629 /* Build configuration list for PBXNativeTarget "OrderSheetUITests" */;
-			buildPhases = (
-				759626BB26FDE91B00460629 /* Sources */,
-				759626BC26FDE91B00460629 /* Frameworks */,
-				759626BD26FDE91B00460629 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				759626C126FDE91B00460629 /* PBXTargetDependency */,
-			);
-			name = OrderSheetUITests;
-			productName = OrderSheetUITests;
-			productReference = 759626BF26FDE91B00460629 /* OrderSheetUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -501,14 +417,6 @@
 				TargetAttributes = {
 					759626A426FDE91900460629 = {
 						CreatedOnToolsVersion = 13.0;
-					};
-					759626B426FDE91B00460629 = {
-						CreatedOnToolsVersion = 13.0;
-						TestTargetID = 759626A426FDE91900460629;
-					};
-					759626BE26FDE91B00460629 = {
-						CreatedOnToolsVersion = 13.0;
-						TestTargetID = 759626A426FDE91900460629;
 					};
 				};
 			};
@@ -524,14 +432,13 @@
 			packageReferences = (
 				75F5DE6127005E5E0044A782 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				75F5DE7427008D690044A782 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				7504C5C9271BE0D700C13FD3 /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = 759626A626FDE91900460629 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				759626A426FDE91900460629 /* OrderSheet */,
-				759626B426FDE91B00460629 /* OrderSheetTests */,
-				759626BE26FDE91B00460629 /* OrderSheetUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -547,20 +454,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		759626B326FDE91B00460629 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		759626BD26FDE91B00460629 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -572,6 +465,7 @@
 				7596270C26FDE9DB00460629 /* HomeRouter.swift in Sources */,
 				75CBFB42270F236D00E7EE93 /* TeamDetailInteractor.swift in Sources */,
 				7596270926FDE9DB00460629 /* FirebaseAuthStateObserver.swift in Sources */,
+				7504C5C82719CADE00C13FD3 /* BannerContent.swift in Sources */,
 				7596270F26FDE9DB00460629 /* NewTeamView.swift in Sources */,
 				7596272426FDE9DB00460629 /* AppleSignInButton.swift in Sources */,
 				7596271B26FDE9DB00460629 /* NewOrderPresenter.swift in Sources */,
@@ -593,7 +487,7 @@
 				7596272326FDE9DB00460629 /* CustomTextField.swift in Sources */,
 				7596271826FDE9DB00460629 /* OrderListPresenter.swift in Sources */,
 				7596272626FDE9DB00460629 /* ProductList.swift in Sources */,
-				750355FF26FE02C4004FA7E7 /* QrCodeMaker.swift in Sources */,
+				750355FF26FE02C4004FA7E7 /* TeamQrCodeManager.swift in Sources */,
 				7596271A26FDE9DB00460629 /* NewOrderView.swift in Sources */,
 				7596270E26FDE9DB00460629 /* NewTeamPresenter.swift in Sources */,
 				7596271926FDE9DB00460629 /* OrderListRouter.swift in Sources */,
@@ -608,6 +502,7 @@
 				7596272126FDE9DB00460629 /* GoogleSignInButton.swift in Sources */,
 				7596271726FDE9DB00460629 /* OrderListView.swift in Sources */,
 				75F5DE842702178A0044A782 /* AuthStateObserver.swift in Sources */,
+				75119BF4271C1CCB00187EB3 /* QrCodeScannerBanner.swift in Sources */,
 				7596270B26FDE9DB00460629 /* HomeView.swift in Sources */,
 				75F5DE802700A8900044A782 /* UserStore.swift in Sources */,
 				7596270826FDE9DB00460629 /* User.swift in Sources */,
@@ -622,42 +517,13 @@
 				7596270326FDE9DB00460629 /* DateUtility.swift in Sources */,
 				75F5DE7E2700A45B0044A782 /* TeamDetailRouter.swift in Sources */,
 				7503560426FE03AA004FA7E7 /* TeamQrCodePresenter.swift in Sources */,
+				759F6E99271BFF01009DCD72 /* UIColorHex.swift in Sources */,
 				759626A926FDE91900460629 /* OrderSheetApp.swift in Sources */,
 				7596271E26FDE9DB00460629 /* CartButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		759626B126FDE91B00460629 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				759626BA26FDE91B00460629 /* OrderSheetTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		759626BB26FDE91B00460629 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				759626C426FDE91B00460629 /* OrderSheetUITests.swift in Sources */,
-				759626C626FDE91B00460629 /* OrderSheetUITestsLaunchTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		759626B726FDE91B00460629 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 759626A426FDE91900460629 /* OrderSheet */;
-			targetProxy = 759626B626FDE91B00460629 /* PBXContainerItemProxy */;
-		};
-		759626C126FDE91B00460629 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 759626A426FDE91900460629 /* OrderSheet */;
-			targetProxy = 759626C026FDE91B00460629 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		759626C726FDE91B00460629 /* Debug */ = {
@@ -842,102 +708,6 @@
 			};
 			name = Release;
 		};
-		759626CD26FDE91B00460629 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TB8F2PW523;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = icu.yum14.OrderSheetTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrderSheet.app/OrderSheet";
-			};
-			name = Debug;
-		};
-		759626CE26FDE91B00460629 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TB8F2PW523;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = icu.yum14.OrderSheetTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrderSheet.app/OrderSheet";
-			};
-			name = Release;
-		};
-		759626D026FDE91B00460629 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TB8F2PW523;
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = icu.yum14.OrderSheetUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = OrderSheet;
-			};
-			name = Debug;
-		};
-		759626D126FDE91B00460629 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TB8F2PW523;
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = icu.yum14.OrderSheetUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = OrderSheet;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -959,27 +729,17 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		759626CC26FDE91B00460629 /* Build configuration list for PBXNativeTarget "OrderSheetTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				759626CD26FDE91B00460629 /* Debug */,
-				759626CE26FDE91B00460629 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		759626CF26FDE91B00460629 /* Build configuration list for PBXNativeTarget "OrderSheetUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				759626D026FDE91B00460629 /* Debug */,
-				759626D126FDE91B00460629 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7504C5C9271BE0D700C13FD3 /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		75F5DE6127005E5E0044A782 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -999,6 +759,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7504C5CA271BE0D700C13FD3 /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7504C5C9271BE0D700C13FD3 /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
 		75F5DE6227005E5F0044A782 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 75F5DE6127005E5E0044A782 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
