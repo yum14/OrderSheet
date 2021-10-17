@@ -29,7 +29,7 @@ struct OrderListView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading: Text(self.presenter.selectTeam?.name ?? ""),
+            .navigationBarItems(leading: Text(self.presenter.selectedTeam?.name ?? ""),
                                 trailing: Button(action: self.presenter.showNewOrderSheet) {
                 Image(systemName: "plus")
             })
