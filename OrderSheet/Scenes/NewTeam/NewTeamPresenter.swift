@@ -27,6 +27,10 @@ final class NewTeamPresenter: ObservableObject {
     }
     
     func inputCommit(user: User) -> Void {
+        if user.teams.count >= 10 {
+            return
+        }
+        
         self.interactor.addTeam(user: user, name: self.text, completion: { result in
             switch result {
             case .success(let team):

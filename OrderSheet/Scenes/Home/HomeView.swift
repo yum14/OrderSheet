@@ -44,6 +44,7 @@ struct HomeView: View {
                                 Spacer()
                             }
                         })
+                            .disabled(self.authStateObserver.appUser!.teams.count >= 10)
                         
                         Button(action: self.presenter.toggleShowTeamQrScannerSheet, label: {
                             HStack {
