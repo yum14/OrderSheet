@@ -18,7 +18,7 @@ final class OrderListPresenter: ObservableObject {
     @Published var orders: [Order] = []
     @Published var selectedOrder: Order?
     @Published var sheetPresented = false
-    @Published var selectedTeam: Team?
+    @Published var selectTeam: Team?
     var sheetType: SheetType?
     
     private let interactor: OrderListUsecase
@@ -52,7 +52,7 @@ final class OrderListPresenter: ObservableObject {
     }
     
     func makeAboutNewOrderSheetView() -> some View {
-        return router.makeNewOrderView(team: self.selectedTeam!)
+        return router.makeNewOrderView(team: self.selectTeam!)
     }
     
     func load(user: User) {
@@ -61,12 +61,17 @@ final class OrderListPresenter: ObservableObject {
             return
         }
         
+        // 変更がない場合は終了
+        if user.selectedTeam != nil && self.selectTeam != nil && user.selectedTeam! == self.selectTeam!.id {
+            return
+        }
+        
         self.interactor.loadCurrentTeam(id: teamId) { team in
-            self.selectedTeam = team
-            
             guard let team = team else {
                 return
             }
+            
+            self.selectTeam = team
 
             // OrderのListener設定
             self.interactor.setOrderListener(teamId: team.id) { orders in
@@ -93,6 +98,12 @@ final class OrderListPresenter: ObservableObject {
                 }
             }
             
+        }
+    }
+    
+    func getTeam(id: String) {
+        self.interactor.getTeam(id: id) { team in
+            self.selectTeam = team
         }
     }
 }
