@@ -14,6 +14,7 @@ final class HomePresenter: ObservableObject {
     @Published var newTeamViewPresented = false
     @Published var teamQrCodeScannerViewPresented = false
     @Published var teamJoinAlertPresented = false
+    @Published var teamQrCodeScanBannerPresented = false
     
     private var interactor: HomeUsecase
     private var router: HomeRouter
@@ -76,12 +77,17 @@ final class HomePresenter: ObservableObject {
         
         return router.makeTeamQrCodeScannerView(
             onFound: { code in
-                // TODO: ここかQRCodeスキャナーViewでスキームが本アプリのものかチェックする
-                // TODO: そうしないと無駄にFirestoreに接続することになる
-                self.interactor.getTeam(id: code) { result in
+                self.teamQrCodeScannerViewPresented = false
+
+                let teamQrCodeManager = TeamQrCodeManager()
+                guard let teamId = teamQrCodeManager.checkMyAppQrCode(code: code) else {
+                    self.showQrCodeScanBanner()
+                    return
+                }
+
+                self.interactor.getTeam(id: teamId) { result in
                     switch result {
                     case .success(let team):
-                        
                         self.toggleShowTeamQrScannerSheet()
 
                         if let team = team {
@@ -90,13 +96,22 @@ final class HomePresenter: ObservableObject {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                 self.teamJoinAlertPresented = true
                             }
+                        } else {
+                            self.showQrCodeScanBanner()
                         }
                     case .failure(let error):
                         print(error.localizedDescription)
+                        self.showQrCodeScanBanner()
                     }
                 }
             },
             onDismiss: self.toggleShowTeamQrScannerSheet)
+    }
+    
+    private func showQrCodeScanBanner() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.teamQrCodeScanBannerPresented = true
+        }
     }
     
     func newTeamInputCommit(text: String) {
@@ -123,4 +138,18 @@ final class HomePresenter: ObservableObject {
     func teamJoinCancel() {
         self.joinTeam = nil
     }
+    
+    func getSafeAreaTop() -> CGFloat{
+            let keyWindow = UIApplication.shared.connectedScenes
+                .filter({$0.activationState == .foregroundActive})
+                .map({$0 as? UIWindowScene})
+                .compactMap({$0})
+                .first?.windows
+                .filter({$0.isKeyWindow}).first
+
+        
+        print("****** \(keyWindow?.safeAreaInsets.top) ****** ")
+        
+            return (keyWindow?.safeAreaInsets.top)!
+        }
 }

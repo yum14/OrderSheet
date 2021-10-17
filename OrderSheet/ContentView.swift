@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var presenter = RootPresenter()
+    @StateObject var rootPresenter = RootPresenter()
     
     var body: some View {
-        RootView(presenter: presenter)
+        RootView(rootPresenter: rootPresenter)            
     }
 }
 

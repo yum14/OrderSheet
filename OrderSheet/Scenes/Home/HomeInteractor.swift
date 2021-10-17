@@ -82,8 +82,6 @@ extension HomeInteractor: HomeUsecase {
                     
                 }
                 
-                
-                
             case .failure(let error):
                 print(error.localizedDescription)
             }

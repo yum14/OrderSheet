@@ -11,10 +11,11 @@ import Combine
 
 final class TeamQrCodePresenter: ObservableObject {
     @Published var QrCodeImage: UIImage?
+    let qrCodeManager = TeamQrCodeManager()
     
     init(teamId: String) {
         DispatchQueue.main.async {
-            self.QrCodeImage = QrCodeMaker.make(message: teamId)
+            self.QrCodeImage = self.qrCodeManager.make(teamId: teamId)
         }
     }
 }

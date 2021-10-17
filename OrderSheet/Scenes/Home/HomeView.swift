@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct HomeView: View {
     @ObservedObject var presenter: HomePresenter
@@ -80,6 +81,13 @@ struct HomeView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("アカウント")
+        }
+        .popup(isPresented: self.$presenter.teamQrCodeScanBannerPresented,
+               type: .floater(),
+               position: .top,
+               animation: .spring(),
+               autohideIn: 2) {
+            QrCodeScannerBanner()
         }
         .onAppear {
             self.presenter.loadTeams(userId: self.authStateObserver.appUser!.id)

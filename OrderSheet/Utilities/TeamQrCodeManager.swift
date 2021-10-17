@@ -1,5 +1,5 @@
 //
-//  QrCodeMaker.swift
+//  TeamQrCodeManager.swift
 //  OrderSheet
 //
 //  Created by yum on 2021/09/24.
@@ -8,9 +8,19 @@
 import Foundation
 import SwiftUI
 
-class QrCodeMaker {
-    static func make(message:String) -> UIImage? {
-        guard let data = message.data(using: .utf8) else {
+class TeamQrCodeManager {
+    private let schema = "https://"
+    private let domain = "icu.yum14/"
+    private let path = "ordersheet/teams/"
+    
+    func make(teamId: String) -> UIImage? {
+        if teamId.isEmpty {
+            return nil
+        }
+        
+        let url = URL(string: self.schema + self.domain + self.path + teamId)
+        
+        guard let data = url?.absoluteString.data(using: .utf8) else {
             return nil
         }
 
@@ -34,5 +44,21 @@ class QrCodeMaker {
         let image = UIImage(cgImage: cgImage)
 
         return image
+    }
+    
+    func checkMyAppQrCode(code: String) -> String? {
+        if code.isEmpty {
+            return nil
+        }
+        
+        guard let url = URL(string: code), let _ = url.scheme, let _ = url.host else {
+            return nil
+        }
+        
+        if !(url.pathComponents[0] == "/" && url.pathComponents[1] == "ordersheet" && url.pathComponents[2] == "teams") {
+            return nil
+        }
+        
+        return url.lastPathComponent
     }
 }
