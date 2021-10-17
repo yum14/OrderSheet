@@ -25,6 +25,7 @@ struct NewTeamView: View {
                         Spacer()
                     }
                 }
+                .disabled(self.presenter.text.isEmpty)
                 
                 Button(action: self.presenter.inputCancel) {
                     HStack {

@@ -55,12 +55,6 @@ final class OrderListPresenter: ObservableObject {
         return router.makeNewOrderView(team: self.selectedTeam!)
     }
     
-//    func linkBuilder<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-//        NavigationLink(destination: router.makeNewOrderView()) {
-//            content()
-//        }
-//    }
-    
     func load(user: User) {
         // 1番最初の選択チームはなんでもよし
         guard let teamId = user.selectedTeam ?? user.teams.first else {

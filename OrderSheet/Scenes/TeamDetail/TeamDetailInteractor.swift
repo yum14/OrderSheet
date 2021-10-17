@@ -118,9 +118,6 @@ extension TeamDetailInteractor: TeamDetailUsecase {
     }
     
     func deleteTeamAndOrder(id: String, completion: ((Error?) -> Void)?) {
-        self.teamStore.delete(id: id, completion: completion)
-        
-        // TODO: Orderを消すこと
-        
+        self.teamStore.disabled(id: id, completion: completion)
     }
 }
