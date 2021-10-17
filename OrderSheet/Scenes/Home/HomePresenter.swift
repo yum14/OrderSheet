@@ -115,8 +115,6 @@ final class HomePresenter: ObservableObject {
     }
     
     func newTeamInputCommit(text: String) {
-        // TODO: 登録
-//        teams.append(Team(name: text, members: []))
         toggleShowNewTeamSheet()
     }
     

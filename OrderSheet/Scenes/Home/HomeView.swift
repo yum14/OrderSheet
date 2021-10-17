@@ -18,13 +18,13 @@ struct HomeView: View {
                 VStack {
                     Circle()
                         .frame(width: 48, height: 48)
-                    Text(self.authStateObserver.appUser!.displayName)
+                    Text(self.authStateObserver.appUser?.displayName ?? "")
                 }
                 .padding()
                 
                 Form {
                     Section(header: Text("参加中のチーム")) {
-                        ForEach(self.presenter.teams, id: \.self) { team in
+                        ForEach(self.presenter.teams.sorted(by: { $0.createdAt!.dateValue() > $1.createdAt!.dateValue() }), id: \.self) { team in
                             self.presenter.linkBuilder(userId: self.authStateObserver.appUser!.id, team: team) {
                                 HStack {
                                     Circle()

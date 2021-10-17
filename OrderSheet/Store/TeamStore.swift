@@ -32,6 +32,7 @@ final class TeamStore {
         self.onListen = onListen
         
         db.collection(self.collectionName)
+            .whereField("disabled", isEqualTo: false)
             .order(by: "created_at")
             .addSnapshotListener { querySnapshot, error in
                 guard let documents = querySnapshot?.documents else {
@@ -138,7 +139,11 @@ final class TeamStore {
         completion?(result)
     }
     
-    func delete(id: String, completion: ((Error?) -> Void)?) {
-        db.collection(self.collectionName).document(id).delete(completion: completion)
+//    func delete(id: String, completion: ((Error?) -> Void)?) {
+//        db.collection(self.collectionName).document(id).delete(completion: completion)
+//    }
+    
+    func disabled(id: String, completion: ((Error?) -> Void)?) {
+        db.collection(self.collectionName).document(id).updateData(["disabled": true], completion: completion)
     }
 }

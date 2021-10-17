@@ -14,6 +14,7 @@ struct Team: Identifiable, Hashable, Codable {
     var avatarImage: Data?
     var members: [String]
     var owner: String
+    var disabled: Bool
     var createdAt: Timestamp?
     var updatedAt: Timestamp?
     
@@ -22,6 +23,7 @@ struct Team: Identifiable, Hashable, Codable {
          avatarImage: Data? = nil,
          members: [String],
          owner: String,
+         disabled: Bool = false,
          createdAt: Date? = nil,
          updatedAt: Date? = nil) {
         
@@ -30,6 +32,7 @@ struct Team: Identifiable, Hashable, Codable {
         self.avatarImage = avatarImage
         self.members = members
         self.owner = owner
+        self.disabled = disabled
         self.createdAt = createdAt != nil ? Timestamp(date: createdAt!) : nil
         self.updatedAt = updatedAt != nil ? Timestamp(date: updatedAt!) : nil
     }
@@ -39,8 +42,9 @@ struct Team: Identifiable, Hashable, Codable {
         case id
         case name
         case avatarImage = "avatar_image"
-        case members = "members"
-        case owner = "owner"
+        case members
+        case owner
+        case disabled
         case createdAt = "created_at"
         case updatedAt = "updated_at"
     }
