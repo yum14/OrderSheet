@@ -138,11 +138,7 @@ final class TeamStore {
         
         completion?(result)
     }
-    
-//    func delete(id: String, completion: ((Error?) -> Void)?) {
-//        db.collection(self.collectionName).document(id).delete(completion: completion)
-//    }
-    
+
     func disabled(id: String, completion: ((Error?) -> Void)?) {
         db.collection(self.collectionName).document(id).updateData(["disabled": true], completion: completion)
     }

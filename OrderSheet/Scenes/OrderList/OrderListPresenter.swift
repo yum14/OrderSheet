@@ -61,12 +61,17 @@ final class OrderListPresenter: ObservableObject {
             return
         }
         
+        // 変更がない場合は終了
+        if user.selectedTeam != nil && self.selectedTeam != nil && user.selectedTeam! == self.selectedTeam!.id {
+            return
+        }
+        
         self.interactor.loadCurrentTeam(id: teamId) { team in
-            self.selectedTeam = team
-            
             guard let team = team else {
                 return
             }
+            
+            self.selectedTeam = team
 
             // OrderのListener設定
             self.interactor.setOrderListener(teamId: team.id) { orders in
