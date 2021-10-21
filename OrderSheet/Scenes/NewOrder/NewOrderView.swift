@@ -46,13 +46,14 @@ struct NewOrderView: View {
                     Button(action: {
                         self.presenter.createNewOrder()
                         dismiss()
-                    }, label: {
+                    }) {
                         HStack {
                             Spacer()
                             Text("作成")
                             Spacer()
                         }
-                    })
+                    }
+                    .disabled(self.presenter.commitButtonDisabled)
                 }
             }
             .navigationTitle("新しいオーダー")

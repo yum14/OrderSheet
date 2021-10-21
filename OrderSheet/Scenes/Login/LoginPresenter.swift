@@ -22,6 +22,12 @@ class LoginPresenter: ObservableObject {
     @Published var showNoAccountDummyView = false
     
     init() {}
+    
+    func initialize() {
+        self.mode = .nothing
+        self.showNoAccountDummyView = false
+        self.showCreateAccountDummyView = false
+    }
 
     func showAcountCreationSheet() {
         self.sheetPresented = true
@@ -43,15 +49,11 @@ class LoginPresenter: ObservableObject {
     }
     
     func onCreateAccountCancel() {
-        self.mode = .nothing
-        self.showNoAccountDummyView = false
-        self.showCreateAccountDummyView = false
+        self.initialize()
     }
     
     func onCreateAccountAccept() {
-        self.mode = .nothing
-        self.showNoAccountDummyView = false
-        self.showCreateAccountDummyView = false
+        self.initialize()
     }
     
 }

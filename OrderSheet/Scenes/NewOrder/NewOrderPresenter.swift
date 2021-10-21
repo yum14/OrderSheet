@@ -19,6 +19,10 @@ final class NewOrderPresenter: ObservableObject {
     private var interactor: NewOrderInteractor
     private var team: Team
     
+    var commitButtonDisabled: Bool {
+        return !(!self.title.isEmpty && self.items.count > 0)
+    }
+    
     init(interactor: NewOrderInteractor,
          team: Team) {
         self.interactor = interactor
