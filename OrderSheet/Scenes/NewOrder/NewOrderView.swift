@@ -20,7 +20,7 @@ struct NewOrderView: View {
                 
                 Section(header: Text("アイテム"),
                         footer:
-                            HStack {
+                            HStack(spacing: 0) {
                     Spacer()
                     AddButton(disabled: self.presenter.addItemButtonDisabled) {
                         self.presenter.addItem()
@@ -29,8 +29,12 @@ struct NewOrderView: View {
                     
                     EditableList(contents: self.$presenter.items)
                     
-                    if self.presenter.showNewItem {
-                        CustomTextField("新しいアイテム", text: self.$presenter.newItemText, isFirstResponder: true, onCommit: self.presenter.commitNewItemInput)
+                    if self.presenter.items.count == 0 {
+                        TextField("新しいアイテム", text: self.$presenter.newItemText, onCommit: self.presenter.commitNewItemInput)
+                    } else {
+                        if self.presenter.showNewItem {
+                            CustomTextField("新しいアイテム", text: self.$presenter.newItemText, isFirstResponder: true, onCommit: self.presenter.commitNewItemInput)
+                        }
                     }
                 }
                 
