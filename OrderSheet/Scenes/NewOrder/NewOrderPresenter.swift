@@ -26,16 +26,12 @@ final class NewOrderPresenter: ObservableObject {
         self.title = ""
         self.items = []
         self.comment = ""
-        
-        self.items = [EditableListContent(text: "アイウエオ"),
-                      EditableListContent(text: "かきくけこ")]
-        
         self.showNewItem = false
         self.newItemText = ""
     }
     
     func addItem() {
-//        self.items.append(EditableListContent(text: ""))
+        //        self.items.append(EditableListContent(text: ""))
         self.showNewItem = true
     }
     
@@ -44,12 +40,15 @@ final class NewOrderPresenter: ObservableObject {
             self.items.append(EditableListContent(text: self.newItemText))
         }
         
-        self.showNewItem = false
+        if self.items.count > 0 {
+            self.showNewItem = false
+        }
+        
         self.newItemText = ""
     }
     
     var addItemButtonDisabled: Bool {
-        return self.showNewItem
+        return self.items.count == 0 || self.showNewItem
     }
     
     func createNewOrder() {
