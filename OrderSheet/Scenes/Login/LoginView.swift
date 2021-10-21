@@ -111,6 +111,9 @@ struct LoginView: View {
             }
             
         }
+        .onAppear {
+            self.presenter.initialize()
+        }
     }
 }
 
