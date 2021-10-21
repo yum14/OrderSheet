@@ -15,6 +15,7 @@
 		7503560F26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503560E26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift */; };
 		7504C5C82719CADE00C13FD3 /* BannerContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7504C5C72719CADE00C13FD3 /* BannerContent.swift */; };
 		7504C5CB271BE0D700C13FD3 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 7504C5CA271BE0D700C13FD3 /* PopupView */; };
+		751015C8271F15E100DE7E99 /* TeamSelectList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751015C7271F15E100DE7E99 /* TeamSelectList.swift */; };
 		75119BF4271C1CCB00187EB3 /* QrCodeScannerBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75119BF3271C1CCB00187EB3 /* QrCodeScannerBanner.swift */; };
 		751F62B22717357E00D19E8F /* NewOrderInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751F62B12717357E00D19E8F /* NewOrderInteractor.swift */; };
 		751F62B42717360400D19E8F /* OrderStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751F62B32717360400D19E8F /* OrderStore.swift */; };
@@ -85,6 +86,7 @@
 		7503560C26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodeScannerView.swift; sourceTree = "<group>"; };
 		7503560E26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodeScannerPresenter.swift; sourceTree = "<group>"; };
 		7504C5C72719CADE00C13FD3 /* BannerContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerContent.swift; sourceTree = "<group>"; };
+		751015C7271F15E100DE7E99 /* TeamSelectList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectList.swift; sourceTree = "<group>"; };
 		75119BF3271C1CCB00187EB3 /* QrCodeScannerBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerBanner.swift; sourceTree = "<group>"; };
 		751F62B12717357E00D19E8F /* NewOrderInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOrderInteractor.swift; sourceTree = "<group>"; };
 		751F62B32717360400D19E8F /* OrderStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStore.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 				7596270126FDE9DB00460629 /* ProductList.swift */,
 				7596270226FDE9DB00460629 /* AddButton.swift */,
 				75119BF3271C1CCB00187EB3 /* QrCodeScannerBanner.swift */,
+				751015C7271F15E100DE7E99 /* TeamSelectList.swift */,
 			);
 			path = ViewComponent;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				7596271226FDE9DB00460629 /* RootRouter.swift in Sources */,
 				7596271F26FDE9DB00460629 /* EditableList.swift in Sources */,
 				7503560226FE039B004FA7E7 /* TeamQrCodeView.swift in Sources */,
+				751015C8271F15E100DE7E99 /* TeamSelectList.swift in Sources */,
 				7503560D26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift in Sources */,
 				751F62B22717357E00D19E8F /* NewOrderInteractor.swift in Sources */,
 				7596271026FDE9DB00460629 /* TeamDetailView.swift in Sources */,

@@ -19,6 +19,8 @@ final class OrderListPresenter: ObservableObject {
     @Published var selectedOrder: Order?
     @Published var sheetPresented = false
     @Published var selectedTeam: Team?
+    @Published var teams: [Team]?
+    @Published var popupPresented = false
     var sheetType: SheetType?
     
     private let interactor: OrderListUsecase
@@ -29,10 +31,11 @@ final class OrderListPresenter: ObservableObject {
         self.router = router
     }
     
-    init(interactor: OrderListUsecase, router: OrderListRouter, orders: [Order]) {
+    init(interactor: OrderListUsecase, router: OrderListRouter, orders: [Order] = [], teams: [Team] = []) {
         self.interactor = interactor
         self.router = router
         self.orders = orders
+        self.teams = teams
     }
     
     func showOrderDetailSheet(order: Order) -> Void {
@@ -55,8 +58,19 @@ final class OrderListPresenter: ObservableObject {
         return router.makeNewOrderView(team: self.selectedTeam!)
     }
     
+    func updateSelectedTeam(uid: String) {
+        guard let selectedTeam = self.selectedTeam else {
+            return
+        }
+        
+        self.interactor.updateSelectedTeam(id: uid, selectedTeam: selectedTeam.id) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func load(user: User) {
-        // 1番最初の選択チームはなんでもよし
         guard let teamId = user.selectedTeam ?? user.teams.first else {
             return
         }
@@ -66,15 +80,15 @@ final class OrderListPresenter: ObservableObject {
             return
         }
         
-        self.interactor.loadCurrentTeam(id: teamId) { team in
-            guard let team = team else {
-                return
-            }
+        self.interactor.loadTeams(userId: user.id) { teams in
             
-            self.selectedTeam = team
-
+            self.teams = teams
+            
+            let currentTeam = teams?.first(where: { $0.id == teamId })
+            self.selectedTeam = currentTeam
+            
             // OrderのListener設定
-            self.interactor.setOrderListener(teamId: team.id) { orders in
+            self.interactor.setOrderListener(teamId: teamId) { orders in
                 self.orders = orders ?? []
             }
             
@@ -89,7 +103,7 @@ final class OrderListPresenter: ObservableObject {
                                photoUrl: user.photoUrl,
                                avatarImage: user.avatarImage,
                                teams: user.teams,
-                               selectedTeam: team.id,
+                               selectedTeam: teamId,
                                lastLogin: user.lastLogin)
             
             self.interactor.setUser(newUser) { error in
@@ -97,7 +111,6 @@ final class OrderListPresenter: ObservableObject {
                     print(error.localizedDescription)
                 }
             }
-            
         }
     }
 }

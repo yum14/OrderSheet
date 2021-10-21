@@ -13,18 +13,16 @@ struct RootView: View {
     
     var body: some View {
         if self.authStateObserver.isSignedIn == true {
-            ZStack {
-                TabView {
-                    self.rootPresenter.makeAboutHomeView()
-                        .tabItem {
-                            Image(systemName: "house")
-                        }
-                    
-                    self.rootPresenter.makeAboutOrderListView()
-                        .tabItem {
-                            Image(systemName: "list.bullet.rectangle")
-                        }
-                }
+            TabView {
+                self.rootPresenter.makeAboutHomeView()
+                    .tabItem {
+                        Image(systemName: "house")
+                    }
+                
+                self.rootPresenter.makeAboutOrderListView()
+                    .tabItem {
+                        Image(systemName: "list.bullet.rectangle")
+                    }
             }
         } else {
             self.rootPresenter.makeAboutLoginView()

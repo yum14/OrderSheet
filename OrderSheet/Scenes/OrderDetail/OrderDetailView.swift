@@ -11,7 +11,6 @@ struct OrderDetailView: View {
     @ObservedObject var presenter: OrderDetailPresenter
     
     var body: some View {
-        NavigationView {
             VStack {
                 Form {
                     Section(header: Text("アイテム")) {
@@ -34,7 +33,6 @@ struct OrderDetailView: View {
             }
             .navigationTitle(self.presenter.order.name)
             .navigationViewStyle(StackNavigationViewStyle())
-        }
     }
 }
 

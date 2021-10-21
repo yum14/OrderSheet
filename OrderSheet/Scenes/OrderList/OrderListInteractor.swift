@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import CloudKit
 
 protocol OrderListUsecase {
-    func loadCurrentTeam(id: String, completion: ((Team?) -> Void)?)
+    func loadTeams(userId: String, completion: (([Team]?) -> Void)?)
     func setOrderListener(teamId: String, completion: (([Order]?) -> Void)?)
     func setUser(_ newUser: User, completion: ((Error?) -> Void)?)
+    func updateSelectedTeam(id: String, selectedTeam: String, completion: ((Error?) -> Void)?)
 }
 
 final class OrderListInteractor {
@@ -20,18 +22,19 @@ final class OrderListInteractor {
 }
 
 extension OrderListInteractor: OrderListUsecase {
-    func loadCurrentTeam(id: String, completion: ((Team?) -> Void)?) {
-        self.teamStore.get(id: id) { result in
+    func loadTeams(userId: String, completion: (([Team]?) -> Void)?) {
+        self.teamStore.get(containsUserId: userId) { result in
             switch result {
-            case .success(let team):
-                completion?(team)
-                return
+            case .success(let teams):
+                if let teams = teams {
+                    completion?(teams)
+                    return
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
-            
-            completion?(nil)
         }
+        completion?(nil)
     }
     
     func setOrderListener(teamId: String, completion: (([Order]?) -> Void)?) {
@@ -47,5 +50,9 @@ extension OrderListInteractor: OrderListUsecase {
                 completion?(error)
             }
         }
+    }
+    
+    func updateSelectedTeam(id: String, selectedTeam: String, completion: ((Error?) -> Void)?) {
+        self.userStore.updateSelectedTeam(id: id, selectedTeam: selectedTeam, completion: completion)
     }
 }

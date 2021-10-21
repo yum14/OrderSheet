@@ -25,12 +25,14 @@ struct HomeView: View {
                 Form {
                     Section(header: Text("参加中のチーム")) {
                         ForEach(self.presenter.teams.sorted(by: { $0.createdAt!.dateValue() > $1.createdAt!.dateValue() }), id: \.self) { team in
-                            self.presenter.linkBuilder(userId: self.authStateObserver.appUser!.id, team: team) {
-                                HStack {
-                                    Circle()
-                                        .frame(width: 24, height: 24)
-                                    Text(team.name)
-                                    Spacer()
+                            if let userId = self.authStateObserver.appUser?.id {
+                                self.presenter.linkBuilder(userId: userId, team: team) {
+                                    HStack {
+                                        Circle()
+                                            .frame(width: 24, height: 24)
+                                        Text(team.name)
+                                        Spacer()
+                                    }
                                 }
                             }
                         }
@@ -44,7 +46,7 @@ struct HomeView: View {
                                 Spacer()
                             }
                         })
-                            .disabled(self.authStateObserver.appUser!.teams.count >= 10)
+                            .disabled(self.authStateObserver.appUser?.teams.count ?? 0 >= 10)
                         
                         Button(action: self.presenter.toggleShowTeamQrScannerSheet, label: {
                             HStack {
