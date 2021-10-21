@@ -86,12 +86,15 @@ class UserStore {
         
     }
     
-    
     func set(_ user: User, completion: @escaping (Result<(), Error>) -> Void = { _ in }) {
         let result = Result {
             try db.collection(collectionName).document(user.id).setData(from: user)
         }
         
         completion(result)
+    }
+    
+    func updateSelectedTeam(id: String, selectedTeam: String, completion: ((Error?) -> Void)?) {
+        db.collection(self.collectionName).document(id).updateData(["selectedTeam": selectedTeam], completion: completion)
     }
 }

@@ -101,16 +101,20 @@ final class TeamStore {
     }
     
     
-    func get(containsUserId: String, completion: @escaping (Result<[Team]?, Error>) -> Void = { _ in }) {
+    func get(containsUserId: String, completion: ((Result<[Team]?, Error>) -> Void)?) {
         
-        db.collection(self.collectionName).whereField("members", arrayContains: containsUserId).getDocuments { (snapshot, error) in
-            if let error = error {
-                completion(Result.failure(error))
+        db.collection(self.collectionName)
+            .whereField("members", arrayContains: containsUserId)
+            .whereField("disabled", isEqualTo: false)
+            .getDocuments { (snapshot, error) in
+            
+                if let error = error {
+                completion?(Result.failure(error))
                 return
             }
             
             guard let documents = snapshot?.documents else {
-                completion(Result.success(nil))
+                completion?(Result.success(nil))
                 return
             }
 
@@ -121,15 +125,14 @@ final class TeamStore {
                     let data = try document.data(as: Team.self)!
                     teams.append(data)
                 } catch(let error) {
-                    completion(Result.failure(error))
+                    completion?(Result.failure(error))
                     return
                 }
             }
             
-            completion(Result.success(teams))
+            completion?(Result.success(teams))
         }
     }
-    
     
     func set(_ team: Team, completion: ((Result<(), Error>) -> Void)? = { _ in }) {
         let result = Result {

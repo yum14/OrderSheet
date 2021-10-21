@@ -7,32 +7,70 @@
 
 import SwiftUI
 import GoogleSignIn
+import PopupView
 
 struct OrderListView: View {
     @ObservedObject var presenter: OrderListPresenter
     @EnvironmentObject var authStateObserver: AuthStateObserver
+    @State var showing = false
     
     var body: some View {
         NavigationView {
             VStack {
-                OrderList(orders: self.presenter.orders,
-                          onRowTap: self.presenter.showOrderDetailSheet)
-                .onAppear {
-                    self.presenter.load(user: self.authStateObserver.appUser!)
+                ZStack {
+                    if self.presenter.popupPresented {
+                        Color.black.opacity(0.3)
+                            .edgesIgnoringSafeArea(.all)
+                            .transition(.opacity)
+                            .zIndex(1)
+                    }
+                    
+                    VStack {
+                        OrderList(orders: self.presenter.orders,
+                                  onRowTap: self.presenter.showOrderDetailSheet)
+                    }
+                    .sheet(isPresented: self.$presenter.sheetPresented) {
+                        if let sheetType = self.presenter.sheetType, sheetType == .OrderDetail {
+                            self.presenter.makeAboutOrderDetailSheetView()
+                        } else {
+                            self.presenter.makeAboutNewOrderSheetView()
+                        }
+                    }
                 }
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarItems(leading:
+                                        Text(self.presenter.selectedTeam?.name ?? "")
+                                        .onTapGesture {
+                    self.presenter.popupPresented.toggle()
+                },
+                                    trailing: Button(action: self.presenter.showNewOrderSheet) {
+                    Image(systemName: "plus")
+                })
             }
-            .sheet(isPresented: self.$presenter.sheetPresented) {
-                if let sheetType = self.presenter.sheetType, sheetType == .OrderDetail {
-                    self.presenter.makeAboutOrderDetailSheetView()
-                } else {
-                    self.presenter.makeAboutNewOrderSheetView()
+            .popup(isPresented: self.$presenter.popupPresented,
+                   type: .default,
+                   position: .top,
+                   animation: .spring(),
+                   closeOnTap: false,
+                   closeOnTapOutside: true,
+                   dismissCallback: {
+                
+                if let user = self.authStateObserver.appUser {
+                    self.presenter.updateSelectedTeam(uid: user.id)
                 }
+            }) {
+                TeamSelectList(teams: self.presenter.teams, selectedTeam: self.$presenter.selectedTeam)
+                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
+                    .frame(width: 350)
+                    .background(Color(UIColor.systemBackground))
+                    .cornerRadius(10.0)
+                    .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading: Text(self.presenter.selectedTeam?.name ?? ""),
-                                trailing: Button(action: self.presenter.showNewOrderSheet) {
-                Image(systemName: "plus")
-            })
+        }
+        .onAppear {
+            if let user = self.authStateObserver.appUser {
+                self.presenter.load(user: user)
+            }
         }
     }
 }
@@ -48,10 +86,13 @@ struct OrderListView_Previews: PreviewProvider {
         let orders = [Order(name: "オーダー1", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/01 01:00:00", template: template)),
                       Order(name: "オーダー2", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/01 12:00:00", template: template)),
                       Order(name: "オーダー3", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/02 01:00:00", template: template))]
+        let teams = [Team(name: "A", members: [], owner: ""),
+                     Team(name: "B", members: [], owner: ""),
+                     Team(name: "C", members: [], owner: "")]
         
         let interactor = OrderListInteractor()
         let router = OrderListRouter()
-        let presenter = OrderListPresenter(interactor: interactor, router: router, orders: orders)
+        let presenter = OrderListPresenter(interactor: interactor, router: router, orders: orders, teams: teams)
         let authStateObserver = AuthStateObserver()
         
         VStack {
