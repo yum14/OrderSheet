@@ -10,8 +10,9 @@ import SwiftUI
 
 final class OrderListRouter {
     
-    func makeOrderDetailView(order: Order, commitButtonTap: @escaping () -> Void = {}) -> some View {
-        let presenter = OrderDetailPresenter(order: order, commitButtonTap: commitButtonTap)
+    func makeOrderDetailView(team: Team, order: Order, commitButtonTap: @escaping () -> Void = {}) -> some View {
+        let interactor = OrderDetailInteractor()
+        let presenter = OrderDetailPresenter(interactor: interactor, team: team, order: order, commitButtonTap: commitButtonTap)
         let view = OrderDetailView(presenter: presenter)
         return view
     }

@@ -51,7 +51,7 @@ final class OrderListPresenter: ObservableObject {
     }
     
     func makeAboutOrderDetailSheetView() -> some View {
-        return router.makeOrderDetailView(order: self.selectedOrder!, commitButtonTap: { self.sheetPresented = false })
+        return router.makeOrderDetailView(team: self.selectedTeam!, order: self.selectedOrder!, commitButtonTap: { self.sheetPresented = false })
     }
     
     func makeAboutNewOrderSheetView() -> some View {
@@ -71,45 +71,68 @@ final class OrderListPresenter: ObservableObject {
     }
     
     func load(user: User) {
-        guard let teamId = user.selectedTeam ?? user.teams.first else {
+        if user.selectedTeam == nil && user.teams.count == 0 {
             return
         }
         
-        // 変更がない場合は終了
-        if user.selectedTeam != nil && self.selectedTeam != nil && user.selectedTeam! == self.selectedTeam!.id {
-            return
+        if let userSelectedTeamId = user.selectedTeam, let mySelectedTeam = self.selectedTeam {
+            
+            if user.teams.contains(userSelectedTeamId) {
+                // 変更がない場合は終了
+                if userSelectedTeamId == mySelectedTeam.id {
+                    return
+                }
+            }
         }
         
         self.interactor.loadTeams(userId: user.id) { teams in
             
             self.teams = teams
             
-            let currentTeam = teams?.first(where: { $0.id == teamId })
-            self.selectedTeam = currentTeam
-            
-            // OrderのListener設定
-            self.interactor.setOrderListener(teamId: teamId) { orders in
-                self.orders = orders ?? []
+            var team: Team?
+            if let selectedTeamId = user.selectedTeam {
+                team = teams?.first(where: { $0.id == selectedTeamId })
+                
+                // ユーザ情報の選択チームが存在しない場合、最初のチームを選択チームとする
+                if team == nil, let firstTeam = teams?.first {
+                    self.updateSelectedUser(user: user, selectedTeamId: firstTeam.id)
+                    team = firstTeam
+                }
+            } else {
+                team = teams?.first
+                if let firstTeam = team {
+                    self.updateSelectedUser(user: user, selectedTeamId: firstTeam.id)
+                }
             }
             
-            if user.selectedTeam != nil {
+            self.selectedTeam = team
+
+            guard let selectedTeam = team else {
                 return
             }
             
-            // はじめての使用の場合は選択チームが存在しないので、最初のチームを選択チームに更新する
-            let newUser = User(id: user.id,
-                               displayName: user.displayName,
-                               email: user.email,
-                               photoUrl: user.photoUrl,
-                               avatarImage: user.avatarImage,
-                               teams: user.teams,
-                               selectedTeam: teamId,
-                               lastLogin: user.lastLogin)
-            
-            self.interactor.setUser(newUser) { error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
+            // OrderのListener設定
+            self.interactor.setOrderListener(teamId: selectedTeam.id) { orders in
+                self.orders = orders ?? []
+            }
+        }
+    }
+    
+    private func updateSelectedUser(user: User, selectedTeamId: String) {
+        // はじめての使用の場合は選択チームが存在しないので、最初のチームを選択チームに更新する
+        let newUser = User(id: user.id,
+                           displayName: user.displayName,
+                           email: user.email,
+                           photoUrl: user.photoUrl,
+                           avatarImage: user.avatarImage,
+                           teams: user.teams,
+                           selectedTeam: selectedTeamId,
+                           lastLogin: user.lastLogin)
+        
+        self.interactor.setUser(newUser) { error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
             }
         }
     }

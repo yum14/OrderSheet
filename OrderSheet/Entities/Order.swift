@@ -11,14 +11,14 @@ import Firebase
 struct Order: Identifiable, Hashable, Codable {
     var id: String
     var name: String
-    var items: [Product]
+    var items: [OrderItem]
     var comment: String?
     var createdAt: Timestamp
     var updatedAt: Timestamp?
     
     init(id: String = UUID().uuidString,
          name: String,
-         items: [Product] = [],
+         items: [OrderItem] = [],
          comment: String? = nil,
          createdAt: Date? = Date(),
          updatedAt: Date? = nil) {
@@ -38,5 +38,25 @@ struct Order: Identifiable, Hashable, Codable {
         case comment
         case createdAt = "created_at"
         case updatedAt = "updated_at"
+    }
+}
+
+struct OrderItem: Identifiable, Hashable, Codable {
+    var id: String
+    var name: String
+    var checked: Bool
+    
+    init(id: String = UUID().uuidString,
+         name: String,
+         checked: Bool = false) {
+        self.id = id
+        self.name = name
+        self.checked = checked
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case checked
     }
 }

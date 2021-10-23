@@ -32,6 +32,7 @@ extension NewTeamInteractor: NewTeamUsecase {
                            photoUrl: user.photoUrl,
                            avatarImage: user.avatarImage,
                            teams: teams,
+                           selectedTeam: user.selectedTeam,
                            lastLogin: user.lastLogin)
         
         
