@@ -58,7 +58,7 @@ final class NewOrderPresenter: ObservableObject {
     func createNewOrder() {
         self.interactor.addNewOrder(teamId: self.team.id,
                                     self.title,
-                                    items: self.items.map { Product(name: $0.text) },
+                                    items: self.items.map { OrderItem(name: $0.text) },
                                     comment: self.comment) { result in
             switch result {
             case .success(_):

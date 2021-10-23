@@ -33,8 +33,9 @@ extension OrderListInteractor: OrderListUsecase {
             case .failure(let error):
                 print(error.localizedDescription)
             }
+            
+            completion?(nil)
         }
-        completion?(nil)
     }
     
     func setOrderListener(teamId: String, completion: (([Order]?) -> Void)?) {

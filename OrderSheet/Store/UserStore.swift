@@ -95,6 +95,6 @@ class UserStore {
     }
     
     func updateSelectedTeam(id: String, selectedTeam: String, completion: ((Error?) -> Void)?) {
-        db.collection(self.collectionName).document(id).updateData(["selectedTeam": selectedTeam], completion: completion)
+        db.collection(self.collectionName).document(id).updateData(["selected_team": selectedTeam], completion: completion)
     }
 }
