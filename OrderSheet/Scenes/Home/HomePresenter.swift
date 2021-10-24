@@ -35,7 +35,14 @@ final class HomePresenter: ObservableObject {
         })
     }
     
-    func loadTeams(userId: String, completion: (() -> Void)?) {
+    func initialLoad(userId: String) {
+        self.showingIndicator = true
+        self.loadTeams(userId: userId) {
+            self.showingIndicator = false
+        }
+    }
+    
+    private func loadTeams(userId: String, completion: (() -> Void)?) {
         self.interactor.loadTeams(userId: userId) { result in
             switch result {
             case .success(let teams):

@@ -96,10 +96,7 @@ struct HomeView: View {
                 QrCodeScannerBanner()
             }
                    .onAppear {
-                       self.presenter.showingIndicator = true
-                       self.presenter.loadTeams(userId: self.authStateObserver.appUser!.id) {
-                           self.presenter.showingIndicator = false
-                       }
+                       self.presenter.initialLoad(userId: self.authStateObserver.appUser!.id)
                    }
         }
     }

@@ -38,7 +38,7 @@ extension HomeInteractor: HomeUsecase {
             switch teamResult {
             case .success(let team):
                 if let team = team {
-                
+                    
                     var newTeams = user.teams
                     newTeams.append(team.id)
                     
