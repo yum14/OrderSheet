@@ -21,6 +21,8 @@
 		75119BF4271C1CCB00187EB3 /* QrCodeScannerBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75119BF3271C1CCB00187EB3 /* QrCodeScannerBanner.swift */; };
 		751F62B22717357E00D19E8F /* NewOrderInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751F62B12717357E00D19E8F /* NewOrderInteractor.swift */; };
 		751F62B42717360400D19E8F /* OrderStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751F62B32717360400D19E8F /* OrderStore.swift */; };
+		75595E272725811600C33B79 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 75595E262725811600C33B79 /* ActivityIndicatorView */; };
+		75595E29272586BB00C33B79 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75595E28272586BB00C33B79 /* ActivityIndicator.swift */; };
 		755AE30D2715C67E001EE2D3 /* OrderListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */; };
 		758BA3F3270DE0A0005C2407 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */; };
 		759626A926FDE91900460629 /* OrderSheetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626A826FDE91900460629 /* OrderSheetApp.swift */; };
@@ -93,6 +95,7 @@
 		75119BF3271C1CCB00187EB3 /* QrCodeScannerBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerBanner.swift; sourceTree = "<group>"; };
 		751F62B12717357E00D19E8F /* NewOrderInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOrderInteractor.swift; sourceTree = "<group>"; };
 		751F62B32717360400D19E8F /* OrderStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStore.swift; sourceTree = "<group>"; };
+		75595E28272586BB00C33B79 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListInteractor.swift; sourceTree = "<group>"; };
 		758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 		759626A526FDE91900460629 /* OrderSheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrderSheet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,6 +160,7 @@
 				7504C5CB271BE0D700C13FD3 /* PopupView in Frameworks */,
 				75F5DE6327005E5F0044A782 /* GoogleSignIn in Frameworks */,
 				75F5DE7A27008D690044A782 /* FirebaseFirestoreSwift-Beta in Frameworks */,
+				75595E272725811600C33B79 /* ActivityIndicatorView in Frameworks */,
 				75F5DE7C27008D690044A782 /* FirebaseMessaging in Frameworks */,
 				75F5DE7627008D690044A782 /* FirebaseAuth in Frameworks */,
 				75F5DE7827008D690044A782 /* FirebaseFirestore in Frameworks */,
@@ -369,6 +373,7 @@
 				7596270226FDE9DB00460629 /* AddButton.swift */,
 				75119BF3271C1CCB00187EB3 /* QrCodeScannerBanner.swift */,
 				751015C7271F15E100DE7E99 /* TeamSelectList.swift */,
+				75595E28272586BB00C33B79 /* ActivityIndicator.swift */,
 			);
 			path = ViewComponent;
 			sourceTree = "<group>";
@@ -406,6 +411,7 @@
 				75F5DE7927008D690044A782 /* FirebaseFirestoreSwift-Beta */,
 				75F5DE7B27008D690044A782 /* FirebaseMessaging */,
 				7504C5CA271BE0D700C13FD3 /* PopupView */,
+				75595E262725811600C33B79 /* ActivityIndicatorView */,
 			);
 			productName = OrderSheet;
 			productReference = 759626A526FDE91900460629 /* OrderSheet.app */;
@@ -439,6 +445,7 @@
 				75F5DE6127005E5E0044A782 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				75F5DE7427008D690044A782 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				7504C5C9271BE0D700C13FD3 /* XCRemoteSwiftPackageReference "PopupView" */,
+				75595E252725811600C33B79 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 			);
 			productRefGroup = 759626A626FDE91900460629 /* Products */;
 			projectDirPath = "";
@@ -491,6 +498,7 @@
 				7596271626FDE9DB00460629 /* OrderDetailView.swift in Sources */,
 				7596270426FDE9DB00460629 /* FirebaseAuth.swift in Sources */,
 				7596271526FDE9DB00460629 /* OrderDetailPresenter.swift in Sources */,
+				75595E29272586BB00C33B79 /* ActivityIndicator.swift in Sources */,
 				7596272326FDE9DB00460629 /* CustomTextField.swift in Sources */,
 				7596271826FDE9DB00460629 /* OrderListPresenter.swift in Sources */,
 				7596272626FDE9DB00460629 /* OrderItemList.swift in Sources */,
@@ -748,6 +756,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		75595E252725811600C33B79 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		75F5DE6127005E5E0044A782 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -771,6 +787,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7504C5C9271BE0D700C13FD3 /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
+		};
+		75595E262725811600C33B79 /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75595E252725811600C33B79 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
 		};
 		75F5DE6227005E5F0044A782 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;

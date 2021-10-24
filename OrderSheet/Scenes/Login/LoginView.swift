@@ -13,20 +13,25 @@ struct LoginView: View {
     
     @State var noAccountConfirmPresented = false
     @State var createAccountConfirmPresented = false
+    @State var showLoadingIndicator = false
     
     var body: some View {
         ZStack {
             VStack {
                 
                 GoogleSignInButton(signedIn: { credential in
+                    self.showLoadingIndicator = true
                     self.authStateObserver.signIn(credential: credential) { _ in
+                        self.showLoadingIndicator = false
                         self.presenter.onFirebaseSignIn()
                     }
                 })
                     .frame(width: 260)
                 
                 AppleSignInButton(signedIn: { credential in
+                    self.showLoadingIndicator = true
                     self.authStateObserver.signIn(credential: credential) { _ in
+                        self.showLoadingIndicator = false
                         self.presenter.onFirebaseSignIn()
                     }
                 })
@@ -48,7 +53,9 @@ struct LoginView: View {
             }
             .sheet(isPresented: self.$presenter.sheetPresented) {
                 GoogleSignInButton(signedIn: { credential in
+                    self.showLoadingIndicator = true
                     self.authStateObserver.signIn(credential: credential) { _ in
+                        self.showLoadingIndicator = false
                         self.presenter.onFirebaseSignInWithCreateAccount()
                     }
                 }, onTapped: {
@@ -56,7 +63,9 @@ struct LoginView: View {
                 })
                     .frame(width: 260)
                 AppleSignInButton(signedIn: { credential in
+                    self.showLoadingIndicator = true
                     self.authStateObserver.signIn(credential: credential) { _ in
+                        self.showLoadingIndicator = false
                         self.presenter.onFirebaseSignInWithCreateAccount()
                     }
                 }, onTapped: {
@@ -72,6 +81,7 @@ struct LoginView: View {
                               message: Text("アカウントを作成しますか？"),
                               primaryButton: .default(Text("作成する"), action: {
                             
+//                            self.showLoadingIndicator = true
                             self.authStateObserver.createAccount() {
                                 self.presenter.onCreateAccountAccept()
                             }
@@ -95,6 +105,7 @@ struct LoginView: View {
                               message: Text("アカウントを作成しますか？"),
                               primaryButton: .default(Text("作成する"), action: {
                             
+                            self.showLoadingIndicator = true
                             self.authStateObserver.createAccount() {
                                 self.presenter.onCreateAccountAccept()
                             }
@@ -110,6 +121,7 @@ struct LoginView: View {
                     }
             }
             
+            ActivityIndicator(isVisible: self.$showLoadingIndicator)
         }
         .onAppear {
             self.presenter.initialize()
