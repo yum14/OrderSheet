@@ -327,8 +327,8 @@
 			children = (
 				759626EF26FDE9DB00460629 /* OrderListView.swift */,
 				759626F026FDE9DB00460629 /* OrderListPresenter.swift */,
-				759626F126FDE9DB00460629 /* OrderListRouter.swift */,
 				755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */,
+				759626F126FDE9DB00460629 /* OrderListRouter.swift */,
 			);
 			path = OrderList;
 			sourceTree = "<group>";

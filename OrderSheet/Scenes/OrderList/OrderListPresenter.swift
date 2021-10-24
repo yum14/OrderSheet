@@ -38,8 +38,12 @@ final class OrderListPresenter: ObservableObject {
         self.teams = teams
     }
     
-    func showOrderDetailSheet(order: Order) -> Void {
-        self.selectedOrder = order
+    func showOrderDetailSheet(id: String) -> Void {
+        guard let showingOrder = self.orders.first(where: { $0.id == id }) else {
+            return
+        }
+        
+        self.selectedOrder = showingOrder
         self.sheetType = .OrderDetail
         self.sheetPresented = true
     }
@@ -114,9 +118,21 @@ final class OrderListPresenter: ObservableObject {
             // OrderのListener設定
             self.interactor.setOrderListener(teamId: selectedTeam.id) { orders in
                 self.orders = orders ?? []
+                
+                if let selectedOrder = self.selectedOrder {
+                    // 再読込がはしったときは選択済み注文を更新する
+                    self.selectedOrder = self.orders.first(where: { $0.id == selectedOrder.id })
+                }
+                
+                if self.selectedOrder == nil {
+                    // 初期表示時はとりあえず最初の１件の注文を選択済としておく
+                    let defaultOrder = self.orders.sorted(by: { $0.createdAt.dateValue() > $1.createdAt.dateValue() }).first
+                    self.selectedOrder = defaultOrder
+                }
             }
         }
     }
+
     
     private func updateSelectedUser(user: User, selectedTeamId: String) {
         // はじめての使用の場合は選択チームが存在しないので、最初のチームを選択チームに更新する
