@@ -71,6 +71,9 @@ final class OrderListPresenter: ObservableObject {
             if let error = error {
                 print(error.localizedDescription)
             }
+            
+            // OrderのListener設定
+            self.setOrderListener(teamId: selectedTeam.id)
         }
     }
     
@@ -116,19 +119,23 @@ final class OrderListPresenter: ObservableObject {
             }
             
             // OrderのListener設定
-            self.interactor.setOrderListener(teamId: selectedTeam.id) { orders in
-                self.orders = orders ?? []
-                
-                if let selectedOrder = self.selectedOrder {
-                    // 再読込がはしったときは選択済み注文を更新する
-                    self.selectedOrder = self.orders.first(where: { $0.id == selectedOrder.id })
-                }
-                
-                if self.selectedOrder == nil {
-                    // 初期表示時はとりあえず最初の１件の注文を選択済としておく
-                    let defaultOrder = self.orders.sorted(by: { $0.createdAt.dateValue() > $1.createdAt.dateValue() }).first
-                    self.selectedOrder = defaultOrder
-                }
+            self.setOrderListener(teamId: selectedTeam.id)
+        }
+    }
+    
+    private func setOrderListener(teamId: String) {
+        self.interactor.setOrderListener(teamId: teamId) { orders in
+            self.orders = orders ?? []
+            
+            if let selectedOrder = self.selectedOrder {
+                // 再読込がはしったときは選択済み注文を更新する
+                self.selectedOrder = self.orders.first(where: { $0.id == selectedOrder.id })
+            }
+            
+            if self.selectedOrder == nil {
+                // 初期表示時はとりあえず最初の１件の注文を選択済としておく
+                let defaultOrder = self.orders.sorted(by: { $0.createdAt.dateValue() > $1.createdAt.dateValue() }).first
+                self.selectedOrder = defaultOrder
             }
         }
     }
