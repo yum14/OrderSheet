@@ -15,6 +15,7 @@ final class HomePresenter: ObservableObject {
     @Published var teamQrCodeScannerViewPresented = false
     @Published var teamJoinAlertPresented = false
     @Published var teamQrCodeScanBannerPresented = false
+    @Published var showingIndicator = false
     
     private var interactor: HomeUsecase
     private var router: HomeRouter
@@ -27,14 +28,21 @@ final class HomePresenter: ObservableObject {
         self.interactor = interactor
         self.router = router
     }
-
+    
     func addSnapshotListener() {
         self.interactor.addSnapshotListener(onListen: { teams in
             self.teams = teams
         })
     }
     
-    func loadTeams(userId: String) {
+    func initialLoad(userId: String) {
+        self.showingIndicator = true
+        self.loadTeams(userId: userId) {
+            self.showingIndicator = false
+        }
+    }
+    
+    private func loadTeams(userId: String, completion: (() -> Void)?) {
         self.interactor.loadTeams(userId: userId) { result in
             switch result {
             case .success(let teams):
@@ -46,13 +54,20 @@ final class HomePresenter: ObservableObject {
             case .failure(let error):
                 print(error.localizedDescription)
             }
+            
+            completion?()
         }
     }
     
     func linkBuilder<Content: View>(userId: String, team: Team, @ViewBuilder content: () -> Content) -> some View {
         return NavigationLink(destination:
                                 router.makeTeamDetailView(id: team.id)
-                                .onDisappear { self.loadTeams(userId: userId) }) {
+                                .onDisappear {
+            self.showingIndicator = true
+            self.loadTeams(userId: userId) {
+                self.showingIndicator = false
+            }
+        }) {
             content()
         }
     }
@@ -60,7 +75,7 @@ final class HomePresenter: ObservableObject {
     func toggleShowNewTeamSheet() -> Void {
         self.newTeamViewPresented.toggle()
     }
-
+    
     func toggleShowTeamQrScannerSheet() -> Void {
         self.teamQrCodeScannerViewPresented.toggle()
     }
@@ -69,27 +84,32 @@ final class HomePresenter: ObservableObject {
         return router.makeNewTeamView(onCommit: self.newTeamInputCommit,
                                       onCanceled: self.toggleShowNewTeamSheet)
             .onDisappear {
-                self.loadTeams(userId: userId)
+                self.showingIndicator = true
+                self.loadTeams(userId: userId) {
+                    self.showingIndicator = false
+                }
             }
     }
-
+    
     func makeAboutTeamQrCodeScannerView() -> some View {
         
         return router.makeTeamQrCodeScannerView(
             onFound: { code in
+                self.showingIndicator = true
                 self.teamQrCodeScannerViewPresented = false
-
+                
                 let teamQrCodeManager = TeamQrCodeManager()
                 guard let teamId = teamQrCodeManager.checkMyAppQrCode(code: code) else {
+                    self.showingIndicator = false
                     self.showQrCodeScanBanner()
                     return
                 }
-
+                
                 self.interactor.getTeam(id: teamId) { result in
                     switch result {
                     case .success(let team):
                         self.toggleShowTeamQrScannerSheet()
-
+                        
                         if let team = team {
                             self.joinTeam = team
                             
@@ -103,6 +123,8 @@ final class HomePresenter: ObservableObject {
                         print(error.localizedDescription)
                         self.showQrCodeScanBanner()
                     }
+                    
+                    self.showingIndicator = false
                 }
             },
             onDismiss: self.toggleShowTeamQrScannerSheet)
@@ -120,14 +142,21 @@ final class HomePresenter: ObservableObject {
     
     func teamJoinComfirm(user: User) {
         if let team = self.joinTeam {
+            self.showingIndicator = true
+            
             self.interactor.addTeam(user: user, teamId: team.id, completion: { result in
                 switch result {
                 case .success():
-                    self.loadTeams(userId: user.id)
+                    self.loadTeams(userId: user.id) {
+                        self.showingIndicator = false
+                    }
+                    self.joinTeam = nil
+                    return
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
                 
+                self.showingIndicator = false
                 self.joinTeam = nil
             })
         }
