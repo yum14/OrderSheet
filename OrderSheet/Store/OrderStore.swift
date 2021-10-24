@@ -61,7 +61,7 @@ class OrderStore {
         completion?(result)
     }
     
-    func updateItemChecked(teamId: String, id: String, checked: Bool, completion: ((Error?) -> Void)?) {
-        db.collection(self.parentCollectionName).document(teamId).collection(self.collectionName).document(id).updateData(["checked": checked], completion: completion)
+    func updateOrderItems(teamId: String, orderId: String, items: [OrderItem], completion: ((Error?) -> Void)?) {
+        db.collection(self.parentCollectionName).document(teamId).collection(self.collectionName).document(orderId).updateData(["items": items], completion: completion)
     }
 }

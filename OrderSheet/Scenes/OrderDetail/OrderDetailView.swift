@@ -27,9 +27,9 @@ struct OrderDetailView: View {
                                         VStack {
                                             Group {
                                                 if item.checked {
-                                                    CartCheckButton(onTap: { self.presenter.updateItemChecked(checked: false) })
+                                                    CartCheckButton(onTap: { self.presenter.updateItemChecked(itemId: item.id, checked: false) })
                                                 } else {
-                                                    CartButton(onTap: { self.presenter.updateItemChecked(checked: true) })
+                                                    CartButton(onTap: { self.presenter.updateItemChecked(itemId: item.id, checked: true) })
                                                 }
                                             }
                                             .buttonStyle(BorderlessButtonStyle())

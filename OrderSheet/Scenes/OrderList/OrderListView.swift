@@ -27,7 +27,9 @@ struct OrderListView: View {
                     
                     VStack {
                         OrderList(orders: self.presenter.orders,
-                                  onRowTap: self.presenter.showOrderDetailSheet)
+                                  onRowTap: { order in
+                            self.presenter.showOrderDetailSheet(id: order.id)
+                        })
                     }
                     .sheet(isPresented: self.$presenter.sheetPresented) {
                         if let sheetType = self.presenter.sheetType, sheetType == .OrderDetail {

@@ -23,11 +23,29 @@ final class OrderDetailPresenter: ObservableObject {
         self.interactor = interactor
     }
     
-    func updateItemChecked(checked: Bool) {
-        self.interactor.updateItemChecked(teamId: self.team.id, id: self.order.id, checked: checked) { error in
+    func updateItemChecked(itemId: String, checked: Bool) {
+        let items = self.order.items.map { item -> OrderItem in
+            if item.id == itemId {
+                return OrderItem(id: itemId, name: item.name, checked: checked)
+            } else {
+                return item
+            }
+        }
+        
+        let newOrder = Order(id: self.order.id,
+                             name: self.order.name,
+                             items: items,
+                             comment: self.order.comment,
+                             createdAt: self.order.createdAt.dateValue(),
+                             updatedAt: Date())
+        
+        self.interactor.updateOrder(teamId: self.team.id, order: newOrder) { error in
             if let error = error {
                 print(error.localizedDescription)
+//                return
             }
+            
+//            self.order = newOrder
         }
     }
 }
