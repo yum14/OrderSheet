@@ -10,6 +10,7 @@ import SwiftUI
 struct TeamSelectList: View {
     var teams: [Team]?
     @Binding var selectedTeam: Team?
+    var onTeamSelected: ((Team) -> Void)?
     
     var body: some View {
         VStack {
@@ -34,6 +35,7 @@ struct TeamSelectList: View {
                 .contentShape(Rectangle())
                 .onTapGesture {
                     self.selectedTeam = team
+                    self.onTeamSelected?(team)
                 }
                 
                 if team.id != self.teams!.last!.id {

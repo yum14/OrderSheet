@@ -123,6 +123,12 @@ final class OrderListPresenter: ObservableObject {
         }
     }
     
+    func teamSelected(team: Team) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.popupPresented = false
+        }
+    }
+    
     private func setOrderListener(teamId: String) {
         self.interactor.setOrderListener(teamId: teamId) { orders in
             self.orders = orders ?? []

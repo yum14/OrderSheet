@@ -61,7 +61,9 @@ struct OrderListView: View {
                     self.presenter.updateSelectedTeam(uid: user.id)
                 }
             }) {
-                TeamSelectList(teams: self.presenter.teams, selectedTeam: self.$presenter.selectedTeam)
+                TeamSelectList(teams: self.presenter.teams,
+                               selectedTeam: self.$presenter.selectedTeam,
+                               onTeamSelected: self.presenter.teamSelected)
                     .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
                     .frame(width: 350)
                     .background(Color(UIColor.systemBackground))
