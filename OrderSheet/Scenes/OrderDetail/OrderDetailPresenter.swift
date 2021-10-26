@@ -11,16 +11,42 @@ import Combine
 
 final class OrderDetailPresenter: ObservableObject {
     @Published var order: Order
-    var commitButtonTap: () -> Void = {}
+    @Published var showingOrderCommmitConfirm = false
+    
+    private var commitButtonTap: (() -> Void)?
     
     private var team: Team
     private var interactor: OrderDetailUsecase
     
-    init(interactor: OrderDetailUsecase, team: Team, order: Order, commitButtonTap: @escaping () -> Void = {}) {
+    
+    
+    init(interactor: OrderDetailUsecase, team: Team, order: Order, commitButtonTap: (() -> Void)?) {
         self.order = order
         self.team = team
         self.commitButtonTap = commitButtonTap
         self.interactor = interactor
+    }
+    
+    func commitButtonTapped() {
+        self.showingOrderCommmitConfirm = true
+    }
+    
+    func commit() {
+        let commitOrder = Order(id: self.order.id,
+                                name: self.order.name,
+                                items: self.order.items,
+                                comment: self.order.comment,
+                                committed: true,
+                                createdAt: self.order.createdAt.dateValue(),
+                                updatedAt: Date())
+        
+        self.interactor.updateOrder(teamId: self.team.id, order: commitOrder) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            self.commitButtonTap?()
+        }
     }
     
     func updateItemChecked(itemId: String, checked: Bool) {
@@ -42,10 +68,7 @@ final class OrderDetailPresenter: ObservableObject {
         self.interactor.updateOrder(teamId: self.team.id, order: newOrder) { error in
             if let error = error {
                 print(error.localizedDescription)
-//                return
             }
-            
-//            self.order = newOrder
         }
     }
 }

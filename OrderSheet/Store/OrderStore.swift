@@ -60,8 +60,4 @@ class OrderStore {
         
         completion?(result)
     }
-    
-    func updateOrderItems(teamId: String, orderId: String, items: [OrderItem], completion: ((Error?) -> Void)?) {
-        db.collection(self.parentCollectionName).document(teamId).collection(self.collectionName).document(orderId).updateData(["items": items], completion: completion)
-    }
 }

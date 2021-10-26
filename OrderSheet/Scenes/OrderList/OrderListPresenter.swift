@@ -21,7 +21,10 @@ final class OrderListPresenter: ObservableObject {
     @Published var selectedTeam: Team?
     @Published var teams: [Team]?
     @Published var popupPresented = false
+    @Published var showingUnlockConfirm = false
+    
     var sheetType: SheetType?
+    var unlockOrderId: String?
     
     private let interactor: OrderListUsecase
     private let router: OrderListRouter
@@ -127,6 +130,37 @@ final class OrderListPresenter: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.popupPresented = false
         }
+    }
+    
+    func unlockButtonTapped(id: String) {
+        self.unlockOrderId = id
+        self.showingUnlockConfirm = true
+    }
+    
+    func unlock() {
+        guard let orderId = self.unlockOrderId, let order = self.orders.first(where: { $0.id == orderId }), let team = self.selectedTeam else {
+            return
+        }
+
+        let newOrder = Order(id: order.id,
+                             name: order.name,
+                             items: order.items,
+                             comment: order.comment,
+                             committed: false,
+                             createdAt: order.createdAt.dateValue(),
+                             updatedAt: Date())
+        
+        self.interactor.updateOrder(teamId: team.id, order: newOrder) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            self.unlockOrderId = nil
+        }
+    }
+    
+    func unlockCancel() {
+        self.unlockOrderId = nil
     }
     
     private func setOrderListener(teamId: String) {

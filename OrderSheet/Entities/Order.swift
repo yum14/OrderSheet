@@ -13,6 +13,7 @@ struct Order: Identifiable, Hashable, Codable {
     var name: String
     var items: [OrderItem]
     var comment: String?
+    var committed: Bool
     var createdAt: Timestamp
     var updatedAt: Timestamp?
     
@@ -20,6 +21,7 @@ struct Order: Identifiable, Hashable, Codable {
          name: String,
          items: [OrderItem] = [],
          comment: String? = nil,
+         committed: Bool = false,
          createdAt: Date? = Date(),
          updatedAt: Date? = nil) {
         
@@ -27,6 +29,7 @@ struct Order: Identifiable, Hashable, Codable {
         self.name = name
         self.items = items
         self.comment = comment
+        self.committed = committed
         self.createdAt = createdAt != nil ? Timestamp(date: createdAt!) : Timestamp(date: Date())
         self.updatedAt = updatedAt != nil ? Timestamp(date: updatedAt!) : nil
     }
@@ -36,6 +39,7 @@ struct Order: Identifiable, Hashable, Codable {
         case name
         case items
         case comment
+        case committed
         case createdAt = "created_at"
         case updatedAt = "updated_at"
     }
