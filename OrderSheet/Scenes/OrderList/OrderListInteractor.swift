@@ -13,6 +13,7 @@ protocol OrderListUsecase {
     func setOrderListener(teamId: String, completion: (([Order]?) -> Void)?)
     func setUser(_ newUser: User, completion: ((Error?) -> Void)?)
     func updateSelectedTeam(id: String, selectedTeam: String, completion: ((Error?) -> Void)?)
+    func updateOrder(teamId: String, order: Order, completion: ((Error?) -> Void)?)
 }
 
 final class OrderListInteractor {
@@ -55,5 +56,16 @@ extension OrderListInteractor: OrderListUsecase {
     
     func updateSelectedTeam(id: String, selectedTeam: String, completion: ((Error?) -> Void)?) {
         self.userStore.updateSelectedTeam(id: id, selectedTeam: selectedTeam, completion: completion)
+    }
+    
+    func updateOrder(teamId: String, order: Order, completion: ((Error?) -> Void)?) {
+        self.orderStore.set(teamId: teamId, order) { result in
+            switch result {
+            case .success():
+                completion?(nil)
+            case .failure(let error):
+                completion?(error)
+            }
+        }
     }
 }

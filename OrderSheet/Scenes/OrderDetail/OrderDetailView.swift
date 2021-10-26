@@ -35,15 +35,10 @@ struct OrderDetailView: View {
                                             .buttonStyle(BorderlessButtonStyle())
                                         }
                                         .frame(width: 32, height: 32, alignment: .center)
-//                                        .background(Color.blue)
                                     }
                                 }
                             }
                         }
-                        
-//                        ProductList(products: self.presenter.order.items,
-//                                    onListItemTap: { _ in },
-//                                    onCartButtonTap: { _ in })
                     }
                     
                     Section(header: Text("コメント")) {
@@ -51,15 +46,24 @@ struct OrderDetailView: View {
                     }
                 }
                 
-                
-                HStack {
-                    Spacer()
-                    CommitButton(onTap: self.presenter.commitButtonTap)
-                        .padding()
-                }
+                CommitButton(onTap: self.presenter.commitButtonTapped)
+                    .padding()
             }
             .navigationTitle(self.presenter.order.name)
             .navigationViewStyle(StackNavigationViewStyle())
+            
+            
+            .alert("オーダーの完了",
+                   isPresented: self.$presenter.showingOrderCommmitConfirm) {
+                Button("キャンセル", role: .cancel) {
+                    
+                }
+                Button("OK") {
+                    self.presenter.commit()
+                }
+            } message: {
+                Text("オーダーを完了しますか？")
+            }
         }
     }
 }
@@ -72,7 +76,7 @@ struct OrderView_Previews: PreviewProvider {
                                   OrderItem(name: "トイレットペーパー")])
         let team = Team(name: "team", members: [], owner: "owner")
         let interactor = OrderDetailInteractor()
-        let presenter = OrderDetailPresenter(interactor: interactor, team: team, order: order)
+        let presenter = OrderDetailPresenter(interactor: interactor, team: team, order: order, commitButtonTap: {})
         
         OrderDetailView(presenter: presenter)
     }

@@ -44,7 +44,7 @@ struct LoginView: View {
                     Text("アカウントを作成")
                         .font(.caption)
                         .fontWeight(.bold)
-                        .frame(width: 260, height: 32)
+                        .frame(width: 260, height: 40)
                 }
                 .foregroundColor(.white)
                 .background(Color("Main"))

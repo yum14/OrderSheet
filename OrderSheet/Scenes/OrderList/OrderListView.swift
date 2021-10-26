@@ -29,6 +29,8 @@ struct OrderListView: View {
                         OrderList(orders: self.presenter.orders,
                                   onRowTap: { order in
                             self.presenter.showOrderDetailSheet(id: order.id)
+                        },
+                                  onUnlockButtonTap: { order in self.presenter.unlockButtonTapped(id: order.id)
                         })
                     }
                     .sheet(isPresented: self.$presenter.sheetPresented) {
@@ -70,6 +72,18 @@ struct OrderListView: View {
                     .cornerRadius(10.0)
                     .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
             }
+            
+            .alert("オーダー完了済の解除", isPresented: self.$presenter.showingUnlockConfirm) {
+                Button("キャンセル", role: .cancel) {
+                    self.presenter.unlockCancel()
+                }
+                Button("解除") {
+                    self.presenter.unlock()
+                }
+            } message: {
+                Text("オーダー完了済を解除しますか？")
+            }
+
         }
         .onAppear {
             if let user = self.authStateObserver.appUser {

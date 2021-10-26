@@ -69,6 +69,7 @@
 		759F6E99271BFF01009DCD72 /* UIColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759F6E98271BFF01009DCD72 /* UIColorHex.swift */; };
 		75CBFB42270F236D00E7EE93 /* TeamDetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CBFB41270F236D00E7EE93 /* TeamDetailInteractor.swift */; };
 		75DDA69A2700580F009854AE /* TeamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DDA6992700580F009854AE /* TeamStore.swift */; };
+		75E6977B2728374800A2AFE0 /* UnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E6977A2728374800A2AFE0 /* UnlockButton.swift */; };
 		75F5DE6327005E5F0044A782 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 75F5DE6227005E5F0044A782 /* GoogleSignIn */; };
 		75F5DE73270082370044A782 /* NewTeamInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE72270082370044A782 /* NewTeamInteractor.swift */; };
 		75F5DE7627008D690044A782 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 75F5DE7527008D690044A782 /* FirebaseAuth */; };
@@ -145,6 +146,7 @@
 		759F6E98271BFF01009DCD72 /* UIColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorHex.swift; sourceTree = "<group>"; };
 		75CBFB41270F236D00E7EE93 /* TeamDetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailInteractor.swift; sourceTree = "<group>"; };
 		75DDA6992700580F009854AE /* TeamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamStore.swift; sourceTree = "<group>"; };
+		75E6977A2728374800A2AFE0 /* UnlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockButton.swift; sourceTree = "<group>"; };
 		75F5DE72270082370044A782 /* NewTeamInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTeamInteractor.swift; sourceTree = "<group>"; };
 		75F5DE7D2700A45B0044A782 /* TeamDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailRouter.swift; sourceTree = "<group>"; };
 		75F5DE7F2700A8900044A782 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 				75119BF3271C1CCB00187EB3 /* QrCodeScannerBanner.swift */,
 				751015C7271F15E100DE7E99 /* TeamSelectList.swift */,
 				75595E28272586BB00C33B79 /* ActivityIndicator.swift */,
+				75E6977A2728374800A2AFE0 /* UnlockButton.swift */,
 			);
 			path = ViewComponent;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				7503560F26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift in Sources */,
 				758BA3F3270DE0A0005C2407 /* HomeInteractor.swift in Sources */,
 				7596271226FDE9DB00460629 /* RootRouter.swift in Sources */,
+				75E6977B2728374800A2AFE0 /* UnlockButton.swift in Sources */,
 				7596271F26FDE9DB00460629 /* EditableList.swift in Sources */,
 				7503560226FE039B004FA7E7 /* TeamQrCodeView.swift in Sources */,
 				751015C8271F15E100DE7E99 /* TeamSelectList.swift in Sources */,

@@ -8,7 +8,6 @@
 import Foundation
 
 protocol OrderDetailUsecase {
-    func updateOrderItems(teamId: String, orderId: String, items: [OrderItem], completion: ((Error?) -> Void)?)
     func updateOrder(teamId: String, order: Order, completion: ((Error?) -> Void)?)
 }
 
@@ -19,10 +18,6 @@ final class OrderDetailInteractor {
 }
 
 extension OrderDetailInteractor: OrderDetailUsecase {
-    func updateOrderItems(teamId: String, orderId: String, items: [OrderItem], completion: ((Error?) -> Void)?) {
-        self.orderStore.updateOrderItems(teamId: teamId, orderId: orderId, items: items, completion: completion)
-    }
-    
     func updateOrder(teamId: String, order: Order, completion: ((Error?) -> Void)?) {
         self.orderStore.set(teamId: teamId, order) { result in
             switch result {
