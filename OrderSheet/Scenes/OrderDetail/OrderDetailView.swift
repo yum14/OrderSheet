@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OrderDetailView: View {
     @ObservedObject var presenter: OrderDetailPresenter
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationView {
@@ -51,7 +52,15 @@ struct OrderDetailView: View {
             }
             .navigationTitle(self.presenter.order.name)
             .navigationViewStyle(StackNavigationViewStyle())
-            
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        self.dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
             
             .alert("オーダーの完了",
                    isPresented: self.$presenter.showingOrderCommmitConfirm) {

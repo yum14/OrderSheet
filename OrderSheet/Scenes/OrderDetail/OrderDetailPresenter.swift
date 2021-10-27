@@ -14,11 +14,8 @@ final class OrderDetailPresenter: ObservableObject {
     @Published var showingOrderCommmitConfirm = false
     
     private var commitButtonTap: (() -> Void)?
-    
     private var team: Team
     private var interactor: OrderDetailUsecase
-    
-    
     
     init(interactor: OrderDetailUsecase, team: Team, order: Order, commitButtonTap: (() -> Void)?) {
         self.order = order
