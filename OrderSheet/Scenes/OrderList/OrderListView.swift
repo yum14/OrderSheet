@@ -12,7 +12,6 @@ import PopupView
 struct OrderListView: View {
     @ObservedObject var presenter: OrderListPresenter
     @EnvironmentObject var authStateObserver: AuthStateObserver
-    @State var showing = false
     
     var body: some View {
         NavigationView {

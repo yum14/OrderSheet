@@ -68,14 +68,12 @@ struct HomeView: View {
                                 }
                         }
                     }
+                    .fullScreenCover(isPresented: self.$presenter.showingNewTeam) {
+                        self.presenter.makeAboutNewTeamView(userId: self.authStateObserver.appUser!.id)
+                    }
                     
                     Button(action: self.authStateObserver.signOut) {
                         Text("ログアウト")
-                    }
-                }
-                .sheet(isPresented: self.$presenter.newTeamViewPresented) {
-                    NavigationView {
-                        self.presenter.makeAboutNewTeamView(userId: self.authStateObserver.appUser!.id)
                     }
                 }
                 .fullScreenCover(isPresented: self.$presenter.teamQrCodeScannerViewPresented) {
