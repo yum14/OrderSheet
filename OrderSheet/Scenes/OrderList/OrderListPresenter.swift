@@ -15,7 +15,7 @@ final class OrderListPresenter: ObservableObject {
     @Published var showingOrderDetail = false
     @Published var selectedTeam: Team?
     @Published var teams: [Team]?
-    @Published var popupPresented = false
+    @Published var showingTeamSelectPopup = false
     @Published var showingUnlockConfirm = false
     @Published var showingNewOrder = false
     
@@ -120,7 +120,7 @@ final class OrderListPresenter: ObservableObject {
     
     func teamSelected(team: Team) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.popupPresented = false
+            self.showingTeamSelectPopup = false
         }
     }
     
