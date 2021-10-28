@@ -56,8 +56,32 @@ struct NewOrderView: View {
                     .disabled(self.presenter.commitButtonDisabled)
                 }
             }
+            
+            .actionSheet(isPresented: self.$presenter.showingDismissConfirm) {
+                ActionSheet(title: Text(""),
+                            message: Text("編集内容を破棄しますか？"),
+                            buttons: [
+                                .destructive(Text("破棄する")) {
+                                    self.dismiss()
+                                },
+                                .cancel()
+                            ])
+            }
             .navigationTitle("新しいオーダー")
             .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        if self.presenter.editing {
+                            self.presenter.showDismissConfirm()
+                        } else {
+                            self.dismiss()
+                        }
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
         }
     }
 }

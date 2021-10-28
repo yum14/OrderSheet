@@ -15,12 +15,17 @@ final class NewOrderPresenter: ObservableObject {
     @Published var comment: String
     @Published var showNewItem: Bool
     @Published var newItemText: String
+    @Published var showingDismissConfirm = false
     
     private var interactor: NewOrderInteractor
     private var team: Team
     
     var commitButtonDisabled: Bool {
         return !(!self.title.isEmpty && self.items.count > 0)
+    }
+    
+    var editing: Bool {
+        return !self.title.isEmpty || !self.newItemText.isEmpty || !self.comment.isEmpty || self.items.count > 0
     }
     
     init(interactor: NewOrderInteractor,
@@ -35,7 +40,6 @@ final class NewOrderPresenter: ObservableObject {
     }
     
     func addItem() {
-        //        self.items.append(EditableListContent(text: ""))
         self.showNewItem = true
     }
     
@@ -67,5 +71,9 @@ final class NewOrderPresenter: ObservableObject {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func showDismissConfirm() {
+        self.showingDismissConfirm = true        
     }
 }
