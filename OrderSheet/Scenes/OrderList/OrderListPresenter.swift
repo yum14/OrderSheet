@@ -10,20 +10,15 @@ import SwiftUI
 import Combine
 
 final class OrderListPresenter: ObservableObject {
-    enum SheetType {
-        case OrderDetail
-        case NewOrder
-    }
-    
     @Published var orders: [Order] = []
     @Published var selectedOrder: Order?
-    @Published var sheetPresented = false
+    @Published var showingOrderDetail = false
     @Published var selectedTeam: Team?
     @Published var teams: [Team]?
     @Published var popupPresented = false
     @Published var showingUnlockConfirm = false
+    @Published var showingNewOrder = false
     
-    var sheetType: SheetType?
     var unlockOrderId: String?
     
     private let interactor: OrderListUsecase
@@ -47,18 +42,15 @@ final class OrderListPresenter: ObservableObject {
         }
         
         self.selectedOrder = showingOrder
-        self.sheetType = .OrderDetail
-        self.sheetPresented = true
+        self.showingOrderDetail = true
     }
     
     func showNewOrderSheet() -> Void {
-        self.selectedOrder = nil
-        self.sheetType = .NewOrder
-        self.sheetPresented = true
+        self.showingNewOrder = true
     }
     
     func makeAboutOrderDetailSheetView() -> some View {
-        return router.makeOrderDetailView(team: self.selectedTeam!, order: self.selectedOrder!, commitButtonTap: { self.sheetPresented = false })
+        return router.makeOrderDetailView(team: self.selectedTeam!, order: self.selectedOrder!, commitButtonTap: { self.showingOrderDetail = false })
     }
     
     func makeAboutNewOrderSheetView() -> some View {

@@ -61,7 +61,6 @@ struct OrderDetailView: View {
                     }
                 }
             }
-            
             .alert("オーダーの完了",
                    isPresented: self.$presenter.showingOrderCommmitConfirm) {
                 Button("キャンセル", role: .cancel) {

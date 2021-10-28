@@ -33,12 +33,11 @@ struct OrderListView: View {
                                   onUnlockButtonTap: { order in self.presenter.unlockButtonTapped(id: order.id)
                         })
                     }
-                    .sheet(isPresented: self.$presenter.sheetPresented) {
-                        if let sheetType = self.presenter.sheetType, sheetType == .OrderDetail {
-                            self.presenter.makeAboutOrderDetailSheetView()
-                        } else {
-                            self.presenter.makeAboutNewOrderSheetView()
-                        }
+                    .sheet(isPresented: self.$presenter.showingOrderDetail) {
+                        self.presenter.makeAboutOrderDetailSheetView()
+                    }
+                    .fullScreenCover(isPresented: self.$presenter.showingNewOrder) {
+                        self.presenter.makeAboutNewOrderSheetView()
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
