@@ -17,7 +17,7 @@ struct OrderListView: View {
         NavigationView {
             VStack {
                 ZStack {
-                    if self.presenter.popupPresented {
+                    if self.presenter.showingTeamSelectPopup {
                         Color.black.opacity(0.3)
                             .edgesIgnoringSafeArea(.all)
                             .transition(.opacity)
@@ -40,16 +40,26 @@ struct OrderListView: View {
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
-                .navigationBarItems(leading:
-                                        Text(self.presenter.selectedTeam?.name ?? "")
-                                        .onTapGesture {
-                    self.presenter.popupPresented.toggle()
-                },
-                                    trailing: Button(action: self.presenter.showNewOrderSheet) {
-                    Image(systemName: "plus")
-                })
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            self.presenter.showingTeamSelectPopup = true
+                        } label: {
+                            Text(self.presenter.selectedTeam?.name ?? "")
+                        }
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            self.presenter.showNewOrderSheet()
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+
+                    }
+                }
             }
-            .popup(isPresented: self.$presenter.popupPresented,
+            .popup(isPresented: self.$presenter.showingTeamSelectPopup,
                    type: .default,
                    position: .top,
                    animation: .spring(),
