@@ -16,10 +16,13 @@ struct TeamQrCodeScannerView: View {
             .interval(delay: self.presenter.scanInterval)
         
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading: Button(action: self.presenter.onDismiss) {
-                Image(systemName: "multiply")
-                    .padding()
-            })
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: self.presenter.onDismiss) {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
     }
 }
 

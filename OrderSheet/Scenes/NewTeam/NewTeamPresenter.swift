@@ -10,11 +10,16 @@ import SwiftUI
 import Combine
 
 final class NewTeamPresenter: ObservableObject {
-    private let interactor: NewTeamUsecase
-    
     @Published var text: String
+    @Published var showingDismissConfirm = false
+
+    private let interactor: NewTeamUsecase
     private var onCommit: (String) -> Void = { _ in }
     private var onCanceled: () -> Void = {}
+    
+    var editing: Bool {
+        return !self.text.isEmpty
+    }
     
     init(interactor: NewTeamUsecase,
          onCommit: @escaping (String) -> Void = { _ in },
@@ -49,5 +54,9 @@ final class NewTeamPresenter: ObservableObject {
     
     func inputCancel() -> Void {
         self.onCanceled()
+    }
+    
+    func showDismissConfirm() {
+        self.showingDismissConfirm = true
     }
 }

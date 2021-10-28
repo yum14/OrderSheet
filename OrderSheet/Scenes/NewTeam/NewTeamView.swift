@@ -10,33 +10,59 @@ import SwiftUI
 struct NewTeamView: View {
     @ObservedObject var presenter: NewTeamPresenter
     @EnvironmentObject var authStateObserver: AuthStateObserver
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        Form {
-            Section {
-                CustomTextField("チーム名", text: self.$presenter.text, isFirstResponder: true, onCommit: { })
-            }
-            
-            Section {
-                Button(action: { self.presenter.inputCommit(user: self.authStateObserver.appUser!) }) {
-                    HStack {
-                        Spacer()
-                        Text("作成する")
-                        Spacer()
+        NavigationView {
+            Form {
+                Section {
+                    CustomTextField("チーム名", text: self.$presenter.text, isFirstResponder: true, onCommit: { })
+                }
+                
+                Section {
+                    Button(action: { self.presenter.inputCommit(user: self.authStateObserver.appUser!) }) {
+                        HStack {
+                            Spacer()
+                            Text("作成する")
+                            Spacer()
+                        }
+                    }
+                    .disabled(self.presenter.text.isEmpty)
+                    
+                    Button(action: self.presenter.inputCancel) {
+                        HStack {
+                            Spacer()
+                            Text("キャンセル")
+                            Spacer()
+                        }
                     }
                 }
-                .disabled(self.presenter.text.isEmpty)
-                
-                Button(action: self.presenter.inputCancel) {
-                    HStack {
-                        Spacer()
-                        Text("キャンセル")
-                        Spacer()
+            }
+            .actionSheet(isPresented: self.$presenter.showingDismissConfirm) {
+                ActionSheet(title: Text(""),
+                            message: Text("編集内容を破棄しますか？"),
+                            buttons: [
+                                .destructive(Text("破棄する")) {
+                                    self.dismiss()
+                                },
+                                .cancel()
+                            ])
+            }
+            .navigationTitle("新しいチーム")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        if self.presenter.editing {
+                            self.presenter.showDismissConfirm()
+                        } else {
+                            self.dismiss()
+                        }
+                    } label: {
+                        Image(systemName: "xmark")
                     }
                 }
             }
         }
-        .navigationTitle("新しいチーム")
     }
 }
 

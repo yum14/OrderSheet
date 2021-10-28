@@ -11,11 +11,11 @@ import Combine
 
 final class HomePresenter: ObservableObject {
     @Published var teams: [Team]
-    @Published var newTeamViewPresented = false
     @Published var teamQrCodeScannerViewPresented = false
     @Published var teamJoinAlertPresented = false
     @Published var teamQrCodeScanBannerPresented = false
     @Published var showingIndicator = false
+    @Published var showingNewTeam = false
     
     private var interactor: HomeUsecase
     private var router: HomeRouter
@@ -73,7 +73,7 @@ final class HomePresenter: ObservableObject {
     }
     
     func toggleShowNewTeamSheet() -> Void {
-        self.newTeamViewPresented.toggle()
+        self.showingNewTeam.toggle()
     }
     
     func toggleShowTeamQrScannerSheet() -> Void {
