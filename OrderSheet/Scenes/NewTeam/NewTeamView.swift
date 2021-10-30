@@ -15,8 +15,8 @@ struct NewTeamView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section {
-                    CustomTextField("チーム名", text: self.$presenter.text, isFirstResponder: true, onCommit: { })
+                Section(header: Text("チーム名")) {
+                    CustomTextField("新しいチーム", text: self.$presenter.text, isFirstResponder: true, onCommit: { })
                 }
                 
                 Section {

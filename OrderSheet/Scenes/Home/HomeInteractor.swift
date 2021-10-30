@@ -63,7 +63,7 @@ extension HomeInteractor: HomeUsecase {
                                                avatarImage: team.avatarImage,
                                                members: newMembers,
                                                owner: team.owner,
-                                               createdAt: team.createdAt?.dateValue(),
+                                               createdAt: team.createdAt.dateValue(),
                                                updatedAt: Date())
                             
                             self.teamStore.set(newTeam) { result in

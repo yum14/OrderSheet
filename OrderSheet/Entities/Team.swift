@@ -15,7 +15,7 @@ struct Team: Identifiable, Hashable, Codable {
     var members: [String]
     var owner: String
     var disabled: Bool
-    var createdAt: Timestamp?
+    var createdAt: Timestamp
     var updatedAt: Timestamp?
     
     init(id: String = UUID().uuidString,
@@ -24,7 +24,7 @@ struct Team: Identifiable, Hashable, Codable {
          members: [String],
          owner: String,
          disabled: Bool = false,
-         createdAt: Date? = nil,
+         createdAt: Date? = Date(),
          updatedAt: Date? = nil) {
         
         self.id = id
@@ -33,7 +33,7 @@ struct Team: Identifiable, Hashable, Codable {
         self.members = members
         self.owner = owner
         self.disabled = disabled
-        self.createdAt = createdAt != nil ? Timestamp(date: createdAt!) : nil
+        self.createdAt = createdAt != nil ? Timestamp(date: createdAt!) : Timestamp(date: Date())
         self.updatedAt = updatedAt != nil ? Timestamp(date: updatedAt!) : nil
     }
     
