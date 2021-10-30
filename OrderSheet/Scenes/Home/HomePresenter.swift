@@ -16,11 +16,13 @@ final class HomePresenter: ObservableObject {
     @Published var teamQrCodeScanBannerPresented = false
     @Published var showingIndicator = false
     @Published var showingNewTeam = false
+    @Published var inputName: String = ""
     
     private var interactor: HomeUsecase
     private var router: HomeRouter
     
     private var joinTeam: Team?
+    private var beginEditingName: String = ""
     
     init(interactor: HomeUsecase, router: HomeRouter) {
         self.router = HomeRouter()
@@ -35,9 +37,10 @@ final class HomePresenter: ObservableObject {
         })
     }
     
-    func initialLoad(userId: String) {
+    func initialLoad(user: User) {
         self.showingIndicator = true
-        self.loadTeams(userId: userId) {
+        self.inputName = user.displayName
+        self.loadTeams(userId: user.id) {
             self.showingIndicator = false
         }
     }
@@ -144,19 +147,17 @@ final class HomePresenter: ObservableObject {
         if let team = self.joinTeam {
             self.showingIndicator = true
             
-            self.interactor.addTeam(user: user, teamId: team.id, completion: { result in
-                switch result {
-                case .success():
-                    self.loadTeams(userId: user.id) {
-                        self.showingIndicator = false
-                    }
+            self.interactor.addTeam(user: user, teamId: team.id, completion: { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                    self.showingIndicator = false
                     self.joinTeam = nil
                     return
-                case .failure(let error):
-                    print(error.localizedDescription)
                 }
                 
-                self.showingIndicator = false
+                self.loadTeams(userId: user.id) {
+                    self.showingIndicator = false
+                }
                 self.joinTeam = nil
             })
         }
@@ -164,5 +165,24 @@ final class HomePresenter: ObservableObject {
     
     func teamJoinCancel() {
         self.joinTeam = nil
+    }
+    
+    func onNameCommit(user: User) {
+        if self.inputName.isEmpty {
+            self.inputName = self.beginEditingName
+            return
+        }
+        
+        self.interactor.updateUserDisplayName(id: user.id, displayName: self.inputName) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func onNameEditingChanged(beginEditing: Bool) {
+        if beginEditing {
+            self.beginEditingName = self.inputName
+        }
     }
 }

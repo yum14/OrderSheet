@@ -6,12 +6,14 @@
 //
 
 import Foundation
+import CloudKit
 
 protocol HomeUsecase {
     func addSnapshotListener(onListen: @escaping ([Team]) -> Void)
-    func loadTeams(userId: String, completion: @escaping (Result<[Team]?, Error>) -> Void)
+    func loadTeams(userId: String, completion: ((Result<[Team]?, Error>) -> Void)?)
     func getTeam(id: String, completion: @escaping (Result<Team?, Error>) -> Void)
-    func addTeam(user: User, teamId: String, completion: @escaping (Result<(), Error>) -> Void)
+    func addTeam(user: User, teamId: String, completion: ((Error?) -> Void)?)
+    func updateUserDisplayName(id: String, displayName: String, completion: ((Error?) -> Void)?)
 }
 
 final class HomeInteractor {
@@ -25,7 +27,7 @@ extension HomeInteractor: HomeUsecase {
         self.teamStore.addSnapshotListener(onListen: onListen)
     }
     
-    func loadTeams(userId: String, completion: @escaping (Result<[Team]?, Error>) -> Void) {
+    func loadTeams(userId: String, completion: ((Result<[Team]?, Error>) -> Void)?) {
         self.teamStore.get(containsUserId: userId, completion: completion)
     }
     
@@ -33,7 +35,7 @@ extension HomeInteractor: HomeUsecase {
         self.teamStore.get(id: id, completion: completion)
     }
     
-    func addTeam(user: User, teamId: String, completion: @escaping (Result<(), Error>) -> Void) {
+    func addTeam(user: User, teamId: String, completion: ((Error?) -> Void)?) {
         self.teamStore.get(id: teamId) { teamResult in
             switch teamResult {
             case .success(let team):
@@ -69,24 +71,25 @@ extension HomeInteractor: HomeUsecase {
                             self.teamStore.set(newTeam) { result in
                                 switch result {
                                 case .success():
-                                    completion(Result.success(()))
+                                    completion?(nil)
                                 case .failure(let error):
-                                    print(error.localizedDescription)
-                                    completion(Result.failure(error))
+                                    completion?(error)
                                 }
                             }
                         case .failure(let error):
-                            print(error.localizedDescription)
-                            completion(Result.failure(error))
+                            completion?(error)
                         }
                     }
                     
                 }
                 
             case .failure(let error):
-                print(error.localizedDescription)
+                completion?(error)
             }
         }
-        
+    }
+    
+    func updateUserDisplayName(id: String, displayName: String, completion: ((Error?) -> Void)?) {
+        self.userStore.updateDisplayName(id: id, displayName: displayName, completion: completion)
     }
 }
