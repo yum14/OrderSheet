@@ -19,7 +19,14 @@ struct HomeView: View {
                     VStack {
                         Circle()
                             .frame(width: 48, height: 48)
-                        Text(self.authStateObserver.appUser?.displayName ?? "")
+//                        Text(self.authStateObserver.appUser?.displayName ?? "")
+                        
+                        TextField("アカウント名",
+                                  text: self.$presenter.inputName,
+                                  onEditingChanged: self.presenter.onNameEditingChanged,
+                                  onCommit: { self.presenter.onNameCommit(user: self.authStateObserver.appUser!) } )
+                            .multilineTextAlignment(.center)
+                        
                     }
                     .padding()
                     
@@ -82,7 +89,7 @@ struct HomeView: View {
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
-                .navigationTitle("アカウント")
+                .navigationTitle("ホーム")
                 
                 ActivityIndicator(isVisible: self.$presenter.showingIndicator)
             }
@@ -94,7 +101,7 @@ struct HomeView: View {
                 QrCodeScannerBanner()
             }
                    .onAppear {
-                       self.presenter.initialLoad(userId: self.authStateObserver.appUser!.id)
+                       self.presenter.initialLoad(user: self.authStateObserver.appUser!)
                    }
         }
     }
