@@ -11,7 +11,7 @@ import SwiftUI
 protocol TeamDetailUsecase {
     func teamLoad(id: String, completion: @escaping (Team?) -> Void)
     func memberLoad(ids: [String], completion: @escaping ([User]?) -> Void)
-    func set(_ newValue: Team)
+    func set(_ newValue: Team, completion: ((Error?) -> Void)?)
     func leaveMember(user: User, team: Team, completion: ((Error?) -> Void)?)
     func deleteTeamAndOrder(id: String, completion: ((Error?) -> Void)?)
 }
@@ -58,8 +58,15 @@ extension TeamDetailInteractor: TeamDetailUsecase {
     }
     
     
-    func set(_ newValue: Team) {
-        self.teamStore.set(newValue)
+    func set(_ newValue: Team, completion: ((Error?) -> Void)?) {
+        self.teamStore.set(newValue) { result in
+            switch result {
+            case .success():
+                completion?(nil)
+            case .failure(let error):
+                completion?(error)
+            }
+        }
     }
     
     func leaveMember(user: User, team: Team, completion: ((Error?) -> Void)?) {
@@ -100,7 +107,7 @@ extension TeamDetailInteractor: TeamDetailUsecase {
                                avatarImage: team.avatarImage,
                                members: newMembers,
                                owner: team.owner,
-                               createdAt: team.createdAt?.dateValue(),
+                               createdAt: team.createdAt.dateValue(),
                                updatedAt: Date())
             
             self.teamStore.set(newTeam) { result in

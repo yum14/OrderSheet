@@ -14,8 +14,8 @@ final class TeamDetailPresenter: ObservableObject {
     @Published var members: [User] = []
     @Published var sheetPresented = false
     @Published var inputName: String = ""
-    @Published var leaveTeamConfirmAlertPresented = false
-    @Published var deleteTeamConfirmAlertPresented = false
+    @Published var showingLeaveTeamConfirm = false
+    @Published var showingDeleteTeamConfirm = false
     
     private let interactor: TeamDetailUsecase
     private let router: TeamDetailRouter
@@ -75,9 +75,13 @@ final class TeamDetailPresenter: ObservableObject {
                            avatarImage: team.avatarImage,
                            members: team.members,
                            owner: team.owner,
-                           createdAt: team.createdAt?.dateValue(),
+                           createdAt: team.createdAt.dateValue(),
                            updatedAt: Date())
-        self.interactor.set(newTeam)
+        self.interactor.set(newTeam) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
     }
     
     func onNameEditingChanged(beginEditing: Bool) {
@@ -91,7 +95,7 @@ final class TeamDetailPresenter: ObservableObject {
     }
     
     func showLeaveTeamConfirmAlert() {
-        self.leaveTeamConfirmAlertPresented = true
+        self.showingLeaveTeamConfirm = true
     }
     
     func leaveTeam(user: User, completion: (() -> Void)? = {}) {
@@ -104,7 +108,7 @@ final class TeamDetailPresenter: ObservableObject {
         }
         
         if team.members.count <= 1 {
-            self.deleteTeamConfirmAlertPresented = true
+            self.showingDeleteTeamConfirm = true
             return
         }
         
@@ -140,7 +144,6 @@ final class TeamDetailPresenter: ObservableObject {
         }
 
     }
-    
     
     func makeAboutTeamQRCodeView() -> some View {
         return router.makeTeamQRCodeView(teamId: self.team?.id ?? "")

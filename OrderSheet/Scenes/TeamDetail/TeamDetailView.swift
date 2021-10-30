@@ -27,7 +27,7 @@ struct TeamDetailView: View {
             
             ZStack {
                 Text("")
-                    .alert(isPresented: self.$presenter.deleteTeamConfirmAlertPresented) {
+                    .alert(isPresented: self.$presenter.showingDeleteTeamConfirm) {
                         Alert(title: Text("チームとメッセージの削除"),
                               message: Text("メンバーが存在しないため、チームおよびすべてのメッセージが削除されます。"),
                               primaryButton: .default(Text("削除する")) {
@@ -53,34 +53,38 @@ struct TeamDetailView: View {
                     }
                     
                     Section {
-                        Button(action: self.presenter.showTeamQRCodeView, label: {
+                        Button {
+                            self.presenter.showTeamQRCodeView()
+                        } label: {
                             HStack {
                                 Spacer()
                                 Text("招待QRコード表示")
                                 Spacer()
                             }
-                        })
+                        }
                         
-                        Button(action: self.presenter.showLeaveTeamConfirmAlert, label: {
+                        Button {
+                            self.presenter.showLeaveTeamConfirmAlert()
+                        } label: {
                             HStack {
                                 Spacer()
                                 Text("チームから抜ける")
                                     .foregroundColor(Color.red)
                                 Spacer()
                             }
-                        })
-                            .alert(isPresented: self.$presenter.leaveTeamConfirmAlertPresented) {
-                                Alert(title: Text(self.presenter.team?.name ?? ""),
-                                      message: Text("チームから抜けますか？"),
-                                      primaryButton: .default(Text("抜ける")) {
-                                    
-                                    self.presenter.leaveTeam(user: self.authStateObserver.appUser!) {
-                                        self.presentation.wrappedValue.dismiss()
-                                    }
-                                },
-                                      secondaryButton: .cancel()
-                                )
-                            }
+                        }
+                        .alert(isPresented: self.$presenter.showingLeaveTeamConfirm) {
+                            Alert(title: Text(self.presenter.team?.name ?? ""),
+                                  message: Text("チームから抜けますか？"),
+                                  primaryButton: .default(Text("抜ける")) {
+                                
+                                self.presenter.leaveTeam(user: self.authStateObserver.appUser!) {
+                                    self.presentation.wrappedValue.dismiss()
+                                }
+                            },
+                                  secondaryButton: .cancel()
+                            )
+                        }
                     }
                     
                 }
@@ -95,7 +99,7 @@ struct TeamDetailView: View {
             self.presenter.load()
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("チーム")
+        .navigationTitle("チーム詳細")
     }
 }
 
