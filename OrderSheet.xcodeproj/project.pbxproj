@@ -25,6 +25,9 @@
 		75595E29272586BB00C33B79 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75595E28272586BB00C33B79 /* ActivityIndicator.swift */; };
 		755AE30D2715C67E001EE2D3 /* OrderListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */; };
 		758BA3F3270DE0A0005C2407 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */; };
+		7595AB32272D643700EFAFC9 /* OrderEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7595AB31272D643700EFAFC9 /* OrderEditView.swift */; };
+		7595AB34272D644D00EFAFC9 /* OrderEditPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7595AB33272D644D00EFAFC9 /* OrderEditPresenter.swift */; };
+		7595AB36272D645800EFAFC9 /* OrderEditInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7595AB35272D645800EFAFC9 /* OrderEditInteractor.swift */; };
 		759626A926FDE91900460629 /* OrderSheetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626A826FDE91900460629 /* OrderSheetApp.swift */; };
 		759626AB26FDE91900460629 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759626AA26FDE91900460629 /* ContentView.swift */; };
 		759626AD26FDE91B00460629 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 759626AC26FDE91B00460629 /* Assets.xcassets */; };
@@ -99,6 +102,9 @@
 		75595E28272586BB00C33B79 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListInteractor.swift; sourceTree = "<group>"; };
 		758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
+		7595AB31272D643700EFAFC9 /* OrderEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEditView.swift; sourceTree = "<group>"; };
+		7595AB33272D644D00EFAFC9 /* OrderEditPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEditPresenter.swift; sourceTree = "<group>"; };
+		7595AB35272D645800EFAFC9 /* OrderEditInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEditInteractor.swift; sourceTree = "<group>"; };
 		759626A526FDE91900460629 /* OrderSheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrderSheet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		759626A826FDE91900460629 /* OrderSheetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSheetApp.swift; sourceTree = "<group>"; };
 		759626AA26FDE91900460629 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -191,6 +197,16 @@
 			path = TeamQrCodeScanner;
 			sourceTree = "<group>";
 		};
+		7595AB30272D640C00EFAFC9 /* OrderEdit */ = {
+			isa = PBXGroup;
+			children = (
+				7595AB31272D643700EFAFC9 /* OrderEditView.swift */,
+				7595AB33272D644D00EFAFC9 /* OrderEditPresenter.swift */,
+				7595AB35272D645800EFAFC9 /* OrderEditInteractor.swift */,
+			);
+			path = OrderEdit;
+			sourceTree = "<group>";
+		};
 		7596269C26FDE91900460629 = {
 			isa = PBXGroup;
 			children = (
@@ -262,6 +278,7 @@
 		759626DC26FDE9DB00460629 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				7595AB30272D640C00EFAFC9 /* OrderEdit */,
 				759626E726FDE9DB00460629 /* Root */,
 				759626F526FDE9DB00460629 /* Login */,
 				759626DD26FDE9DB00460629 /* Home */,
@@ -482,12 +499,14 @@
 				75CBFB42270F236D00E7EE93 /* TeamDetailInteractor.swift in Sources */,
 				7596270926FDE9DB00460629 /* FirebaseAuthStateObserver.swift in Sources */,
 				7504C5C82719CADE00C13FD3 /* BannerContent.swift in Sources */,
+				7595AB34272D644D00EFAFC9 /* OrderEditPresenter.swift in Sources */,
 				7596270F26FDE9DB00460629 /* NewTeamView.swift in Sources */,
 				7596272426FDE9DB00460629 /* AppleSignInButton.swift in Sources */,
 				7596271B26FDE9DB00460629 /* NewOrderPresenter.swift in Sources */,
 				7503560F26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift in Sources */,
 				758BA3F3270DE0A0005C2407 /* HomeInteractor.swift in Sources */,
 				7596271226FDE9DB00460629 /* RootRouter.swift in Sources */,
+				7595AB32272D643700EFAFC9 /* OrderEditView.swift in Sources */,
 				75E6977B2728374800A2AFE0 /* UnlockButton.swift in Sources */,
 				7596271F26FDE9DB00460629 /* EditableList.swift in Sources */,
 				7503560226FE039B004FA7E7 /* TeamQrCodeView.swift in Sources */,
@@ -538,6 +557,7 @@
 				75F5DE7E2700A45B0044A782 /* TeamDetailRouter.swift in Sources */,
 				7503560426FE03AA004FA7E7 /* TeamQrCodePresenter.swift in Sources */,
 				759F6E99271BFF01009DCD72 /* UIColorHex.swift in Sources */,
+				7595AB36272D645800EFAFC9 /* OrderEditInteractor.swift in Sources */,
 				759626A926FDE91900460629 /* OrderSheetApp.swift in Sources */,
 				7596271E26FDE9DB00460629 /* CartButton.swift in Sources */,
 			);

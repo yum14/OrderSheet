@@ -14,13 +14,19 @@ final class OrderDetailPresenter: ObservableObject {
     @Published var showingOrderCommmitConfirm = false
     
     private var commitButtonTap: (() -> Void)?
+    private var editButtonTap: (() -> Void)?
     private var team: Team
     private var interactor: OrderDetailUsecase
     
-    init(interactor: OrderDetailUsecase, team: Team, order: Order, commitButtonTap: (() -> Void)?) {
+    var editable: Bool {
+        return !self.order.committed
+    }
+    
+    init(interactor: OrderDetailUsecase, team: Team, order: Order, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) {
         self.order = order
         self.team = team
         self.commitButtonTap = commitButtonTap
+        self.editButtonTap = editButtonTap
         self.interactor = interactor
     }
     
@@ -67,5 +73,9 @@ final class OrderDetailPresenter: ObservableObject {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func onEditButtonTap() {
+        self.editButtonTap?()
     }
 }

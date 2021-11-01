@@ -17,6 +17,10 @@ struct OrderListView: View {
         NavigationView {
             VStack {
                 ZStack {
+                    self.presenter.orderEditLinkBuilder(isActive: self.$presenter.showingOrderEdit) {
+                        EmptyView()
+                    }
+                    
                     if self.presenter.showingTeamSelectPopup {
                         Color.black.opacity(0.3)
                             .edgesIgnoringSafeArea(.all)
@@ -32,8 +36,12 @@ struct OrderListView: View {
                                   onUnlockButtonTap: { order in self.presenter.unlockButtonTapped(id: order.id)
                         })
                     }
-                    .sheet(isPresented: self.$presenter.showingOrderDetail) {
-                        self.presenter.makeAboutOrderDetailSheetView()
+                    .sheet(isPresented: self.$presenter.showingOrderDetailOrEdit) {
+                        if self.presenter.sheetType == .edit {
+                            self.presenter.makeAboutOrderEditSheetView()
+                        } else {
+                            self.presenter.makeAboutOrderDetailSheetView()
+                        }
                     }
                     .fullScreenCover(isPresented: self.$presenter.showingNewOrder) {
                         self.presenter.makeAboutNewOrderSheetView()

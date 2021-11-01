@@ -91,8 +91,6 @@ struct NewOrderView_Previews: PreviewProvider {
         let interactor = NewOrderInteractor()
         let presenter = NewOrderPresenter(interactor: interactor, team: Team(name: "チーム", members: [], owner: "owner"))
         
-        NavigationView {
-            NewOrderView(presenter: presenter)
-        }
+        NewOrderView(presenter: presenter)
     }
 }

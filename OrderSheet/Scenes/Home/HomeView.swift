@@ -19,14 +19,11 @@ struct HomeView: View {
                     VStack {
                         Circle()
                             .frame(width: 48, height: 48)
-//                        Text(self.authStateObserver.appUser?.displayName ?? "")
-                        
                         TextField("アカウント名",
                                   text: self.$presenter.inputName,
                                   onEditingChanged: self.presenter.onNameEditingChanged,
                                   onCommit: { self.presenter.onNameCommit(user: self.authStateObserver.appUser!) } )
                             .multilineTextAlignment(.center)
-                        
                     }
                     .padding()
                     
