@@ -17,7 +17,7 @@ final class NewOrderPresenter: ObservableObject {
     @Published var newItemText: String
     @Published var showingDismissConfirm = false
     
-    private var interactor: NewOrderInteractor
+    private var interactor: NewOrderUsecase
     private var team: Team
     
     var commitButtonDisabled: Bool {
@@ -28,7 +28,7 @@ final class NewOrderPresenter: ObservableObject {
         return !self.title.isEmpty || !self.newItemText.isEmpty || !self.comment.isEmpty || self.items.count > 0
     }
     
-    init(interactor: NewOrderInteractor,
+    init(interactor: NewOrderUsecase,
          team: Team) {
         self.interactor = interactor
         self.team = team

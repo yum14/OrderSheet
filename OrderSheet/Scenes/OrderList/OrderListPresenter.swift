@@ -10,14 +10,21 @@ import SwiftUI
 import Combine
 
 final class OrderListPresenter: ObservableObject {
+    enum SheetType {
+        case detail
+        case edit
+    }
+    
     @Published var orders: [Order] = []
     @Published var selectedOrder: Order?
-    @Published var showingOrderDetail = false
+    @Published var showingOrderDetailOrEdit = false
     @Published var selectedTeam: Team?
     @Published var teams: [Team]?
     @Published var showingTeamSelectPopup = false
     @Published var showingUnlockConfirm = false
     @Published var showingNewOrder = false
+    @Published var showingOrderEdit = false
+    @Published var sheetType: SheetType = .detail
     
     var unlockOrderId: String?
     
@@ -42,7 +49,8 @@ final class OrderListPresenter: ObservableObject {
         }
         
         self.selectedOrder = showingOrder
-        self.showingOrderDetail = true
+        self.sheetType = .detail
+        self.showingOrderDetailOrEdit = true
     }
     
     func showNewOrderSheet() -> Void {
@@ -50,13 +58,32 @@ final class OrderListPresenter: ObservableObject {
     }
     
     func makeAboutOrderDetailSheetView() -> some View {
-        return router.makeOrderDetailView(team: self.selectedTeam!, order: self.selectedOrder!, commitButtonTap: { self.showingOrderDetail = false })
+        return router.makeOrderDetailView(team: self.selectedTeam!,
+                                          order: self.selectedOrder!,
+                                          commitButtonTap: { self.showingOrderDetailOrEdit = false },
+                                          editButtonTap: self.showOrderEdit)
+    }
+    
+    private func showOrderEdit() {
+        self.showingOrderDetailOrEdit = false
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            self.sheetType = .edit
+            self.showingOrderDetailOrEdit = true
+        }
     }
     
     func makeAboutNewOrderSheetView() -> some View {
         return router.makeNewOrderView(team: self.selectedTeam!)
     }
-    
+
+    func makeAboutOrderEditSheetView() -> some View {
+        return router.makeOrderEditView(team: self.selectedTeam!, order: self.selectedOrder!)
+            .onDisappear {
+                self.sheetType = .detail
+            }
+    }
+
     func updateSelectedTeam(uid: String) {
         guard let selectedTeam = self.selectedTeam else {
             return
@@ -153,6 +180,19 @@ final class OrderListPresenter: ObservableObject {
     
     func unlockCancel() {
         self.unlockOrderId = nil
+    }
+    
+    func orderEditLinkBuilder<Content: View>(isActive: Binding<Bool>, @ViewBuilder content: () -> Content) -> some View {
+
+        guard let team = self.selectedTeam, let order = self.selectedOrder else {
+            return AnyView(EmptyView())
+        }
+        
+        return AnyView(NavigationLink(isActive: isActive) {
+            router.makeOrderEditView(team: team, order: order)
+        } label: {
+            content()
+        })
     }
     
     private func setOrderListener(teamId: String) {

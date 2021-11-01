@@ -53,11 +53,25 @@ class OrderStore {
         completion?(orders)
     }
     
+    func get(teamId: String, id: String, completion: ((Result<Order?, Error>) -> Void)?) {
+        db.collection(self.parentCollectionName).document(teamId).collection(self.collectionName).document(id).getDocument { (document, error) in
+            let result = Result {
+                try document?.data(as: Order.self)
+            }
+
+            completion?(result)
+        }
+    }
+    
     func set(teamId: String, _ newOrder: Order, completion: ((Result<(), Error>) -> Void)?) {
         let result = Result {
             try db.collection(self.parentCollectionName).document(teamId).collection(self.collectionName).document(newOrder.id).setData(from: newOrder)
         }
         
         completion?(result)
+    }
+    
+    func delete(teamId: String, orderId: String, completion: ((Error?) -> Void)?) {
+        db.collection(self.parentCollectionName).document(teamId).collection(self.collectionName).document(orderId).delete(completion: completion)
     }
 }

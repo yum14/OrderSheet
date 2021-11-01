@@ -53,12 +53,27 @@ struct OrderDetailView: View {
             .navigationTitle(self.presenter.order.name)
             .navigationViewStyle(StackNavigationViewStyle())
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         self.dismiss()
                     } label: {
                         Image(systemName: "xmark")
                     }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        
+                    } label: {
+                        if self.presenter.editable {
+                            Button {
+                                self.presenter.onEditButtonTap()
+                            } label: {
+                                Text("編集")
+                            }
+                        }
+                    }
+
                 }
             }
             .alert("オーダーの完了",
@@ -84,7 +99,7 @@ struct OrderView_Previews: PreviewProvider {
                                   OrderItem(name: "トイレットペーパー")])
         let team = Team(name: "team", members: [], owner: "owner")
         let interactor = OrderDetailInteractor()
-        let presenter = OrderDetailPresenter(interactor: interactor, team: team, order: order, commitButtonTap: {})
+        let presenter = OrderDetailPresenter(interactor: interactor, team: team, order: order, commitButtonTap: {}, editButtonTap: {})
         
         OrderDetailView(presenter: presenter)
     }
