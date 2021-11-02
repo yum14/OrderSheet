@@ -23,14 +23,15 @@ struct OrderDetailView: View {
                                     HStack {
                                         Text(item.name)
                                             .lineLimit(0)
+                                            .foregroundColor(self.presenter.formLocked ? Color.secondary : Color.primary)
                                         Spacer()
                                         
                                         VStack {
                                             Group {
                                                 if item.checked {
-                                                    CartCheckButton(onTap: { self.presenter.updateItemChecked(itemId: item.id, checked: false) })
+                                                    CartCheckButton(disabled: self.presenter.formLocked) { self.presenter.updateItemChecked(itemId: item.id, checked: false) }
                                                 } else {
-                                                    CartButton(onTap: { self.presenter.updateItemChecked(itemId: item.id, checked: true) })
+                                                    CartButton(disabled: self.presenter.formLocked) { self.presenter.updateItemChecked(itemId: item.id, checked: true) }
                                                 }
                                             }
                                             .buttonStyle(BorderlessButtonStyle())
@@ -40,15 +41,53 @@ struct OrderDetailView: View {
                                 }
                             }
                         }
+                        .disabled(self.presenter.formLocked)
                     }
                     
                     Section(header: Text("コメント")) {
                         Text(self.presenter.order.comment ?? "")
+                            .foregroundColor(self.presenter.formLocked ? Color.secondary : Color.primary)
+                    }
+                    
+                    Section(header: Text("作成者")) {
+                        Text(self.presenter.createUser?.displayName ?? "")
                     }
                 }
                 
-                CommitButton(onTap: self.presenter.commitButtonTapped)
+                if self.presenter.formLocked {
+                    UnlockButton {
+                        self.presenter.onUnlockButtonTap()
+                    }
                     .padding()
+                    .alert("オーダー完了済の解除", isPresented: self.$presenter.showingUnlockConfirm) {
+                        Button("キャンセル", role: .cancel) {}
+                        Button("解除") {
+                            self.presenter.unlock()
+                            self.dismiss()
+                        }
+                    } message: {
+                        Text("オーダー完了済を解除しますか？")
+                    }
+                } else {
+                    CommitButton() {
+                        self.presenter.commitButtonTapped()
+                    }
+                    .padding()
+                    .alert("オーダーの完了",
+                           isPresented: self.$presenter.showingOrderCommmitConfirm) {
+                        Button("キャンセル", role: .cancel) {
+                            
+                        }
+                        Button("OK") {
+                            self.presenter.commit()
+                        }
+                    } message: {
+                        Text("オーダーを完了しますか？")
+                    }
+                }
+            }
+            .onAppear {
+                self.presenter.load()
             }
             .navigationTitle(self.presenter.order.name)
             .navigationViewStyle(StackNavigationViewStyle())
@@ -76,17 +115,6 @@ struct OrderDetailView: View {
 
                 }
             }
-            .alert("オーダーの完了",
-                   isPresented: self.$presenter.showingOrderCommmitConfirm) {
-                Button("キャンセル", role: .cancel) {
-                    
-                }
-                Button("OK") {
-                    self.presenter.commit()
-                }
-            } message: {
-                Text("オーダーを完了しますか？")
-            }
         }
     }
 }
@@ -96,7 +124,8 @@ struct OrderView_Previews: PreviewProvider {
         let order = Order(name: "オーダー1",
                           items: [OrderItem(name: "たまねぎ", checked: true),
                                   OrderItem(name: "にんじん"),
-                                  OrderItem(name: "トイレットペーパー")])
+                                  OrderItem(name: "トイレットペーパー")],
+                          owner: "owner")
         let team = Team(name: "team", members: [], owner: "owner")
         let interactor = OrderDetailInteractor()
         let presenter = OrderDetailPresenter(interactor: interactor, team: team, order: order, commitButtonTap: {}, editButtonTap: {})

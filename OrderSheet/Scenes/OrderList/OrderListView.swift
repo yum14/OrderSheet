@@ -29,12 +29,9 @@ struct OrderListView: View {
                     }
                     
                     VStack {
-                        OrderList(orders: self.presenter.orders,
-                                  onRowTap: { order in
+                        OrderList(orders: self.presenter.orders) { order in
                             self.presenter.showOrderDetailSheet(id: order.id)
-                        },
-                                  onUnlockButtonTap: { order in self.presenter.unlockButtonTapped(id: order.id)
-                        })
+                        }
                     }
                     .sheet(isPresented: self.$presenter.showingOrderDetailOrEdit) {
                         if self.presenter.sheetType == .edit {
@@ -58,12 +55,13 @@ struct OrderListView: View {
                     }
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            self.presenter.showNewOrderSheet()
-                        } label: {
-                            Image(systemName: "plus")
+                        if self.presenter.selectedTeam != nil {
+                            Button {
+                                self.presenter.showNewOrderSheet()
+                            } label: {
+                                Image(systemName: "plus")
+                            }
                         }
-
                     }
                 }
             }
@@ -88,18 +86,6 @@ struct OrderListView: View {
                     .cornerRadius(10.0)
                     .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
             }
-            
-            .alert("オーダー完了済の解除", isPresented: self.$presenter.showingUnlockConfirm) {
-                Button("キャンセル", role: .cancel) {
-                    self.presenter.unlockCancel()
-                }
-                Button("解除") {
-                    self.presenter.unlock()
-                }
-            } message: {
-                Text("オーダー完了済を解除しますか？")
-            }
-
         }
         .onAppear {
             if let user = self.authStateObserver.appUser {
@@ -117,9 +103,9 @@ struct OrderListView_Previews: PreviewProvider {
                         OrderItem(name: "にんじん"),
                         OrderItem(name: "トイレットペーパー")]
         
-        let orders = [Order(name: "オーダー1", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/01 01:00:00", template: template)),
-                      Order(name: "オーダー2", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/01 12:00:00", template: template)),
-                      Order(name: "オーダー3", items: products, createdAt: DateUtility.toDate(dateString: "2021/01/02 01:00:00", template: template))]
+        let orders = [Order(name: "オーダー1", items: products, owner: "owner", createdAt: DateUtility.toDate(dateString: "2021/01/01 01:00:00", template: template)),
+                      Order(name: "オーダー2", items: products, owner: "owner", createdAt: DateUtility.toDate(dateString: "2021/01/01 12:00:00", template: template)),
+                      Order(name: "オーダー3", items: products, owner: "owner", createdAt: DateUtility.toDate(dateString: "2021/01/02 01:00:00", template: template))]
         let teams = [Team(name: "A", members: [], owner: ""),
                      Team(name: "B", members: [], owner: ""),
                      Team(name: "C", members: [], owner: "")]

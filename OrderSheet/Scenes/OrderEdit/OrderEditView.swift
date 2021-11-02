@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OrderEditView: View {
     @ObservedObject var presenter: OrderEditPresenter
+    @EnvironmentObject var authStateObserver: AuthStateObserver
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -42,6 +43,10 @@ struct OrderEditView: View {
                     TextField("コメント", text: self.$presenter.comment)
                 }
                 
+                Section(header: Text("作成者")) {
+                    Text(self.presenter.createUser?.displayName ?? "")
+                }
+                
                 Section {
                     Button {
                         self.presenter.updateOrder()
@@ -64,6 +69,7 @@ struct OrderEditView: View {
                             Spacer()
                         }
                     }
+                    .disabled(self.presenter.orderDeleteDisabled(loginUserId: self.authStateObserver.appUser!.id))
                     .alert("オーダーの削除",
                            isPresented: self.$presenter.showingDeleteOrderConfirm) {
                         Button(role: .cancel) {
@@ -82,6 +88,9 @@ struct OrderEditView: View {
                         Text("オーダーを削除しますか？")
                     }
                 }
+            }
+            .onAppear {
+                self.presenter.load()
             }
             .navigationTitle("オーダーの編集")
             .navigationBarTitleDisplayMode(.large)
@@ -103,7 +112,8 @@ struct OrderEditView_Previews: PreviewProvider {
         let order = Order(name: "オーダー1",
                           items: [OrderItem(name: "たまねぎ", checked: true),
                                   OrderItem(name: "にんじん"),
-                                  OrderItem(name: "トイレットペーパー")])
+                                  OrderItem(name: "トイレットペーパー")],
+                          owner: "owner")
         let team = Team(name: "team", members: [], owner: "owner")
         let interactor = OrderEditInteractor()
         let presenter = OrderEditPresenter(interactor: interactor, team: team, order: order)

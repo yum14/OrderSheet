@@ -12,6 +12,13 @@ import Combine
 final class OrderDetailPresenter: ObservableObject {
     @Published var order: Order
     @Published var showingOrderCommmitConfirm = false
+    @Published var showingUnlockConfirm = false
+    
+    @Published var createUser: User?
+    
+    var formLocked: Bool {
+        return self.order.committed
+    }
     
     private var commitButtonTap: (() -> Void)?
     private var editButtonTap: (() -> Void)?
@@ -40,6 +47,7 @@ final class OrderDetailPresenter: ObservableObject {
                                 items: self.order.items,
                                 comment: self.order.comment,
                                 committed: true,
+                                owner: self.order.owner,
                                 createdAt: self.order.createdAt.dateValue(),
                                 updatedAt: Date())
         
@@ -65,6 +73,7 @@ final class OrderDetailPresenter: ObservableObject {
                              name: self.order.name,
                              items: items,
                              comment: self.order.comment,
+                             owner: self.order.owner,
                              createdAt: self.order.createdAt.dateValue(),
                              updatedAt: Date())
         
@@ -77,5 +86,39 @@ final class OrderDetailPresenter: ObservableObject {
     
     func onEditButtonTap() {
         self.editButtonTap?()
+    }
+    
+    func onUnlockButtonTap() {
+        self.showingUnlockConfirm = true
+    }
+    
+    func unlock() {
+        let newOrder = Order(id: self.order.id,
+                             name: self.order.name,
+                             items: self.order.items,
+                             comment: self.order.comment,
+                             committed: false,
+                             owner: self.order.owner,
+                             createdAt: self.order.createdAt.dateValue(),
+                             updatedAt: Date())
+        
+        self.interactor.updateOrder(teamId: self.team.id, order: newOrder) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func load() {
+        self.interactor.getUser(id: self.order.owner) { result in
+            switch result {
+            case .success(let user):
+                if let user = user {
+                    self.createUser = user
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
