@@ -9,14 +9,18 @@ import SwiftUI
 
 struct CartCheckButton: View {
     var font: Font = .title
+    var disabled: Bool = false
     var onTap: () -> Void = {}
     
     var body: some View {
-        Button(action: self.onTap) {
+        Button {
+            self.onTap()
+        } label: {
             Image(systemName: "checkmark.circle.fill")
-                .foregroundColor(Color("Main"))
+                .foregroundColor(self.disabled ? Color.secondary : Color("Main"))
                 .font(self.font)
         }
+        .disabled(self.disabled)
     }
 }
 

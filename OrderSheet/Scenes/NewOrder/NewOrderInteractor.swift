@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NewOrderUsecase {
-    func addNewOrder(teamId: String, _ name: String, items: [OrderItem], comment: String?, completion: ((Result<Order?, Error>) -> Void)?)
+    func addNewOrder(teamId: String, _ name: String, items: [OrderItem], comment: String?, owner: String, completion: ((Result<Order?, Error>) -> Void)?)
 }
 
 final class NewOrderInteractor {
@@ -16,11 +16,12 @@ final class NewOrderInteractor {
 }
 
 extension NewOrderInteractor: NewOrderUsecase {
-    func addNewOrder(teamId: String, _ name: String, items: [OrderItem], comment: String?, completion: ((Result<Order?, Error>) -> Void)?) {
+    func addNewOrder(teamId: String, _ name: String, items: [OrderItem], comment: String?, owner: String, completion: ((Result<Order?, Error>) -> Void)?) {
         
         let newOrder = Order(name: name,
                              items: items,
-                             comment: comment)
+                             comment: comment,
+                             owner: owner)
         
         self.orderStore.set(teamId: teamId, newOrder) { result in
             switch result {

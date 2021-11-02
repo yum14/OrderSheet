@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NewOrderView: View {
     @ObservedObject var presenter: NewOrderPresenter
+    @EnvironmentObject var authStateObserver: AuthStateObserver
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -44,7 +45,7 @@ struct NewOrderView: View {
                 
                 Section {
                     Button(action: {
-                        self.presenter.createNewOrder()
+                        self.presenter.createNewOrder(owner: self.authStateObserver.appUser!.id)
                         dismiss()
                     }) {
                         HStack {

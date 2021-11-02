@@ -11,17 +11,21 @@ struct CartButton: View {
     var font: Font = .callout
     var width: CGFloat? = 32
     var height: CGFloat? = 32
+    var disabled: Bool = false
     var onTap: () -> Void = {}
     
     var body: some View {
-        Button(action: self.onTap) {
+        Button {
+            self.onTap()
+        } label: {
             Image(systemName: "cart")
                 .foregroundColor(.white)
                 .font(self.font)
                 .frame(width: self.width, height: self.height, alignment: .center)
-                .background(Color("Main"))
+                .background(self.disabled ? Color.secondary : Color("Main"))
                 .cornerRadius(50)
         }
+        .disabled(self.disabled)
     }
 }
 

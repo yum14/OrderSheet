@@ -14,6 +14,7 @@ final class OrderEditPresenter: ObservableObject {
     @Published var showNewItem: Bool
     @Published var newItemText: String
     @Published var showingDeleteOrderConfirm = false
+    @Published var createUser: User?
     
     private var interactor: OrderEditUsecase
     private var team: Team
@@ -86,6 +87,31 @@ final class OrderEditPresenter: ObservableObject {
             if let error = error {
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    func load() {
+        self.interactor.getUser(id: self.order.owner) { result in
+            switch result {
+            case .success(let user):
+                if let user = user {
+                    self.createUser = user
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func orderDeleteDisabled(loginUserId: String) -> Bool {
+        guard let createUser = createUser else {
+            return true
+        }
+
+        if createUser.id == loginUserId {
+            return false
+        } else {
+            return true
         }
     }
 }

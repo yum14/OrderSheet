@@ -13,12 +13,11 @@ struct UnlockButton: View {
     var body: some View {
         Button(action: self.onTap) {
             Text("解除")
-                .font(.caption)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
-                .frame(width: 56, height: 28)
+                .frame(width: 260, height: 40)
                 .background(Color("Main"))
-                .cornerRadius(50)
+                .cornerRadius(24)
         }
     }
 }
