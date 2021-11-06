@@ -17,6 +17,8 @@ final class HomePresenter: ObservableObject {
     @Published var showingIndicator = false
     @Published var showingNewTeam = false
     @Published var inputName: String = ""
+    @Published var avatarImage: UIImage?
+    @Published var teamAvatarImage: UIImage?
     
     private var interactor: HomeUsecase
     private var router: HomeRouter
@@ -30,6 +32,12 @@ final class HomePresenter: ObservableObject {
         self.interactor = interactor
         self.router = router
     }
+    
+    convenience init(interactor: HomeUsecase, router: HomeRouter, teams: [Team]) {
+        self.init(interactor: interactor, router: router)
+        self.teams = teams
+    }
+    
     
     func addSnapshotListener() {
         self.interactor.addSnapshotListener(onListen: { teams in
