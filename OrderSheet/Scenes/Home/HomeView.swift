@@ -17,8 +17,9 @@ struct HomeView: View {
             ZStack {
                 VStack {
                     VStack {
-                        Circle()
-                            .frame(width: 48, height: 48)
+                        AvatarImagePicker(selectedImage: self.$presenter.avatarImage,
+                                          defaultImageName: "person.crop.circle.fill")
+                        
                         TextField("アカウント名",
                                   text: self.$presenter.inputName,
                                   onEditingChanged: self.presenter.onNameEditingChanged,
@@ -33,8 +34,7 @@ struct HomeView: View {
                                 if let userId = self.authStateObserver.appUser?.id {
                                     self.presenter.linkBuilder(userId: userId, team: team) {
                                         HStack {
-                                            Circle()
-                                                .frame(width: 24, height: 24)
+                                            AvatarImage(image: self.presenter.teamAvatarImage, defaultImageName: "person.2.circle.fill", width: 28, height: 28)
                                             Text(team.name)
                                             Spacer()
                                         }
@@ -108,7 +108,9 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         let interactor = HomeInteractor()
         let router = HomeRouter()
-        let presenter = HomePresenter(interactor: interactor, router: router)
+        let teams = [Team(name: "team1", members: [], owner: "owner"),
+                     Team(name: "team2", members: [], owner: "owner")]
+        let presenter = HomePresenter(interactor: interactor, router: router, teams: teams)
         
         HomeView(presenter: presenter)
             .environmentObject(AuthStateObserver(user: User(displayName: "アカウント名", teams: [])))

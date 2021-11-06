@@ -24,6 +24,8 @@
 		75595E272725811600C33B79 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 75595E262725811600C33B79 /* ActivityIndicatorView */; };
 		75595E29272586BB00C33B79 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75595E28272586BB00C33B79 /* ActivityIndicator.swift */; };
 		755AE30D2715C67E001EE2D3 /* OrderListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */; };
+		7567FAC62736A309002620C3 /* AvatarImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7567FAC52736A309002620C3 /* AvatarImage.swift */; };
+		7582F61127357CD2001D9EA5 /* AvatarImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7582F61027357CD2001D9EA5 /* AvatarImagePicker.swift */; };
 		758BA3F3270DE0A0005C2407 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */; };
 		7595AB32272D643700EFAFC9 /* OrderEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7595AB31272D643700EFAFC9 /* OrderEditView.swift */; };
 		7595AB34272D644D00EFAFC9 /* OrderEditPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7595AB33272D644D00EFAFC9 /* OrderEditPresenter.swift */; };
@@ -73,6 +75,7 @@
 		75CBFB42270F236D00E7EE93 /* TeamDetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CBFB41270F236D00E7EE93 /* TeamDetailInteractor.swift */; };
 		75DDA69A2700580F009854AE /* TeamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DDA6992700580F009854AE /* TeamStore.swift */; };
 		75E6977B2728374800A2AFE0 /* UnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E6977A2728374800A2AFE0 /* UnlockButton.swift */; };
+		75F273E527356F3000FCA847 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F273E427356F3000FCA847 /* ImagePicker.swift */; };
 		75F5DE6327005E5F0044A782 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 75F5DE6227005E5F0044A782 /* GoogleSignIn */; };
 		75F5DE73270082370044A782 /* NewTeamInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE72270082370044A782 /* NewTeamInteractor.swift */; };
 		75F5DE7627008D690044A782 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 75F5DE7527008D690044A782 /* FirebaseAuth */; };
@@ -101,6 +104,8 @@
 		751F62B32717360400D19E8F /* OrderStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStore.swift; sourceTree = "<group>"; };
 		75595E28272586BB00C33B79 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListInteractor.swift; sourceTree = "<group>"; };
+		7567FAC52736A309002620C3 /* AvatarImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImage.swift; sourceTree = "<group>"; };
+		7582F61027357CD2001D9EA5 /* AvatarImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImagePicker.swift; sourceTree = "<group>"; };
 		758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 		7595AB31272D643700EFAFC9 /* OrderEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEditView.swift; sourceTree = "<group>"; };
 		7595AB33272D644D00EFAFC9 /* OrderEditPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEditPresenter.swift; sourceTree = "<group>"; };
@@ -153,6 +158,7 @@
 		75CBFB41270F236D00E7EE93 /* TeamDetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailInteractor.swift; sourceTree = "<group>"; };
 		75DDA6992700580F009854AE /* TeamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamStore.swift; sourceTree = "<group>"; };
 		75E6977A2728374800A2AFE0 /* UnlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockButton.swift; sourceTree = "<group>"; };
+		75F273E427356F3000FCA847 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		75F5DE72270082370044A782 /* NewTeamInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTeamInteractor.swift; sourceTree = "<group>"; };
 		75F5DE7D2700A45B0044A782 /* TeamDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailRouter.swift; sourceTree = "<group>"; };
 		75F5DE7F2700A8900044A782 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
@@ -394,6 +400,9 @@
 				751015C7271F15E100DE7E99 /* TeamSelectList.swift */,
 				75595E28272586BB00C33B79 /* ActivityIndicator.swift */,
 				75E6977A2728374800A2AFE0 /* UnlockButton.swift */,
+				75F273E427356F3000FCA847 /* ImagePicker.swift */,
+				7582F61027357CD2001D9EA5 /* AvatarImagePicker.swift */,
+				7567FAC52736A309002620C3 /* AvatarImage.swift */,
 			);
 			path = ViewComponent;
 			sourceTree = "<group>";
@@ -504,6 +513,7 @@
 				7596272426FDE9DB00460629 /* AppleSignInButton.swift in Sources */,
 				7596271B26FDE9DB00460629 /* NewOrderPresenter.swift in Sources */,
 				7503560F26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift in Sources */,
+				75F273E527356F3000FCA847 /* ImagePicker.swift in Sources */,
 				758BA3F3270DE0A0005C2407 /* HomeInteractor.swift in Sources */,
 				7596271226FDE9DB00460629 /* RootRouter.swift in Sources */,
 				7595AB32272D643700EFAFC9 /* OrderEditView.swift in Sources */,
@@ -513,6 +523,7 @@
 				751015C8271F15E100DE7E99 /* TeamSelectList.swift in Sources */,
 				7503560D26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift in Sources */,
 				751F62B22717357E00D19E8F /* NewOrderInteractor.swift in Sources */,
+				7582F61127357CD2001D9EA5 /* AvatarImagePicker.swift in Sources */,
 				7596271026FDE9DB00460629 /* TeamDetailView.swift in Sources */,
 				7596272226FDE9DB00460629 /* OrderList.swift in Sources */,
 				7596271326FDE9DB00460629 /* RootView.swift in Sources */,
@@ -545,6 +556,7 @@
 				7596270B26FDE9DB00460629 /* HomeView.swift in Sources */,
 				751015CA2722FB0200DE7E99 /* CartCheckButton.swift in Sources */,
 				75F5DE802700A8900044A782 /* UserStore.swift in Sources */,
+				7567FAC62736A309002620C3 /* AvatarImage.swift in Sources */,
 				7596270826FDE9DB00460629 /* User.swift in Sources */,
 				75DDA69A2700580F009854AE /* TeamStore.swift in Sources */,
 				751F62B42717360400D19E8F /* OrderStore.swift in Sources */,
