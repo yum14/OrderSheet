@@ -10,8 +10,7 @@ import SwiftUI
 struct AvatarImage: View {
     var image: UIImage?
     var defaultImageName: String = "person.crop.circle.fill"
-    var width: CGFloat = 120
-    var height: CGFloat = 120
+    var length: CGFloat = 120
     
     var body: some View {
         Group {
@@ -24,7 +23,7 @@ struct AvatarImage: View {
                     .foregroundColor(Color.secondary)
             }
         }
-        .frame(width: self.width, height: self.height)
+        .frame(width: self.length, height: self.length)
         .clipShape(Circle())
     }
 }

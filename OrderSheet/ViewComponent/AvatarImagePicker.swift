@@ -10,14 +10,14 @@ import SwiftUI
 struct AvatarImagePicker: View {
     @Binding var selectedImage: UIImage?
     var defaultImageName: String
-    var width: CGFloat = 120
-    var height: CGFloat = 120
+    var length: CGFloat = 120
     
     @State private var showingImagePicker = false
+    private let magnification: Double = 0.75
     
     var body: some View {
         ZStack {
-            AvatarImage(image: self.selectedImage, defaultImageName: self.defaultImageName, width: self.width, height: self.height)
+            AvatarImage(image: self.selectedImage, defaultImageName: self.defaultImageName, length: self.length)
             
             VStack {
                 Spacer()
@@ -25,19 +25,34 @@ struct AvatarImagePicker: View {
                     Spacer()
                     Image(systemName: "camera.circle.fill")
                         .resizable()
-                        .frame(width: self.width * 0.4, height: self.height * 0.4)
+                        .frame(width: self.length * 0.3, height: self.length * 0.3)
                         .foregroundColor(Color("Main"))
                         .background(Color(UIColor.systemBackground))
                         .clipShape(Circle())
                 }
             }
-            .frame(width: self.width, height: self.height)
+            .frame(width: self.length, height: self.length)
         }
         .onTapGesture {
             self.showingImagePicker = true
         }
         .sheet(isPresented: $showingImagePicker) {
-            ImagePickerController(sourceType: .photoLibrary, selectedImage: self.$selectedImage)
+            ImagePickerController(sourceType: .photoLibrary) { uiImage in
+                
+                let originScale = uiImage.size.width > uiImage.size.height ? uiImage.size.height / self.length : uiImage.size.width / self.length
+                let scale = originScale * self.magnification
+                
+                let xOffset = (uiImage.size.width - self.length * scale) / 2
+                let yOffset = (uiImage.size.height - self.length * scale) / 2
+                
+                if let cgImage = uiImage.cgImage {
+                    let clipRect = CGRect(x: xOffset, y: yOffset, width: self.length * scale, height: self.length * scale)
+                    let crippedImage = UIImage(cgImage: cgImage.cropping(to: clipRect)!)
+                    let compressionImageData = crippedImage.jpegData(compressionQuality: 0.01)!
+                    
+                    self.selectedImage = UIImage(data: compressionImageData)
+                }
+            }
         }
     }
 }

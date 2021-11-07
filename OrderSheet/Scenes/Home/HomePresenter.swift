@@ -11,11 +11,11 @@ import Combine
 
 final class HomePresenter: ObservableObject {
     @Published var teams: [Team]
-    @Published var teamQrCodeScannerViewPresented = false
-    @Published var teamJoinAlertPresented = false
-    @Published var teamQrCodeScanBannerPresented = false
+    @Published var showingTeamQrCodeScannerView = false
+    @Published var showingJoinTeamAlert = false
+    @Published var showingTeamQrCodeScanBanner = false
     @Published var showingIndicator = false
-    @Published var showingNewTeam = false
+    @Published var showingNewTeamView = false
     @Published var inputName: String = ""
     @Published var avatarImage: UIImage?
     @Published var teamAvatarImage: UIImage?
@@ -25,6 +25,7 @@ final class HomePresenter: ObservableObject {
     
     private var joinTeam: Team?
     private var beginEditingName: String = ""
+    private var avatarInitialLoading: Bool = false
     
     init(interactor: HomeUsecase, router: HomeRouter) {
         self.router = HomeRouter()
@@ -37,8 +38,9 @@ final class HomePresenter: ObservableObject {
         self.init(interactor: interactor, router: router)
         self.teams = teams
     }
-    
-    
+}
+ 
+extension HomePresenter {
     func addSnapshotListener() {
         self.interactor.addSnapshotListener(onListen: { teams in
             self.teams = teams
@@ -50,6 +52,10 @@ final class HomePresenter: ObservableObject {
         self.inputName = user.displayName
         self.loadTeams(userId: user.id) {
             self.showingIndicator = false
+        }
+        if let avatarImage = user.avatarImage {
+            self.avatarInitialLoading = true
+            self.avatarImage = UIImage(data: avatarImage)
         }
     }
     
@@ -83,17 +89,9 @@ final class HomePresenter: ObservableObject {
         }
     }
     
-    func toggleShowNewTeamSheet() -> Void {
-        self.showingNewTeam.toggle()
-    }
-    
-    func toggleShowTeamQrScannerSheet() -> Void {
-        self.teamQrCodeScannerViewPresented.toggle()
-    }
-    
     func makeAboutNewTeamView(userId: String) -> some View {
-        return router.makeNewTeamView(onCommit: self.newTeamInputCommit,
-                                      onCanceled: self.toggleShowNewTeamSheet)
+        return router.makeNewTeamView(onCommit: { _ in self.showingNewTeamView = false },
+                                      onCanceled: { self.showingNewTeamView = false })
             .onDisappear {
                 self.showingIndicator = true
                 self.loadTeams(userId: userId) {
@@ -106,8 +104,9 @@ final class HomePresenter: ObservableObject {
         
         return router.makeTeamQrCodeScannerView(
             onFound: { code in
+                
                 self.showingIndicator = true
-                self.teamQrCodeScannerViewPresented = false
+                self.showingTeamQrCodeScannerView = false
                 
                 let teamQrCodeManager = TeamQrCodeManager()
                 guard let teamId = teamQrCodeManager.checkMyAppQrCode(code: code) else {
@@ -119,13 +118,13 @@ final class HomePresenter: ObservableObject {
                 self.interactor.getTeam(id: teamId) { result in
                     switch result {
                     case .success(let team):
-                        self.toggleShowTeamQrScannerSheet()
+                        self.showingTeamQrCodeScannerView = false
                         
                         if let team = team {
                             self.joinTeam = team
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                self.teamJoinAlertPresented = true
+                                self.showingJoinTeamAlert = true
                             }
                         } else {
                             self.showQrCodeScanBanner()
@@ -138,20 +137,68 @@ final class HomePresenter: ObservableObject {
                     self.showingIndicator = false
                 }
             },
-            onDismiss: self.toggleShowTeamQrScannerSheet)
+            onDismiss: { self.showingTeamQrCodeScannerView = false })
     }
     
     private func showQrCodeScanBanner() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.teamQrCodeScanBannerPresented = true
+            self.showingTeamQrCodeScanBanner = true
+        }
+    }
+}
+
+extension HomePresenter {
+    func onNameCommit(user: User) {
+        if self.inputName.isEmpty {
+            self.inputName = self.beginEditingName
+            return
+        }
+        
+        self.interactor.updateUserDisplayName(id: user.id, displayName: self.inputName) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
         }
     }
     
-    func newTeamInputCommit(text: String) {
-        toggleShowNewTeamSheet()
+    func onNameEditingChanged(beginEditing: Bool) {
+        if beginEditing {
+            self.beginEditingName = self.inputName
+        }
     }
     
-    func teamJoinComfirm(user: User) {
+    func onAvatarImageChanged(user: User, image: UIImage) {
+        if self.avatarInitialLoading {
+            self.avatarInitialLoading = false
+            return
+        }
+        
+        guard let imageData = image.jpegData(compressionQuality: 1) else {
+            return
+        }
+        
+        if let dbValue = user.avatarImage, dbValue == imageData {
+            return
+        }
+        
+        self.interactor.updateAvatarImage(id: user.id, avatarImage: imageData) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+}
+
+extension HomePresenter {
+    func onCreateTeamButtonTapped() {
+        self.showingNewTeamView = true
+    }
+    
+    func onJoinTeamButtonTapped() {
+        self.showingTeamQrCodeScannerView = true
+    }
+    
+    func onJoinTeamAgreementButtonTapped(user: User) {
         if let team = self.joinTeam {
             self.showingIndicator = true
             
@@ -171,26 +218,7 @@ final class HomePresenter: ObservableObject {
         }
     }
     
-    func teamJoinCancel() {
+    func onJoinTeamCancelButtonTapped() {
         self.joinTeam = nil
-    }
-    
-    func onNameCommit(user: User) {
-        if self.inputName.isEmpty {
-            self.inputName = self.beginEditingName
-            return
-        }
-        
-        self.interactor.updateUserDisplayName(id: user.id, displayName: self.inputName) { error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    func onNameEditingChanged(beginEditing: Bool) {
-        if beginEditing {
-            self.beginEditingName = self.inputName
-        }
     }
 }

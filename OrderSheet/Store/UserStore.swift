@@ -101,4 +101,8 @@ class UserStore {
     func updateDisplayName(id: String, displayName: String, completion: ((Error?) -> Void)?) {
         db.collection(self.collectionName).document(id).updateData(["display_name": displayName], completion: completion)
     }
+    
+    func updateAvatarImage(id: String, avatarImage: Data, completion: ((Error?) -> Void)?) {
+        db.collection(self.collectionName).document(id).updateData(["avatar_image": avatarImage], completion: completion)
+    }
 }
