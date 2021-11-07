@@ -13,16 +13,18 @@ final class HomePresenter: ObservableObject {
     @Published var teams: [Team]
     @Published var showingTeamQrCodeScannerView = false
     @Published var showingJoinTeamAlert = false
+    @Published var showingJoinTeamCancelAlert = false
     @Published var showingTeamQrCodeScanBanner = false
     @Published var showingIndicator = false
     @Published var showingNewTeamView = false
     @Published var inputName: String = ""
     @Published var avatarImage: UIImage?
     
+    var joinTeam: Team?
+    
     private var interactor: HomeUsecase
     private var router: HomeRouter
     
-    private var joinTeam: Team?
     private var beginEditingName: String = ""
     private var avatarInitialLoading: Bool = false
     
@@ -99,10 +101,13 @@ extension HomePresenter {
             }
     }
     
-    func makeAboutTeamQrCodeScannerView() -> some View {
+    func makeAboutTeamQrCodeScannerView(user: User) -> some View {
         
         return router.makeTeamQrCodeScannerView(
-            onFound: { code in
+            onFound: { code2 in
+                
+                let code = "https://icu.yum14/ordersheet/teams/F1458B93-1136-4746-81E2-F6E617C28038"
+                
                 
                 self.showingIndicator = true
                 self.showingTeamQrCodeScannerView = false
@@ -120,10 +125,18 @@ extension HomePresenter {
                         self.showingTeamQrCodeScannerView = false
                         
                         if let team = team {
-                            self.joinTeam = team
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                self.showingJoinTeamAlert = true
+                            // すでに参加済のチームの場合
+                            if user.teams.contains(team.id) {
+                                self.joinTeam = team
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    self.showingJoinTeamCancelAlert = true
+                                }
+                            } else {
+                                self.joinTeam = team
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    self.showingJoinTeamAlert = true
+                                }
                             }
                         } else {
                             self.showQrCodeScanBanner()
