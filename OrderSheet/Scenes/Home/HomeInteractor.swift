@@ -14,6 +14,7 @@ protocol HomeUsecase {
     func getTeam(id: String, completion: @escaping (Result<Team?, Error>) -> Void)
     func addTeam(user: User, teamId: String, completion: ((Error?) -> Void)?)
     func updateUserDisplayName(id: String, displayName: String, completion: ((Error?) -> Void)?)
+    func updateAvatarImage(id: String, avatarImage: Data, completion: ((Error?) -> Void)?)
 }
 
 final class HomeInteractor {
@@ -91,5 +92,9 @@ extension HomeInteractor: HomeUsecase {
     
     func updateUserDisplayName(id: String, displayName: String, completion: ((Error?) -> Void)?) {
         self.userStore.updateDisplayName(id: id, displayName: displayName, completion: completion)
+    }
+    
+    func updateAvatarImage(id: String, avatarImage: Data, completion: ((Error?) -> Void)?) {
+        self.userStore.updateAvatarImage(id: id, avatarImage: avatarImage, completion: completion)
     }
 }

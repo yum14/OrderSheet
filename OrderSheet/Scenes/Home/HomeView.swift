@@ -19,6 +19,12 @@ struct HomeView: View {
                     VStack {
                         AvatarImagePicker(selectedImage: self.$presenter.avatarImage,
                                           defaultImageName: "person.crop.circle.fill")
+                            .onChange(of: self.presenter.avatarImage) { newValue in
+                                
+                                if let newImage = newValue {
+                                    self.presenter.onAvatarImageChanged(user: self.authStateObserver.appUser!, image: newImage)
+                                }
+                            }
                         
                         TextField("アカウント名",
                                   text: self.$presenter.inputName,
@@ -34,7 +40,7 @@ struct HomeView: View {
                                 if let userId = self.authStateObserver.appUser?.id {
                                     self.presenter.linkBuilder(userId: userId, team: team) {
                                         HStack {
-                                            AvatarImage(image: self.presenter.teamAvatarImage, defaultImageName: "person.2.circle.fill", width: 28, height: 28)
+                                            AvatarImage(image: self.presenter.teamAvatarImage, defaultImageName: "person.2.circle.fill", length: 28)
                                             Text(team.name)
                                             Spacer()
                                         }
@@ -44,43 +50,50 @@ struct HomeView: View {
                         }
                         
                         Section {
-                            Button(action: self.presenter.toggleShowNewTeamSheet, label: {
+                            Button {
+                                self.presenter.onCreateTeamButtonTapped()
+                            } label: {
                                 HStack {
                                     Spacer()
                                     Text("チームを作成する")
                                     Spacer()
                                 }
-                            })
-                                .disabled(self.authStateObserver.appUser?.teams.count ?? 0 >= 10)
+                            }
+                            .disabled(self.authStateObserver.appUser?.teams.count ?? 0 >= 10)
                             
-                            Button(action: self.presenter.toggleShowTeamQrScannerSheet, label: {
+                            Button {
+                                self.presenter.onJoinTeamButtonTapped()
+                            } label: {
                                 HStack {
                                     Spacer()
                                     Text("チームに参加する")
                                     Spacer()
                                 }
-                            })
-                                .alert(isPresented: self.$presenter.teamJoinAlertPresented) {
-                                    Alert(title: Text("チーム名"),
-                                          message: Text("チームに参加しますか？"),
-                                          primaryButton: .default(Text("参加する")) {
-                                        self.presenter.teamJoinComfirm(user: self.authStateObserver.appUser!)
-                                    },
-                                          secondaryButton: .cancel() {
-                                        self.presenter.teamJoinCancel()
-                                    })
+                            }
+                            .alert(Text("チーム名"), isPresented:
+                                    self.$presenter.showingJoinTeamAlert) {
+                                Button("参加する", role: .none) {
+                                    self.presenter.onJoinTeamAgreementButtonTapped(user: self.authStateObserver.appUser!)
                                 }
+                                Button("キャンセル", role: .cancel) {
+                                    self.presenter.onJoinTeamCancelButtonTapped()
+                                }
+                            } message: {
+                                Text("チームに参加しますか？")
+                            }
                         }
                     }
-                    .fullScreenCover(isPresented: self.$presenter.showingNewTeam) {
+                    .fullScreenCover(isPresented: self.$presenter.showingNewTeamView) {
                         self.presenter.makeAboutNewTeamView(userId: self.authStateObserver.appUser!.id)
                     }
                     
-                    Button(action: self.authStateObserver.signOut) {
+                    Button {
+                        self.authStateObserver.signOut()
+                    } label: {
                         Text("ログアウト")
                     }
                 }
-                .fullScreenCover(isPresented: self.$presenter.teamQrCodeScannerViewPresented) {
+                .fullScreenCover(isPresented: self.$presenter.showingTeamQrCodeScannerView) {
                     NavigationView {
                         self.presenter.makeAboutTeamQrCodeScannerView()
                     }
@@ -90,16 +103,16 @@ struct HomeView: View {
                 
                 ActivityIndicator(isVisible: self.$presenter.showingIndicator)
             }
-            .popup(isPresented: self.$presenter.teamQrCodeScanBannerPresented,
+            .onAppear {
+                self.presenter.initialLoad(user: self.authStateObserver.appUser!)
+            }
+            .popup(isPresented: self.$presenter.showingTeamQrCodeScanBanner,
                    type: .floater(),
                    position: .top,
                    animation: .spring(),
-                   autohideIn: 2) {
+                   autohideIn: 5) {
                 QrCodeScannerBanner()
             }
-                   .onAppear {
-                       self.presenter.initialLoad(user: self.authStateObserver.appUser!)
-                   }
         }
     }
 }
