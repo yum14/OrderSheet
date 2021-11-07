@@ -18,7 +18,6 @@ final class HomePresenter: ObservableObject {
     @Published var showingNewTeamView = false
     @Published var inputName: String = ""
     @Published var avatarImage: UIImage?
-    @Published var teamAvatarImage: UIImage?
     
     private var interactor: HomeUsecase
     private var router: HomeRouter

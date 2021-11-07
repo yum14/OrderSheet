@@ -16,12 +16,13 @@ final class TeamDetailPresenter: ObservableObject {
     @Published var inputName: String = ""
     @Published var showingLeaveTeamConfirm = false
     @Published var showingDeleteTeamConfirm = false
+    @Published var avatarImage: UIImage?
     
     private let interactor: TeamDetailUsecase
     private let router: TeamDetailRouter
     
     private var beginEditingName: String = ""
-    
+    private var avatarInitialLoading: Bool = false
     private let id: String
     
     init(interactor: TeamDetailInteractor, router: TeamDetailRouter, teamId: String) {
@@ -48,6 +49,11 @@ final class TeamDetailPresenter: ObservableObject {
 
             self.team = team
             self.inputName = team.name
+            
+            if let avatarImage = team.avatarImage {
+                self.avatarInitialLoading = true
+                self.avatarImage = UIImage(data: avatarImage)
+            }
             
             self.interactor.memberLoad(ids: team.members) { users in
                 guard let users = users else {
@@ -147,5 +153,30 @@ final class TeamDetailPresenter: ObservableObject {
     
     func makeAboutTeamQRCodeView() -> some View {
         return router.makeTeamQRCodeView(teamId: self.team?.id ?? "")
+    }
+    
+    func onAvatarImageChanged(image: UIImage) {
+        if self.avatarInitialLoading {
+            self.avatarInitialLoading = false
+            return
+        }
+        
+        guard let team = self.team else {
+            return
+        }
+        
+        guard let imageData = image.jpegData(compressionQuality: 1) else {
+            return
+        }
+        
+        if let dbValue = team.avatarImage, dbValue == imageData {
+            return
+        }
+        
+        self.interactor.updateAvatarImage(id: team.id, avatarImage: imageData) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
     }
 }
