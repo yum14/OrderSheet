@@ -145,4 +145,8 @@ final class TeamStore {
     func disabled(id: String, completion: ((Error?) -> Void)?) {
         db.collection(self.collectionName).document(id).updateData(["disabled": true], completion: completion)
     }
+    
+    func updateAvatarImage(id: String, avatarImage: Data, completion: ((Error?) -> Void)?) {
+        db.collection(self.collectionName).document(id).updateData(["avatar_image": avatarImage], completion: completion)
+    }
 }

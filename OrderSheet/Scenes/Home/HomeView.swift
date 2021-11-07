@@ -40,7 +40,7 @@ struct HomeView: View {
                                 if let userId = self.authStateObserver.appUser?.id {
                                     self.presenter.linkBuilder(userId: userId, team: team) {
                                         HStack {
-                                            AvatarImage(image: self.presenter.teamAvatarImage, defaultImageName: "person.2.circle.fill", length: 28)
+                                            AvatarImage(image: team.avatarImage != nil ? UIImage(data: team.avatarImage!) : nil, defaultImageName: "person.2.circle.fill", length: 28)
                                             Text(team.name)
                                             Spacer()
                                         }

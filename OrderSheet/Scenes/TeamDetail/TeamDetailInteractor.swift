@@ -14,6 +14,7 @@ protocol TeamDetailUsecase {
     func set(_ newValue: Team, completion: ((Error?) -> Void)?)
     func leaveMember(user: User, team: Team, completion: ((Error?) -> Void)?)
     func deleteTeamAndOrder(id: String, completion: ((Error?) -> Void)?)
+    func updateAvatarImage(id: String, avatarImage: Data, completion: ((Error?) -> Void)?)
 }
 
 final class TeamDetailInteractor {
@@ -127,5 +128,9 @@ extension TeamDetailInteractor: TeamDetailUsecase {
     
     func deleteTeamAndOrder(id: String, completion: ((Error?) -> Void)?) {
         self.teamStore.disabled(id: id, completion: completion)
+    }
+    
+    func updateAvatarImage(id: String, avatarImage: Data, completion: ((Error?) -> Void)?) {
+        self.teamStore.updateAvatarImage(id: id, avatarImage: avatarImage, completion: completion)
     }
 }

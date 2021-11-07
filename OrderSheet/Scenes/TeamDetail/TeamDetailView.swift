@@ -15,8 +15,15 @@ struct TeamDetailView: View {
     var body: some View {
         VStack {
             VStack {
-                Circle()
-                    .frame(width: 48, height: 48)
+                AvatarImagePicker(selectedImage: self.$presenter.avatarImage,
+                                  defaultImageName: "person.2.circle.fill")
+                    .onChange(of: self.presenter.avatarImage) { newValue in
+                        
+                        if let newImage = newValue {
+                            self.presenter.onAvatarImageChanged(image: newImage)
+                        }
+                    }
+                
                 TextField(self.presenter.team?.name ?? "",
                           text: self.$presenter.inputName,
                           onEditingChanged: self.presenter.onNameEditingChanged,
@@ -44,8 +51,7 @@ struct TeamDetailView: View {
                     Section(header: Text("メンバー")) {
                         ForEach(self.presenter.members, id: \.self) { member in
                             HStack {
-                                Circle()
-                                    .frame(width: 24, height: 24)
+                                AvatarImage(image: self.authStateObserver.appUser?.avatarImage != nil ? UIImage(data: self.authStateObserver.appUser!.avatarImage!) : nil, defaultImageName: "person.crop.circle.fill", length: 28)
                                 Text(member.displayName)
                                 Spacer()
                             }
