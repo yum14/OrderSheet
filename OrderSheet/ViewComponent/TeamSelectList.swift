@@ -16,8 +16,7 @@ struct TeamSelectList: View {
         VStack {
             ForEach(self.teams ?? [], id: \.self) { team in
                 HStack {
-                    Circle()
-                        .frame(width: 28, height: 28)
+                    AvatarImage(image: team.avatarImage != nil ? UIImage(data: team.avatarImage!) : nil, defaultImageName: "person.2.circle.fill", length: 28)
                     
                     Text(team.name)
                         .padding(.horizontal, 8)

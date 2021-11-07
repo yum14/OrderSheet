@@ -60,7 +60,7 @@ struct HomeView: View {
                                 }
                             }
                             .disabled(self.authStateObserver.appUser?.teams.count ?? 0 >= 10)
-                            
+
                             Button {
                                 self.presenter.onJoinTeamButtonTapped()
                             } label: {
@@ -70,7 +70,12 @@ struct HomeView: View {
                                     Spacer()
                                 }
                             }
-                            .alert(Text("チーム名"), isPresented:
+                            .alert(self.presenter.joinTeam?.name ?? "チームに参加する", isPresented: self.$presenter.showingJoinTeamCancelAlert) {
+                                Button("OK") {}
+                            } message: {
+                                Text("すでに参加中のチームです。")
+                            }
+                            .alert(self.presenter.joinTeam?.name ?? "チームに参加する", isPresented:
                                     self.$presenter.showingJoinTeamAlert) {
                                 Button("参加する", role: .none) {
                                     self.presenter.onJoinTeamAgreementButtonTapped(user: self.authStateObserver.appUser!)
@@ -95,7 +100,7 @@ struct HomeView: View {
                 }
                 .fullScreenCover(isPresented: self.$presenter.showingTeamQrCodeScannerView) {
                     NavigationView {
-                        self.presenter.makeAboutTeamQrCodeScannerView()
+                        self.presenter.makeAboutTeamQrCodeScannerView(user: self.authStateObserver.appUser!)
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
