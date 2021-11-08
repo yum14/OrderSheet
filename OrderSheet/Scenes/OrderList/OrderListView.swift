@@ -75,15 +75,12 @@ struct OrderListView: View {
                    animation: .spring(),
                    closeOnTap: false,
                    closeOnTapOutside: true,
-                   dismissCallback: {
-                
-                if let user = self.authStateObserver.appUser {
-                    self.presenter.updateSelectedTeam(uid: user.id)
-                }
-            }) {
+                   dismissCallback: {}) {
                 TeamSelectList(teams: self.presenter.teams,
                                selectedTeam: self.$presenter.selectedTeam,
-                               onTeamSelected: self.presenter.teamSelected)
+                               onTeamSelected: { team in
+                    self.presenter.teamSelected(user: self.authStateObserver.appUser!, team: team)
+                })
                     .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
                     .frame(width: 350)
                     .background(Color(UIColor.systemBackground))

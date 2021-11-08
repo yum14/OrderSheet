@@ -81,21 +81,6 @@ final class OrderListPresenter: ObservableObject {
             }
     }
 
-    func updateSelectedTeam(uid: String) {
-        guard let selectedTeam = self.selectedTeam else {
-            return
-        }
-        
-        self.interactor.updateSelectedTeam(id: uid, selectedTeam: selectedTeam.id) { error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            
-            // OrderのListener設定
-            self.setOrderListener(teamId: selectedTeam.id)
-        }
-    }
-    
     func load(user: User) {
         if user.selectedTeam == nil && user.teams.count == 0 {
             return
@@ -142,10 +127,18 @@ final class OrderListPresenter: ObservableObject {
         }
     }
     
-    func teamSelected(team: Team) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.showingTeamSelectPopup = false
+    func teamSelected(user: User, team: Team) {
+                
+        self.interactor.updateSelectedTeam(id: user.id, selectedTeam: team.id) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+
+            // OrderのListener設定
+            self.setOrderListener(teamId: team.id)
         }
+        
+        self.showingTeamSelectPopup = false
     }
     
     func orderEditLinkBuilder<Content: View>(isActive: Binding<Bool>, @ViewBuilder content: () -> Content) -> some View {
