@@ -14,16 +14,16 @@ final class NewTeamPresenter: ObservableObject {
     @Published var showingDismissConfirm = false
 
     private let interactor: NewTeamUsecase
-    private var onCommit: (String) -> Void = { _ in }
-    private var onCanceled: () -> Void = {}
+    private var onCommit: ((String) -> Void)?
+    private var onCanceled: (() -> Void)?
     
     var editing: Bool {
         return !self.text.isEmpty
     }
     
     init(interactor: NewTeamUsecase,
-         onCommit: @escaping (String) -> Void = { _ in },
-         onCanceled: @escaping () -> Void = {}) {
+         onCommit: ((String) -> Void)?,
+         onCanceled: (() -> Void)?) {
         
         self.interactor = interactor
         self.text = ""
@@ -49,11 +49,11 @@ final class NewTeamPresenter: ObservableObject {
             }
         })
         
-        self.onCommit(self.text)
+        self.onCommit?(self.text)
     }
     
     func inputCancel() -> Void {
-        self.onCanceled()
+        self.onCanceled?()
     }
     
     func showDismissConfirm() {

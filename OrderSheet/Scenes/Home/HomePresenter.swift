@@ -23,30 +23,29 @@ final class HomePresenter: ObservableObject {
     var joinTeam: Team?
     
     private var interactor: HomeUsecase
-    private var router: HomeRouter
+    private var router: HomeWireframe
     
     private var beginEditingName: String = ""
     private var avatarInitialLoading: Bool = false
     
-    init(interactor: HomeUsecase, router: HomeRouter) {
-        self.router = HomeRouter()
+    init(interactor: HomeUsecase, router: HomeWireframe) {
         self.teams = []
         self.interactor = interactor
         self.router = router
     }
     
-    convenience init(interactor: HomeUsecase, router: HomeRouter, teams: [Team]) {
+    convenience init(interactor: HomeUsecase, router: HomeWireframe, teams: [Team]) {
         self.init(interactor: interactor, router: router)
         self.teams = teams
     }
 }
  
 extension HomePresenter {
-    func addSnapshotListener() {
-        self.interactor.addSnapshotListener(onListen: { teams in
-            self.teams = teams
-        })
-    }
+//    func addSnapshotListener() {
+//        self.interactor.addSnapshotListener(onListen: { teams in
+//            self.teams = teams
+//        })
+//    }
     
     func initialLoad(user: User) {
         self.showingIndicator = true
@@ -79,7 +78,7 @@ extension HomePresenter {
     
     func linkBuilder<Content: View>(userId: String, team: Team, @ViewBuilder content: () -> Content) -> some View {
         return NavigationLink(destination:
-                                router.makeTeamDetailView(id: team.id)
+                                router.makeTeamDetailView(teamId: team.id)
                                 .onDisappear {
             self.showingIndicator = true
             self.loadTeams(userId: userId) {
@@ -104,10 +103,7 @@ extension HomePresenter {
     func makeAboutTeamQrCodeScannerView(user: User) -> some View {
         
         return router.makeTeamQrCodeScannerView(
-            onFound: { code2 in
-                
-                let code = "https://icu.yum14/ordersheet/teams/F1458B93-1136-4746-81E2-F6E617C28038"
-                
+            onFound: { code in
                 
                 self.showingIndicator = true
                 self.showingTeamQrCodeScannerView = false

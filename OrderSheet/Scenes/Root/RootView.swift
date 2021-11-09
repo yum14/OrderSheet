@@ -8,34 +8,34 @@
 import SwiftUI
 
 struct RootView: View {
-    @ObservedObject var rootPresenter: RootPresenter
+    @ObservedObject var presenter: RootPresenter
     @EnvironmentObject var authStateObserver: AuthStateObserver
     @State var tabSelection: Int = 1
     
     var body: some View {
         if self.authStateObserver.isSignedIn == true {
             TabView(selection: self.$tabSelection) {
-                self.rootPresenter.makeAboutHomeView()
+                self.presenter.makeAboutHomeView()
                     .tabItem {
                         Image(systemName: "house")
                     }
                     .tag(0)
                 
-                self.rootPresenter.makeAboutOrderListView()
+                self.presenter.makeAboutOrderListView()
                     .tabItem {
                         Image(systemName: "list.bullet.rectangle")
                     }
                     .tag(1)
             }
         } else {
-            self.rootPresenter.makeAboutLoginView()
+            self.presenter.makeAboutLoginView()
         }
     }
 }
 
 struct RootView_Previews: PreviewProvider {
     static var previews: some View {
-        let rootPresenter = RootPresenter()
-        RootView(rootPresenter: rootPresenter)
+        let presenter = RootPresenter(router: RootRouter())
+        RootView(presenter: presenter)
     }
 }

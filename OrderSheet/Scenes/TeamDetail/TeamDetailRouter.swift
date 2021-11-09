@@ -8,16 +8,29 @@
 import Foundation
 import SwiftUI
 
+protocol TeamDetailWireframe {
+    func makeLoginView() -> AnyView
+    func makeTeamQrCodeView(teamId: String) -> AnyView
+}
+
 final class TeamDetailRouter {
-    func makeLoginView() -> some View {
-        let presenter = LoginPresenter()
-        let view = LoginView(presenter: presenter)
-        return view
+    
+    static func assembleModules(teamId: String) -> AnyView {
+        let interactor = TeamDetailInteractor()
+        let router = TeamDetailRouter()
+        let presenter = TeamDetailPresenter(interactor: interactor, router: router, teamId: teamId)
+        let view = TeamDetailView(presenter: presenter)
+        return AnyView(view)
+    }
+}
+
+extension TeamDetailRouter: TeamDetailWireframe {
+
+    func makeLoginView() -> AnyView {
+        return LoginRouter.assembleModules()
     }
     
-    func makeTeamQRCodeView(teamId: String) -> some View {
-        let presenter = TeamQrCodePresenter(teamId: teamId)
-        let view = TeamQrCodeView(presenter: presenter)
-        return view
+    func makeTeamQrCodeView(teamId: String) -> AnyView {
+        return TeamQrCodeRouter.assembleModules(teamId: teamId)
     }
 }

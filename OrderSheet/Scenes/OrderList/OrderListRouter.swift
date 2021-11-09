@@ -8,26 +8,33 @@
 import Foundation
 import SwiftUI
 
+protocol OrderListWireframe {
+    func makeOrderDetailView(team: Team, order: Order, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) -> AnyView
+    func makeNewOrderView(team: Team) -> AnyView
+    func makeOrderEditView(team: Team, order: Order) -> AnyView
+}
+
 final class OrderListRouter {
     
-    func makeOrderDetailView(team: Team, order: Order, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) -> some View {
-        let interactor = OrderDetailInteractor()
-        let presenter = OrderDetailPresenter(interactor: interactor, team: team, order: order, commitButtonTap: commitButtonTap, editButtonTap: editButtonTap)
-        let view = OrderDetailView(presenter: presenter)
-        return view
+    static func assembleModules() -> AnyView {
+        let interactor = OrderListInteractor()
+        let router = OrderListRouter()
+        let presenter = OrderListPresenter(interactor: interactor, router: router)
+        let view = OrderListView(presenter: presenter)
+        return AnyView(view)
+    }
+}
+
+extension OrderListRouter: OrderListWireframe {
+    func makeOrderDetailView(team: Team, order: Order, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) -> AnyView {
+        return OrderDetailRouter.assembleModules(team: team, order: order, commitButtonTap: commitButtonTap, editButtonTap: editButtonTap)
     }
     
-    func makeNewOrderView(team: Team) -> some View {
-        let interactor = NewOrderInteractor()
-        let presenter = NewOrderPresenter(interactor: interactor, team: team)
-        let view = NewOrderView(presenter: presenter)
-        return view
+    func makeNewOrderView(team: Team) -> AnyView {
+        return NewOrderRouter.assembleModules(team: team)
     }
     
-    func makeOrderEditView(team: Team, order: Order) -> some View {
-        let interactor = OrderEditInteractor()
-        let presenter = OrderEditPresenter(interactor: interactor, team: team, order: order)
-        let view = OrderEditView(presenter: presenter)
-        return view
+    func makeOrderEditView(team: Team, order: Order) -> AnyView {
+        return OrderEditRouter.assembleModules(team: team, order: order)
     }
 }

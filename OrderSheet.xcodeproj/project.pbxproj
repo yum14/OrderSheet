@@ -25,6 +25,13 @@
 		75595E29272586BB00C33B79 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75595E28272586BB00C33B79 /* ActivityIndicator.swift */; };
 		755AE30D2715C67E001EE2D3 /* OrderListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */; };
 		7567FAC62736A309002620C3 /* AvatarImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7567FAC52736A309002620C3 /* AvatarImage.swift */; };
+		7571BFE427397D9000E0FA1E /* NewOrderRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571BFE327397D9000E0FA1E /* NewOrderRouter.swift */; };
+		7571BFE627397E6300E0FA1E /* OrderEditRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571BFE527397E6300E0FA1E /* OrderEditRouter.swift */; };
+		7571BFE827397F1100E0FA1E /* OrderDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571BFE727397F1100E0FA1E /* OrderDetailRouter.swift */; };
+		7571BFEA27397FB000E0FA1E /* NewTeamRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571BFE927397FB000E0FA1E /* NewTeamRouter.swift */; };
+		7571BFEC2739816200E0FA1E /* TeamQrCodeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571BFEB2739816200E0FA1E /* TeamQrCodeRouter.swift */; };
+		7571BFEE273981D900E0FA1E /* TeamQrCodeScannerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571BFED273981D900E0FA1E /* TeamQrCodeScannerRouter.swift */; };
+		7571BFF0273983A200E0FA1E /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571BFEF273983A200E0FA1E /* LoginRouter.swift */; };
 		7582F61127357CD2001D9EA5 /* AvatarImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7582F61027357CD2001D9EA5 /* AvatarImagePicker.swift */; };
 		758BA3F3270DE0A0005C2407 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */; };
 		7595AB32272D643700EFAFC9 /* OrderEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7595AB31272D643700EFAFC9 /* OrderEditView.swift */; };
@@ -84,7 +91,6 @@
 		75F5DE7C27008D690044A782 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 75F5DE7B27008D690044A782 /* FirebaseMessaging */; };
 		75F5DE7E2700A45B0044A782 /* TeamDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE7D2700A45B0044A782 /* TeamDetailRouter.swift */; };
 		75F5DE802700A8900044A782 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE7F2700A8900044A782 /* UserStore.swift */; };
-		75F5DE82270213C30044A782 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE81270213C30044A782 /* LoginInteractor.swift */; };
 		75F5DE842702178A0044A782 /* AuthStateObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE832702178A0044A782 /* AuthStateObserver.swift */; };
 /* End PBXBuildFile section */
 
@@ -105,6 +111,13 @@
 		75595E28272586BB00C33B79 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		755AE30C2715C67E001EE2D3 /* OrderListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListInteractor.swift; sourceTree = "<group>"; };
 		7567FAC52736A309002620C3 /* AvatarImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImage.swift; sourceTree = "<group>"; };
+		7571BFE327397D9000E0FA1E /* NewOrderRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOrderRouter.swift; sourceTree = "<group>"; };
+		7571BFE527397E6300E0FA1E /* OrderEditRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEditRouter.swift; sourceTree = "<group>"; };
+		7571BFE727397F1100E0FA1E /* OrderDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailRouter.swift; sourceTree = "<group>"; };
+		7571BFE927397FB000E0FA1E /* NewTeamRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTeamRouter.swift; sourceTree = "<group>"; };
+		7571BFEB2739816200E0FA1E /* TeamQrCodeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodeRouter.swift; sourceTree = "<group>"; };
+		7571BFED273981D900E0FA1E /* TeamQrCodeScannerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamQrCodeScannerRouter.swift; sourceTree = "<group>"; };
+		7571BFEF273983A200E0FA1E /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		7582F61027357CD2001D9EA5 /* AvatarImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImagePicker.swift; sourceTree = "<group>"; };
 		758BA3F2270DE0A0005C2407 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 		7595AB31272D643700EFAFC9 /* OrderEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEditView.swift; sourceTree = "<group>"; };
@@ -162,7 +175,6 @@
 		75F5DE72270082370044A782 /* NewTeamInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTeamInteractor.swift; sourceTree = "<group>"; };
 		75F5DE7D2700A45B0044A782 /* TeamDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailRouter.swift; sourceTree = "<group>"; };
 		75F5DE7F2700A8900044A782 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
-		75F5DE81270213C30044A782 /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		75F5DE832702178A0044A782 /* AuthStateObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateObserver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +201,7 @@
 			children = (
 				7503560126FE039B004FA7E7 /* TeamQrCodeView.swift */,
 				7503560326FE03AA004FA7E7 /* TeamQrCodePresenter.swift */,
+				7571BFEB2739816200E0FA1E /* TeamQrCodeRouter.swift */,
 			);
 			path = TeamQrCode;
 			sourceTree = "<group>";
@@ -199,6 +212,7 @@
 				7503560C26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift */,
 				7503560E26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift */,
 				7503560826FF28CB004FA7E7 /* QrCodeScannerView.swift */,
+				7571BFED273981D900E0FA1E /* TeamQrCodeScannerRouter.swift */,
 			);
 			path = TeamQrCodeScanner;
 			sourceTree = "<group>";
@@ -209,6 +223,7 @@
 				7595AB31272D643700EFAFC9 /* OrderEditView.swift */,
 				7595AB33272D644D00EFAFC9 /* OrderEditPresenter.swift */,
 				7595AB35272D645800EFAFC9 /* OrderEditInteractor.swift */,
+				7571BFE527397E6300E0FA1E /* OrderEditRouter.swift */,
 			);
 			path = OrderEdit;
 			sourceTree = "<group>";
@@ -316,6 +331,7 @@
 				759626E326FDE9DB00460629 /* NewTeamView.swift */,
 				759626E226FDE9DB00460629 /* NewTeamPresenter.swift */,
 				75F5DE72270082370044A782 /* NewTeamInteractor.swift */,
+				7571BFE927397FB000E0FA1E /* NewTeamRouter.swift */,
 			);
 			path = NewTeam;
 			sourceTree = "<group>";
@@ -347,6 +363,7 @@
 				759626ED26FDE9DB00460629 /* OrderDetailView.swift */,
 				759626EC26FDE9DB00460629 /* OrderDetailPresenter.swift */,
 				751015CB2723051F00DE7E99 /* OrderDetailInteractor.swift */,
+				7571BFE727397F1100E0FA1E /* OrderDetailRouter.swift */,
 			);
 			path = OrderDetail;
 			sourceTree = "<group>";
@@ -368,6 +385,7 @@
 				759626F326FDE9DB00460629 /* NewOrderView.swift */,
 				759626F426FDE9DB00460629 /* NewOrderPresenter.swift */,
 				751F62B12717357E00D19E8F /* NewOrderInteractor.swift */,
+				7571BFE327397D9000E0FA1E /* NewOrderRouter.swift */,
 			);
 			path = NewOrder;
 			sourceTree = "<group>";
@@ -377,7 +395,7 @@
 			children = (
 				759626F626FDE9DB00460629 /* LoginView.swift */,
 				759626F726FDE9DB00460629 /* LoginPresenter.swift */,
-				75F5DE81270213C30044A782 /* LoginInteractor.swift */,
+				7571BFEF273983A200E0FA1E /* LoginRouter.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -513,12 +531,15 @@
 				7596272426FDE9DB00460629 /* AppleSignInButton.swift in Sources */,
 				7596271B26FDE9DB00460629 /* NewOrderPresenter.swift in Sources */,
 				7503560F26FF2906004FA7E7 /* TeamQrCodeScannerPresenter.swift in Sources */,
+				7571BFE827397F1100E0FA1E /* OrderDetailRouter.swift in Sources */,
 				75F273E527356F3000FCA847 /* ImagePicker.swift in Sources */,
 				758BA3F3270DE0A0005C2407 /* HomeInteractor.swift in Sources */,
 				7596271226FDE9DB00460629 /* RootRouter.swift in Sources */,
+				7571BFF0273983A200E0FA1E /* LoginRouter.swift in Sources */,
 				7595AB32272D643700EFAFC9 /* OrderEditView.swift in Sources */,
 				75E6977B2728374800A2AFE0 /* UnlockButton.swift in Sources */,
 				7596271F26FDE9DB00460629 /* EditableList.swift in Sources */,
+				7571BFE627397E6300E0FA1E /* OrderEditRouter.swift in Sources */,
 				7503560226FE039B004FA7E7 /* TeamQrCodeView.swift in Sources */,
 				751015C8271F15E100DE7E99 /* TeamSelectList.swift in Sources */,
 				7503560D26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift in Sources */,
@@ -533,23 +554,26 @@
 				7596270426FDE9DB00460629 /* FirebaseAuth.swift in Sources */,
 				7596271526FDE9DB00460629 /* OrderDetailPresenter.swift in Sources */,
 				75595E29272586BB00C33B79 /* ActivityIndicator.swift in Sources */,
+				7571BFEE273981D900E0FA1E /* TeamQrCodeScannerRouter.swift in Sources */,
 				7596272326FDE9DB00460629 /* CustomTextField.swift in Sources */,
 				7596271826FDE9DB00460629 /* OrderListPresenter.swift in Sources */,
 				7596272626FDE9DB00460629 /* OrderItemList.swift in Sources */,
 				750355FF26FE02C4004FA7E7 /* TeamQrCodeManager.swift in Sources */,
 				7596271A26FDE9DB00460629 /* NewOrderView.swift in Sources */,
+				7571BFEA27397FB000E0FA1E /* NewTeamRouter.swift in Sources */,
 				7596270E26FDE9DB00460629 /* NewTeamPresenter.swift in Sources */,
 				7596271926FDE9DB00460629 /* OrderListRouter.swift in Sources */,
 				75F5DE73270082370044A782 /* NewTeamInteractor.swift in Sources */,
 				7596271426FDE9DB00460629 /* RootPresenter.swift in Sources */,
-				75F5DE82270213C30044A782 /* LoginInteractor.swift in Sources */,
 				751015CC2723051F00DE7E99 /* OrderDetailInteractor.swift in Sources */,
 				7596272026FDE9DB00460629 /* CommitButton.swift in Sources */,
 				7596270726FDE9DB00460629 /* Team.swift in Sources */,
 				7596272726FDE9DB00460629 /* AddButton.swift in Sources */,
+				7571BFE427397D9000E0FA1E /* NewOrderRouter.swift in Sources */,
 				7596271D26FDE9DB00460629 /* LoginPresenter.swift in Sources */,
 				759626AB26FDE91900460629 /* ContentView.swift in Sources */,
 				7596272126FDE9DB00460629 /* GoogleSignInButton.swift in Sources */,
+				7571BFEC2739816200E0FA1E /* TeamQrCodeRouter.swift in Sources */,
 				7596271726FDE9DB00460629 /* OrderListView.swift in Sources */,
 				75F5DE842702178A0044A782 /* AuthStateObserver.swift in Sources */,
 				75119BF4271C1CCB00187EB3 /* QrCodeScannerBanner.swift in Sources */,

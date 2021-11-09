@@ -69,7 +69,7 @@ struct NewTeamView: View {
 struct NewTeamView_Previews: PreviewProvider {
     static var previews: some View {
         let interactor = NewTeamInteractor()
-        let presenter = NewTeamPresenter(interactor: interactor)
+        let presenter = NewTeamPresenter(interactor: interactor, onCommit: {_ in }, onCanceled: {})
         NavigationView {
             NewTeamView(presenter: presenter)
                 .environmentObject(AuthStateObserver(user: User(displayName: "アカウント名", teams: [])))

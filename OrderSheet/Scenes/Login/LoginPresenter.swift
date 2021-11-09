@@ -43,7 +43,6 @@ class LoginPresenter: ObservableObject {
     }
     
     func onFirebaseSignInWithCreateAccount() {
-//        self.sheetPresented = false
         self.mode = .createNewAccount
         self.showCreateAccountDummyView = true
     }
