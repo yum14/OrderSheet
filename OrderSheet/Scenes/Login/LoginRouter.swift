@@ -10,8 +10,9 @@ import SwiftUI
 
 final class LoginRouter {
     
+    static let presenter = LoginPresenter()
+    
     static func assembleModules() -> AnyView {
-        let presenter = LoginPresenter()
         let view = LoginView(presenter: presenter)
         return AnyView(view)
     }

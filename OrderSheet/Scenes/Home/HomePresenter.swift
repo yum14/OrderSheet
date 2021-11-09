@@ -71,7 +71,7 @@ extension HomePresenter {
             case .failure(let error):
                 print(error.localizedDescription)
             }
-            
+
             completion?()
         }
     }
@@ -198,6 +198,7 @@ extension HomePresenter {
 }
 
 extension HomePresenter {
+    
     func onCreateTeamButtonTapped() {
         self.showingNewTeamView = true
     }

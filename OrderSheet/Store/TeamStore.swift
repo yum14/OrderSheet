@@ -101,7 +101,7 @@ final class TeamStore {
     }
     
     
-    func get(containsUserId: String, completion: ((Result<[Team]?, Error>) -> Void)?) {
+    func get(containsUserId: String, completion: @escaping (Result<[Team]?, Error>) -> Void = { _ in }) {
         
         db.collection(self.collectionName)
             .whereField("members", arrayContains: containsUserId)
@@ -109,12 +109,12 @@ final class TeamStore {
             .getDocuments { (snapshot, error) in
             
                 if let error = error {
-                completion?(Result.failure(error))
+                completion(Result.failure(error))
                 return
             }
             
             guard let documents = snapshot?.documents else {
-                completion?(Result.success(nil))
+                completion(Result.success(nil))
                 return
             }
 
@@ -125,12 +125,41 @@ final class TeamStore {
                     let data = try document.data(as: Team.self)!
                     teams.append(data)
                 } catch(let error) {
-                    completion?(Result.failure(error))
+                    completion(Result.failure(error))
                     return
                 }
             }
             
-            completion?(Result.success(teams))
+            completion(Result.success(teams))
+        }
+    }
+    
+    func get(ids: [String], completion: @escaping (Result<[Team]?, Error>) -> Void = { _ in }) {
+        
+        db.collection(self.collectionName).whereField("id", in: ids).getDocuments { querySnapshot, error in
+            if let error = error {
+                completion(Result.failure(error))
+                return
+            }
+            
+            guard let documents = querySnapshot?.documents else {
+                completion(Result.success(nil))
+                return
+            }
+
+            var teams: [Team] = []
+            
+            for document in documents {
+                do {
+                    let data = try document.data(as: Team.self)!
+                    teams.append(data)
+                } catch(let error) {
+                    completion(Result.failure(error))
+                    return
+                }
+            }
+            
+            completion(Result.success(teams))
         }
     }
     
