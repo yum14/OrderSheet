@@ -26,14 +26,14 @@ final class OrderListPresenter: ObservableObject {
     @Published var sheetType: SheetType = .detail
     
     private let interactor: OrderListUsecase
-    private let router: OrderListRouter
+    private let router: OrderListWireframe
     
-    init(interactor: OrderListUsecase, router: OrderListRouter) {
+    init(interactor: OrderListUsecase, router: OrderListWireframe) {
         self.interactor = interactor
         self.router = router
     }
     
-    init(interactor: OrderListUsecase, router: OrderListRouter, orders: [Order] = [], teams: [Team] = []) {
+    init(interactor: OrderListUsecase, router: OrderListWireframe, orders: [Order] = [], teams: [Team] = []) {
         self.interactor = interactor
         self.router = router
         self.orders = orders

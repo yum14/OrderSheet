@@ -9,7 +9,11 @@ import Foundation
 import SwiftUI
 
 class RootPresenter: ObservableObject {
-    private let router = RootRouter()
+    private let router: RootWireframe
+    
+    init(router: RootWireframe) {
+        self.router = router
+    }    
     
     func makeAboutLoginView() -> some View {
         router.makeLoginView()

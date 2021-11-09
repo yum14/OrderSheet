@@ -19,19 +19,19 @@ final class TeamDetailPresenter: ObservableObject {
     @Published var avatarImage: UIImage?
     
     private let interactor: TeamDetailUsecase
-    private let router: TeamDetailRouter
+    private let router: TeamDetailWireframe
     
     private var beginEditingName: String = ""
     private var avatarInitialLoading: Bool = false
     private let id: String
     
-    init(interactor: TeamDetailInteractor, router: TeamDetailRouter, teamId: String) {
+    init(interactor: TeamDetailInteractor, router: TeamDetailWireframe, teamId: String) {
         self.interactor = interactor
         self.router = router
         self.id = teamId
     }
     
-    init(interactor: TeamDetailInteractor, router: TeamDetailRouter, team: Team, members: [User]) {
+    init(interactor: TeamDetailInteractor, router: TeamDetailWireframe, team: Team, members: [User]) {
         self.interactor = interactor
         self.router = router
         self.team = team
@@ -152,7 +152,7 @@ final class TeamDetailPresenter: ObservableObject {
     }
     
     func makeAboutTeamQRCodeView() -> some View {
-        return router.makeTeamQRCodeView(teamId: self.team?.id ?? "")
+        return router.makeTeamQrCodeView(teamId: self.team?.id ?? "")
     }
     
     func onAvatarImageChanged(image: UIImage) {

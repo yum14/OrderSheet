@@ -8,6 +8,12 @@
 import Foundation
 import SwiftUI
 
+protocol HomeWireframe {
+    func makeNewTeamView(onCommit: ((String) -> Void)?, onCanceled: (() -> Void)?) -> AnyView
+    func makeTeamQrCodeScannerView(onFound: ((String) -> Void)?, onDismiss: (() -> Void)?) -> AnyView
+    func makeTeamDetailView(teamId: String) -> AnyView
+}
+
 final class HomeRouter {
     
 //    let newTeamInteractor: NewTeamUsecase
@@ -17,31 +23,26 @@ final class HomeRouter {
 //    let teamDetailInteractor: TeamDetailUsecase
 //    let teamDetailPresenter: TeamDetailPresenter
     
-    
-    
-    func makeNewTeamView(onCommit: @escaping (String) -> Void = { _ in },
-                         onCanceled: @escaping () -> Void = {}) -> some View {
-        
-        let interactor = NewTeamInteractor()
-        let presenter = NewTeamPresenter(interactor: interactor,
-                                         onCommit: onCommit,
-                                         onCanceled: onCanceled)
-        return NewTeamView(presenter: presenter)
+    static func assembleModules() -> AnyView {
+        let interactor = HomeInteractor()
+        let router = HomeRouter()
+        let presenter = HomePresenter(interactor: interactor, router: router)
+        let view = HomeView(presenter: presenter)
+        return AnyView(view)
+    }
+}
+
+extension HomeRouter: HomeWireframe {
+
+    func makeNewTeamView(onCommit: ((String) -> Void)?, onCanceled: (() -> Void)?) -> AnyView {
+        return NewTeamRouter.assembleModules(onCommit: onCommit, onCanceled: onCanceled)
     }
     
-    func makeTeamQrCodeScannerView(onFound: @escaping (String) -> Void, onDismiss: @escaping () -> Void) -> some View {
-        
-        let presenter = TeamQrCodeScannerPresenter(
-            onFound: onFound,
-            onDismiss: onDismiss)
-        return TeamQrCodeScannerView(presenter: presenter)
+    func makeTeamQrCodeScannerView(onFound: ((String) -> Void)?, onDismiss: (() -> Void)?) -> AnyView {
+        return TeamQrCodeScannerRouter.assembleModules(onFound: onFound, onDismiss: onDismiss)
     }
     
-    func makeTeamDetailView(id: String) -> some View {
-        let router = TeamDetailRouter()
-        let interactor = TeamDetailInteractor()
-        let presenter = TeamDetailPresenter(interactor: interactor, router: router, teamId: id)
-        let view = TeamDetailView(presenter: presenter)
-        return view
+    func makeTeamDetailView(teamId: String) -> AnyView {
+        return TeamDetailRouter.assembleModules(teamId: teamId)
     }
 }

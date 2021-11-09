@@ -18,7 +18,9 @@ struct TeamQrCodeScannerView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: self.presenter.onDismiss) {
+                    Button {
+                        self.presenter.onDismiss?()
+                    } label: {
                         Image(systemName: "xmark")
                     }
                 }
@@ -28,7 +30,7 @@ struct TeamQrCodeScannerView: View {
 
 struct TeamQrCodeScannerView_Previews: PreviewProvider {
     static var previews: some View {
-        let presenter = TeamQrCodeScannerPresenter()
+        let presenter = TeamQrCodeScannerPresenter(onFound: { _ in }, onDismiss: {})
         TeamQrCodeScannerView(presenter: presenter)
     }
 }

@@ -50,10 +50,12 @@ struct OrderListView: View {
                         Button {
                             self.presenter.showingTeamSelectPopup = true
                         } label: {
-                            HStack {
-                                AvatarImage(image: self.presenter.selectedTeam?.avatarImage != nil ? UIImage(data: self.presenter.selectedTeam!.avatarImage!) : nil, defaultImageName: "person.2.circle.fill", length: 28)
-                                Text(self.presenter.selectedTeam?.name ?? "")
-                                    .foregroundColor(Color.primary)
+                            if let teams = self.presenter.teams, teams.count > 0 {
+                                HStack {
+                                    AvatarImage(image: self.presenter.selectedTeam?.avatarImage != nil ? UIImage(data: self.presenter.selectedTeam!.avatarImage!) : nil, defaultImageName: "person.2.circle.fill", length: 28)
+                                    Text(self.presenter.selectedTeam?.name ?? "")
+                                        .foregroundColor(Color.primary)
+                                }
                             }
                         }
                     }
