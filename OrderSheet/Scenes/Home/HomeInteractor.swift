@@ -9,12 +9,13 @@ import Foundation
 import CloudKit
 
 protocol HomeUsecase {
-    func addSnapshotListener(onListen: @escaping ([Team]) -> Void)
-    func loadTeams(userId: String, completion: ((Result<[Team]?, Error>) -> Void)?)
+//    func addSnapshotListener(onListen: @escaping ([Team]) -> Void)
+    func loadTeams(userId: String, completion: @escaping (Result<[Team]?, Error>) -> Void)
     func getTeam(id: String, completion: @escaping (Result<Team?, Error>) -> Void)
     func addTeam(user: User, teamId: String, completion: ((Error?) -> Void)?)
     func updateUserDisplayName(id: String, displayName: String, completion: ((Error?) -> Void)?)
     func updateAvatarImage(id: String, avatarImage: Data, completion: ((Error?) -> Void)?)
+    func getTeams(teamIds: [String], completion: @escaping (Result<[Team]?, Error>) -> Void)
 }
 
 final class HomeInteractor {
@@ -24,12 +25,16 @@ final class HomeInteractor {
 }
 
 extension HomeInteractor: HomeUsecase {
-    func addSnapshotListener(onListen: @escaping ([Team]) -> Void) {
-        self.teamStore.addSnapshotListener(onListen: onListen)
+//    func addSnapshotListener(onListen: @escaping ([Team]) -> Void) {
+//        self.teamStore.addSnapshotListener(onListen: onListen)
+//    }
+    
+    func loadTeams(userId: String, completion: @escaping (Result<[Team]?, Error>) -> Void) {
+        self.teamStore.get(containsUserId: userId, completion: completion)
     }
     
-    func loadTeams(userId: String, completion: ((Result<[Team]?, Error>) -> Void)?) {
-        self.teamStore.get(containsUserId: userId, completion: completion)
+    func getTeams(teamIds: [String], completion: @escaping (Result<[Team]?, Error>) -> Void) {
+        self.teamStore.get(ids: teamIds, completion: completion)
     }
     
     func getTeam(id: String, completion: @escaping (Result<Team?, Error>) -> Void) {

@@ -15,20 +15,6 @@ protocol RootWireframe {
 }
 
 final class RootRouter {
-//    let orderListPresenter: OrderListPresenter
-//    let loginPresener: LoginPresenter
-//    let homePresenter: HomePresenter
-    
-    init() {
-//        let orderListInteractor = OrderListInteractor()
-//        let orderListRouter = OrderListRouter()
-//        self.orderListPresenter = OrderListPresenter(interactor: orderListInteractor, router: orderListRouter)
-//        self.loginPresener = LoginPresenter()
-//
-//        let homeInteractor = HomeInteractor()
-//        let homeRouter = HomeRouter()
-//        self.homePresenter = HomePresenter(interactor: homeInteractor, router: homeRouter)
-    }
     
     static func assembleModules() -> AnyView {
         let router = RootRouter()
@@ -36,7 +22,6 @@ final class RootRouter {
         let view = RootView(presenter: presenter)
         return AnyView(view)
     }
-
 }
 
 extension RootRouter: RootWireframe {

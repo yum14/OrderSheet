@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 final class TeamQrCodeScannerRouter {
-    
     static func assembleModules(onFound: ((String) -> Void)?, onDismiss: (() -> Void)?) -> AnyView {
         let presenter = TeamQrCodeScannerPresenter(onFound: onFound, onDismiss: onDismiss)
         let view = TeamQrCodeScannerView(presenter: presenter)

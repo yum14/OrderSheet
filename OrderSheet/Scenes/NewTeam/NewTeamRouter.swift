@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 final class NewTeamRouter {
-    
     static func assembleModules(onCommit: ((String) -> Void)?, onCanceled: (() -> Void)?) -> AnyView {
         let interactor = NewTeamInteractor()
         let presenter = NewTeamPresenter(interactor: interactor, onCommit: onCommit, onCanceled: onCanceled)

@@ -14,7 +14,6 @@ protocol TeamDetailWireframe {
 }
 
 final class TeamDetailRouter {
-    
     static func assembleModules(teamId: String) -> AnyView {
         let interactor = TeamDetailInteractor()
         let router = TeamDetailRouter()
