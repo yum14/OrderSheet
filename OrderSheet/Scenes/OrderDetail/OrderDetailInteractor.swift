@@ -9,7 +9,6 @@ import Foundation
 
 protocol OrderDetailUsecase {
     func updateOrder(teamId: String, order: Order, completion: ((Error?) -> Void)?)
-    func getUser(id: String, completion: @escaping (Result<User?, Error>) -> Void)
 }
 
 final class OrderDetailInteractor {
@@ -28,9 +27,5 @@ extension OrderDetailInteractor: OrderDetailUsecase {
                 completion?(error)
             }
         }
-    }
-    
-    func getUser(id: String, completion: @escaping (Result<User?, Error>) -> Void) {
-        self.userStore.get(id: id, completion: completion)
     }
 }

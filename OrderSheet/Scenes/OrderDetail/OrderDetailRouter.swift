@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 
 final class OrderDetailRouter {
-    static func assembleModules(team: Team, order: Order, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) -> AnyView {
+    static func assembleModules(team: Team, order: Order, owner: User, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) -> AnyView {
         let interactor = OrderDetailInteractor()
-        let presenter = OrderDetailPresenter(interactor: interactor, team: team, order: order, commitButtonTap: commitButtonTap, editButtonTap: editButtonTap)
+        let presenter = OrderDetailPresenter(interactor: interactor, team: team, order: order, owner: owner, commitButtonTap: commitButtonTap, editButtonTap: editButtonTap)
         let view = OrderDetailView(presenter: presenter)
         return AnyView(view)
     }

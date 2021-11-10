@@ -25,6 +25,8 @@ final class OrderListPresenter: ObservableObject {
     @Published var showingOrderEdit = false
     @Published var sheetType: SheetType = .detail
     
+    private var orderIdAndOwners: [String:User] = [:]
+    
     private let interactor: OrderListUsecase
     private let router: OrderListWireframe
     
@@ -57,6 +59,7 @@ final class OrderListPresenter: ObservableObject {
     func makeAboutOrderDetailSheetView() -> some View {
         return router.makeOrderDetailView(team: self.selectedTeam!,
                                           order: self.selectedOrder!,
+                                          owner: self.orderIdAndOwners[self.selectedOrder!.id]!,
                                           commitButtonTap: { self.showingOrderDetailOrEdit = false },
                                           editButtonTap: self.showOrderEdit)
     }
@@ -157,6 +160,29 @@ final class OrderListPresenter: ObservableObject {
     private func setOrderListener(teamId: String) {
         self.interactor.setOrderListener(teamId: teamId) { orders in
             self.orders = orders ?? []
+            
+            if let orders = orders, orders.count > 0 {
+                let owners = Array(Set(orders.map { $0.owner }))
+                
+                // オーダーの作成者名を取得
+                self.interactor.getUser(ids: owners) { result in
+                    switch result {
+                    case .success(let users):
+                        if let users = users {
+                            var orderIdAndOwners: [String:User] = [:]
+                            for order in orders {
+                                if let user = users.first(where: { $0.id == order.owner }) {
+                                    orderIdAndOwners[order.id] = user
+                                }
+                            }
+                            
+                            self.orderIdAndOwners = orderIdAndOwners
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }
             
             if let selectedOrder = self.selectedOrder {
                 // 再読込がはしったときは選択済み注文を更新する
