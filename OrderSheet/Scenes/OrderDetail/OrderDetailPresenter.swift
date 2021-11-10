@@ -10,11 +10,11 @@ import SwiftUI
 import Combine
 
 final class OrderDetailPresenter: ObservableObject {
-    @Published var order: Order
     @Published var showingOrderCommmitConfirm = false
     @Published var showingUnlockConfirm = false
     
-    @Published var createUser: User?
+    var order: Order
+    var owner: User
     
     var formLocked: Bool {
         return self.order.committed
@@ -29,12 +29,13 @@ final class OrderDetailPresenter: ObservableObject {
         return !self.order.committed
     }
     
-    init(interactor: OrderDetailUsecase, team: Team, order: Order, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) {
+    init(interactor: OrderDetailUsecase, team: Team, order: Order, owner: User, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) {
         self.order = order
         self.team = team
         self.commitButtonTap = commitButtonTap
         self.editButtonTap = editButtonTap
         self.interactor = interactor
+        self.owner = owner        
     }
     
     func commitButtonTapped() {
@@ -104,19 +105,6 @@ final class OrderDetailPresenter: ObservableObject {
         
         self.interactor.updateOrder(teamId: self.team.id, order: newOrder) { error in
             if let error = error {
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    func load() {
-        self.interactor.getUser(id: self.order.owner) { result in
-            switch result {
-            case .success(let user):
-                if let user = user {
-                    self.createUser = user
-                }
-            case .failure(let error):
                 print(error.localizedDescription)
             }
         }
