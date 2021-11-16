@@ -95,3 +95,6 @@ iOSInjectionProject/
 # Firebase
 GoogleService-Info.plist
 
+# Apple Key
+*.p8
+

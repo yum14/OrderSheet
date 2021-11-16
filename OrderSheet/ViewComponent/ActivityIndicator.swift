@@ -12,10 +12,18 @@ struct ActivityIndicator: View {
     @Binding var isVisible: Bool
     
     var body: some View {
-        ActivityIndicatorView(isVisible: self.$isVisible,
-                              type: .default)
-            .frame(width: 50.0, height: 50.0)
-            .foregroundColor(Color("Main"))
+        ZStack {
+            if self.isVisible {
+                Color.black.opacity(0.3)
+                    .edgesIgnoringSafeArea(.all)
+                    .transition(.opacity)
+            }
+            
+            ActivityIndicatorView(isVisible: self.$isVisible,
+                                  type: .default)
+                .frame(width: 50.0, height: 50.0)
+                .foregroundColor(Color.secondary)
+        }
     }
 }
 
