@@ -86,9 +86,6 @@ struct OrderDetailView: View {
                     }
                 }
             }
-//            .onAppear {
-//                self.presenter.load()
-//            }
             .navigationTitle(self.presenter.order.name)
             .navigationViewStyle(StackNavigationViewStyle())
             .toolbar {

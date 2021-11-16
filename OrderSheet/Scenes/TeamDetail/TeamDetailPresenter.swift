@@ -10,60 +10,50 @@ import SwiftUI
 import Combine
 
 final class TeamDetailPresenter: ObservableObject {
-    @Published var team: Team?
+    @Published var team: Team
     @Published var members: [User] = []
     @Published var sheetPresented = false
     @Published var inputName: String = ""
     @Published var showingLeaveTeamConfirm = false
     @Published var showingDeleteTeamConfirm = false
     @Published var avatarImage: UIImage?
+    @Published var showingIndicator = false
     
     private let interactor: TeamDetailUsecase
     private let router: TeamDetailWireframe
     
     private var beginEditingName: String = ""
     private var avatarInitialLoading: Bool = false
-    private let id: String
     
-    init(interactor: TeamDetailInteractor, router: TeamDetailWireframe, teamId: String) {
-        self.interactor = interactor
-        self.router = router
-        self.id = teamId
-    }
-    
-    init(interactor: TeamDetailInteractor, router: TeamDetailWireframe, team: Team, members: [User]) {
+    init(interactor: TeamDetailInteractor, router: TeamDetailWireframe, team: Team) {
         self.interactor = interactor
         self.router = router
         self.team = team
-        self.members = members
         self.inputName = team.name
-        self.id = team.id
+
+        if let avatarImage = team.avatarImage {
+            self.avatarInitialLoading = true
+            self.avatarImage = UIImage(data: avatarImage)
+        }
+    }
+    
+    convenience init(interactor: TeamDetailInteractor, router: TeamDetailWireframe, team: Team, members: [User]) {
+        self.init(interactor: interactor, router: router, team: team)
+        self.members = members
     }
     
     func load() {
-        self.interactor.teamLoad(id: self.id, completion: { team in
-            guard let team = team else {
-                self.team = nil
+        self.showingIndicator = true
+        self.interactor.memberLoad(ids: self.team.members) { users in
+            guard let users = users else {
+                self.members = []
+                self.showingIndicator = false
                 return
             }
-
-            self.team = team
-            self.inputName = team.name
             
-            if let avatarImage = team.avatarImage {
-                self.avatarInitialLoading = true
-                self.avatarImage = UIImage(data: avatarImage)
-            }
-            
-            self.interactor.memberLoad(ids: team.members) { users in
-                guard let users = users else {
-                    self.members = []
-                    return
-                }
-                
-                self.members = users
-            }
-        })
+            self.members = users
+            self.showingIndicator = false
+        }
     }
     
     func onNameCommit() {
@@ -72,16 +62,12 @@ final class TeamDetailPresenter: ObservableObject {
             return
         }
         
-        guard let team = self.team else {
-            return
-        }
-        
-        let newTeam = Team(id: team.id,
+        let newTeam = Team(id: self.team.id,
                            name: self.inputName,
-                           avatarImage: team.avatarImage,
-                           members: team.members,
-                           owner: team.owner,
-                           createdAt: team.createdAt.dateValue(),
+                           avatarImage: self.team.avatarImage,
+                           members: self.team.members,
+                           owner: self.team.owner,
+                           createdAt: self.team.createdAt.dateValue(),
                            updatedAt: Date())
         self.interactor.set(newTeam) { error in
             if let error = error {
@@ -105,54 +91,55 @@ final class TeamDetailPresenter: ObservableObject {
     }
     
     func leaveTeam(user: User, completion: (() -> Void)? = {}) {
-        guard let team = self.team else {
+        if !self.team.members.contains(user.id) {
             return
         }
         
-        if !team.members.contains(user.id) {
-            return
-        }
-        
-        if team.members.count <= 1 {
+        if self.team.members.count <= 1 {
             self.showingDeleteTeamConfirm = true
             return
         }
         
-        self.interactor.leaveMember(user: user, team: team) { error in
+        self.showingIndicator = true
+        
+        self.interactor.leaveMember(user: user, team: self.team) { error in
             if let error = error {
                 print(error.localizedDescription)
+                self.showingIndicator = false
                 return
             }
             
             completion?()
+            self.showingIndicator = false
         }
     }
     
     func leaveAndDeleteTeam(user: User, completion: (() -> Void)? = {}) {
-        guard let team = self.team else {
-            return
-        }
+        self.showingIndicator = true
         
-        self.interactor.leaveMember(user: user, team: team) { error in
+        self.interactor.leaveMember(user: user, team: self.team) { error in
             if let error = error {
                 print(error.localizedDescription)
+                self.showingIndicator = false
                 return
             }
             
-            self.interactor.deleteTeamAndOrder(id: team.id) { error in
+            self.interactor.deleteTeamAndOrder(id: self.team.id) { error in
                 if let error = error {
                     print(error.localizedDescription)
+                    self.showingIndicator = false
                     return
                 }
                 
                 completion?()
+                self.showingIndicator = false
             }
         }
 
     }
     
     func makeAboutTeamQRCodeView() -> some View {
-        return router.makeTeamQrCodeView(teamId: self.team?.id ?? "")
+        return router.makeTeamQrCodeView(teamId: self.team.id)
     }
     
     func onAvatarImageChanged(image: UIImage) {
@@ -161,19 +148,15 @@ final class TeamDetailPresenter: ObservableObject {
             return
         }
         
-        guard let team = self.team else {
-            return
-        }
-        
         guard let imageData = image.jpegData(compressionQuality: 1) else {
             return
         }
         
-        if let dbValue = team.avatarImage, dbValue == imageData {
+        if let dbValue = self.team.avatarImage, dbValue == imageData {
             return
         }
         
-        self.interactor.updateAvatarImage(id: team.id, avatarImage: imageData) { error in
+        self.interactor.updateAvatarImage(id: self.team.id, avatarImage: imageData) { error in
             if let error = error {
                 print(error.localizedDescription)
             }

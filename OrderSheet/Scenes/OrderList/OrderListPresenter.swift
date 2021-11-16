@@ -25,8 +25,11 @@ final class OrderListPresenter: ObservableObject {
     @Published var showingOrderEdit = false
     @Published var sheetType: SheetType = .detail
     
-    private var orderIdAndOwners: [String:User] = [:]
+    var toolbarItemDisabled: Bool {
+        self.showingTeamSelectPopup
+    }
     
+    private var orderIdAndOwners: [String:User] = [:]
     private let interactor: OrderListUsecase
     private let router: OrderListWireframe
     
@@ -35,9 +38,8 @@ final class OrderListPresenter: ObservableObject {
         self.router = router
     }
     
-    init(interactor: OrderListUsecase, router: OrderListWireframe, orders: [Order] = [], teams: [Team] = []) {
-        self.interactor = interactor
-        self.router = router
+    convenience init(interactor: OrderListUsecase, router: OrderListWireframe, orders: [Order] = [], teams: [Team] = []) {
+        self.init(interactor: interactor, router: router)
         self.orders = orders
         self.teams = teams
     }

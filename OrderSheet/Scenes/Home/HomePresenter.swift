@@ -78,13 +78,14 @@ extension HomePresenter {
     
     func linkBuilder<Content: View>(userId: String, team: Team, @ViewBuilder content: () -> Content) -> some View {
         return NavigationLink(destination:
-                                router.makeTeamDetailView(teamId: team.id)
-                                .onDisappear {
-            self.showingIndicator = true
-            self.loadTeams(userId: userId) {
-                self.showingIndicator = false
-            }
-        }) {
+                                router.makeTeamDetailView(team: team)
+//                                .onDisappear {
+//            self.showingIndicator = true
+//            self.loadTeams(userId: userId) {
+//                self.showingIndicator = false
+//            }
+//        }
+        ) {
             content()
         }
     }
