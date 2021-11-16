@@ -11,7 +11,7 @@ import SwiftUI
 protocol HomeWireframe {
     func makeNewTeamView(onCommit: ((String) -> Void)?, onCanceled: (() -> Void)?) -> AnyView
     func makeTeamQrCodeScannerView(onFound: ((String) -> Void)?, onDismiss: (() -> Void)?) -> AnyView
-    func makeTeamDetailView(teamId: String) -> AnyView
+    func makeTeamDetailView(team: Team) -> AnyView
 }
 
 final class HomeRouter {
@@ -36,7 +36,7 @@ extension HomeRouter: HomeWireframe {
         return TeamQrCodeScannerRouter.assembleModules(onFound: onFound, onDismiss: onDismiss)
     }
     
-    func makeTeamDetailView(teamId: String) -> AnyView {
-        return TeamDetailRouter.assembleModules(teamId: teamId)
+    func makeTeamDetailView(team: Team) -> AnyView {
+        return TeamDetailRouter.assembleModules(team: team)
     }
 }

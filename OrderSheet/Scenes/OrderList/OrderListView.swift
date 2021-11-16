@@ -15,17 +15,17 @@ struct OrderListView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                ZStack {
+            ZStack {
+                if self.presenter.showingTeamSelectPopup {
+                    Color.black.opacity(0.3)
+                        .edgesIgnoringSafeArea(.all)
+                        .transition(.opacity)
+                        .zIndex(1)
+                }
+                
+                VStack {
                     self.presenter.orderEditLinkBuilder(isActive: self.$presenter.showingOrderEdit) {
                         EmptyView()
-                    }
-                    
-                    if self.presenter.showingTeamSelectPopup {
-                        Color.black.opacity(0.3)
-                            .edgesIgnoringSafeArea(.all)
-                            .transition(.opacity)
-                            .zIndex(1)
                     }
                     
                     VStack {
@@ -43,32 +43,35 @@ struct OrderListView: View {
                     .fullScreenCover(isPresented: self.$presenter.showingNewOrder) {
                         self.presenter.makeAboutNewOrderSheetView()
                     }
-                }
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button {
-                            self.presenter.showingTeamSelectPopup = true
-                        } label: {
-                            if let teams = self.presenter.teams, teams.count > 0 {
-                                HStack {
-                                    AvatarImage(image: self.presenter.selectedTeam?.avatarImage != nil ? UIImage(data: self.presenter.selectedTeam!.avatarImage!) : nil, defaultImageName: "person.2.circle.fill", length: 28)
-                                    Text(self.presenter.selectedTeam?.name ?? "")
-                                        .foregroundColor(Color.primary)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button {
+                                self.presenter.showingTeamSelectPopup = true
+                            } label: {
+                                if let teams = self.presenter.teams, teams.count > 0 {
+                                    HStack {
+                                        AvatarImage(image: self.presenter.selectedTeam?.avatarImage != nil ? UIImage(data: self.presenter.selectedTeam!.avatarImage!) : nil, defaultImageName: "person.2.circle.fill", length: 28)
+                                        Text(self.presenter.selectedTeam?.name ?? "")
+                                            .foregroundColor(Color.primary)
+                                    }
                                 }
+                            }
+                            .disabled(self.presenter.toolbarItemDisabled)
+                        }
+                        
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            if self.presenter.selectedTeam != nil {
+                                Button {
+                                    self.presenter.showNewOrderSheet()
+                                } label: {
+                                    Image(systemName: "plus")
+                                }
+                                .disabled(self.presenter.toolbarItemDisabled)
                             }
                         }
                     }
                     
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        if self.presenter.selectedTeam != nil {
-                            Button {
-                                self.presenter.showNewOrderSheet()
-                            } label: {
-                                Image(systemName: "plus")
-                            }
-                        }
-                    }
                 }
             }
             .popup(isPresented: self.$presenter.showingTeamSelectPopup,
