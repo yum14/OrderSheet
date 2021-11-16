@@ -87,15 +87,31 @@ struct HomeView: View {
                                 Text("チームに参加しますか？")
                             }
                         }
+                        
+                        
+                        Section {
+                            Button(role: .destructive) {
+                                self.presenter.showingLogoutAlert = true
+                            } label: {
+                                HStack {
+                                    Spacer()
+                                    Text("ログアウト")
+                                    Spacer()
+                                }
+                            }
+                            .alert("ログアウト", isPresented: self.$presenter.showingLogoutAlert) {
+                                Button("OK") {
+                                    self.authStateObserver.signOut()
+                                }
+                                Button("キャンセル", role: .cancel) {}
+                            } message: {
+                                Text("ログアウトしますか？")
+                            }
+                            
+                        }
                     }
                     .fullScreenCover(isPresented: self.$presenter.showingNewTeamView) {
                         self.presenter.makeAboutNewTeamView(userId: self.authStateObserver.appUser!.id)
-                    }
-                    
-                    Button {
-                        self.authStateObserver.signOut()
-                    } label: {
-                        Text("ログアウト")
                     }
                 }
                 .fullScreenCover(isPresented: self.$presenter.showingTeamQrCodeScannerView) {

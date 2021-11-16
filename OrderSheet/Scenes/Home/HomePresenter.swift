@@ -14,6 +14,7 @@ final class HomePresenter: ObservableObject {
     @Published var showingTeamQrCodeScannerView = false
     @Published var showingJoinTeamAlert = false
     @Published var showingJoinTeamCancelAlert = false
+    @Published var showingLogoutAlert = false
     @Published var showingTeamQrCodeScanBanner = false
     @Published var showingIndicator = false
     @Published var showingNewTeamView = false
@@ -41,12 +42,6 @@ final class HomePresenter: ObservableObject {
 }
  
 extension HomePresenter {
-//    func addSnapshotListener() {
-//        self.interactor.addSnapshotListener(onListen: { teams in
-//            self.teams = teams
-//        })
-//    }
-    
     func initialLoad(user: User) {
         self.showingIndicator = true
         self.inputName = user.displayName
@@ -78,14 +73,7 @@ extension HomePresenter {
     
     func linkBuilder<Content: View>(userId: String, team: Team, @ViewBuilder content: () -> Content) -> some View {
         return NavigationLink(destination:
-                                router.makeTeamDetailView(team: team)
-//                                .onDisappear {
-//            self.showingIndicator = true
-//            self.loadTeams(userId: userId) {
-//                self.showingIndicator = false
-//            }
-//        }
-        ) {
+                                router.makeTeamDetailView(team: team)) {
             content()
         }
     }
