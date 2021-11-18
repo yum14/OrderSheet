@@ -21,9 +21,17 @@ struct OrderDetailView: View {
                             ForEach(self.presenter.order.items, id: \.self) { item in
                                 ZStack {
                                     HStack {
-                                        Text(item.name)
-                                            .lineLimit(0)
-                                            .foregroundColor(self.presenter.formLocked ? Color.secondary : Color.primary)
+                                        Group {
+                                            if item.checked {
+                                                Text(item.name)
+                                                .strikethrough()
+                                            } else {
+                                                Text(item.name)
+                                            }
+                                        }
+                                        .lineLimit(0)
+                                        .foregroundColor(self.presenter.formLocked ? Color.secondary : Color.primary)
+                                        
                                         Spacer()
                                         
                                         VStack {
@@ -51,6 +59,7 @@ struct OrderDetailView: View {
                     
                     Section(header: Text("作成者")) {
                         Text(self.presenter.owner.displayName)
+                            .foregroundColor(.secondary)
                     }
                 }
                 
