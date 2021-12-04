@@ -80,20 +80,18 @@ struct TeamDetailView: View {
                                     Spacer()
                                 }
                             }
-                            .alert(isPresented: self.$presenter.showingLeaveTeamConfirm) {
-                                Alert(title: Text(self.presenter.team.name),
-                                      message: Text("チームから抜けますか？"),
-                                      primaryButton: .default(Text("抜ける")) {
-                                    
+                            
+                            .alert(self.presenter.team.name, isPresented: self.$presenter.showingLeaveTeamConfirm) {
+                                Button("抜ける", role: .destructive) {
                                     self.presenter.leaveTeam(user: self.authStateObserver.appUser!) {
                                         self.presentation.wrappedValue.dismiss()
                                     }
-                                },
-                                      secondaryButton: .cancel()
-                                )
+                                }
+                                Button("キャンセル", role: .cancel) {}
+                            } message: {
+                                Text("チームから抜けますか？")
                             }
                         }
-                        
                     }
                 }
             }
@@ -118,9 +116,11 @@ struct TeamDetailView_Previews: PreviewProvider {
         let router = TeamDetailRouter()
         let interactor = TeamDetailInteractor()
         let presenter = TeamDetailPresenter(interactor: interactor, router: router, team: Team(name: "チーム名", members: [], owner: ""), members: [User(displayName: "メンバー1", teams: []), User(displayName: "メンバー2", teams: [])])
+        let authStateObserver = AuthStateObserver()
         
         NavigationView {
             TeamDetailView(presenter: presenter)
+                .environmentObject(authStateObserver)
         }
     }
 }
