@@ -52,7 +52,7 @@ final class OrderDetailPresenter: ObservableObject {
                                 createdAt: self.order.createdAt.dateValue(),
                                 updatedAt: Date())
         
-        self.interactor.updateOrder(teamId: self.team.id, order: commitOrder) { error in
+        self.interactor.updateOrderAndNotification(user: self.owner, teamId: self.team.id, order: commitOrder) { error in
             if let error = error {
                 print(error.localizedDescription)
             }
