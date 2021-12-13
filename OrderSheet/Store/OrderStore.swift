@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-class OrderStore {
+final class OrderStore {
     private let db: Firestore
     private let parentCollectionName = "teams"
     private let collectionName = "orders"

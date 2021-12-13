@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-class UserStore {
+final class UserStore {
     private let db: Firestore
     private let collectionName = "users"
 

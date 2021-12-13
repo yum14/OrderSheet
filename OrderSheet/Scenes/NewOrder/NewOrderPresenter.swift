@@ -59,12 +59,12 @@ final class NewOrderPresenter: ObservableObject {
         return self.items.count == 0 || self.showNewItem
     }
     
-    func createNewOrder(owner: String) {
-        self.interactor.addNewOrder(teamId: self.team.id,
-                                    self.title,
+    func createNewOrder(user: User) {
+        self.interactor.addNewOrder(user: user,
+                                    team: self.team,
+                                    name: self.title,
                                     items: self.items.map { OrderItem(name: $0.text) },
-                                    comment: self.comment,
-                                    owner: owner) { result in
+                                    comment: self.comment) { result in
             switch result {
             case .success(_):
                 break
@@ -75,6 +75,6 @@ final class NewOrderPresenter: ObservableObject {
     }
     
     func showDismissConfirm() {
-        self.showingDismissConfirm = true        
+        self.showingDismissConfirm = true
     }
 }
