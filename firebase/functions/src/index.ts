@@ -28,9 +28,8 @@ export const sendOrderNotification = functions.region('asia-northeast1').firesto
 
             var tokens: [string?] = [];
 
-            usersSnapshot.forEach(async doc => {
+            usersSnapshot.forEach(doc => {
                 const user = doc.data() as User;
-                functions.logger.info('token: ', user.notification_token);
                 tokens.push(user.notification_token);
             });
 
@@ -51,13 +50,15 @@ export const sendOrderNotification = functions.region('asia-northeast1').firesto
                 response.results.forEach((result, index) => {
                     const error = result.error;
                     if (error) {
-                      functions.logger.error(
-                        'Failure sending notification to',
-                        deviceTokens[index],
-                        error
-                      );
+                        functions.logger.error(
+                            'Failure sending notification to',
+                            deviceTokens[index],
+                            error
+                        );
                     }
-                  });
+                });
+            } else {
+                functions.logger.error('no notification token. user_id: ', triggerData.user_id);
             }
 
             // データ削除
