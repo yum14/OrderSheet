@@ -31,7 +31,8 @@ extension NewOrderInteractor: NewOrderUsecase {
                 // プッシュ通知用コレクションにデータ追加
                 let destination = team.members.filter { $0 != user.id }
                 if destination.count > 0 {
-                    let newNotification = Notification(userId: user.id, title: "コレカッテキテ", body: "\(user.displayName)さんから新しいオーダーが入りました！", members: destination)
+                    
+                    let newNotification = NotificationUtility.createNewOrderNotification(userId: user.id, userName: user.displayName, destination: destination)
                     
                     self.notificationStore.set(newNotification) { notificationResult in
                         switch notificationResult {

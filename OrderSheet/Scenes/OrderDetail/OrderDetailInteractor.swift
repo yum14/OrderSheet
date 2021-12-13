@@ -40,7 +40,7 @@ extension OrderDetailInteractor: OrderDetailUsecase {
                     break
                 }
                 // プッシュ通知用コレクションにデータ追加
-                let newNotification = Notification(userId: user.id, title: "コレカッテキテ", body: "\(user.displayName)さんがオーダーを完了しました！", members: [order.owner])
+                let newNotification = NotificationUtility.createOrderCompleteNotification(userId: user.id, userName: user.displayName, destination: [order.owner])
                 
                 self.notificationStore.set(newNotification) { notificationResult in
                     switch notificationResult {
