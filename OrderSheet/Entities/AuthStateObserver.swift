@@ -29,6 +29,10 @@ final class AuthStateObserver: UIResponder, ObservableObject {
             return false
         }
         
+        if notificationToken == nil {
+            return false
+        }
+
         if self.signInStatus == .success && self.firebaseLoginUser != nil && self.appUser != nil {
             return true
         }
@@ -39,7 +43,7 @@ final class AuthStateObserver: UIResponder, ObservableObject {
     private var firebaseAuthStateObserver: FirebaseAuthStateObserver?
     private var signInStatus: SignInStatus? = nil
     private var userStore: UserStore?
-
+    
     override init() {}
     
     func addListener() {
@@ -56,8 +60,18 @@ final class AuthStateObserver: UIResponder, ObservableObject {
                 
                 self.userStore!.setListener(id: user.uid) { user in
                     if let user = user {
-                        self.appUser = user
-                        self.signInStatus = .success
+                        
+                        if let notificationToken = self.notificationToken, user.notificationToken != self.notificationToken {
+                            // プッシュ通知トークンを更新する（それにより再度ユーザ情報の読み込みがされる）
+                            self.userStore!.updateNotificationToken(id: user.id, notificationToken: notificationToken) { error in
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                }
+                            }
+                        } else {
+                            self.appUser = user
+                            self.signInStatus = .success
+                        }
                     } else {
                         self.appUser = nil
                         self.signInStatus = .failed
@@ -101,6 +115,7 @@ final class AuthStateObserver: UIResponder, ObservableObject {
                            photoUrl: user.photoURL?.absoluteString,
                            avatarImage: nil,
                            teams: [],
+                           notificationToken: self.notificationToken,
                            lastLogin: Date())
         
         userStore.set(newUser) { result in
