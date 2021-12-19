@@ -25,7 +25,7 @@ struct TeamDetailView: View {
                             }
                         }
                     
-                    TextField(self.presenter.team.name,
+                    TextField("チーム名",
                               text: self.$presenter.inputName,
                               onEditingChanged: self.presenter.onNameEditingChanged,
                               onCommit: self.presenter.onNameCommit )

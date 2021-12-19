@@ -11,7 +11,7 @@ import Firebase
 struct OrderList: View {
     var orders: [Order] = []
     var onRowTap: (Order) -> Void = { _ in }
-
+    
     var body: some View {
         let group = Dictionary(grouping: self.orders, by: { DateUtility.toString(date: $0.createdAt.dateValue(), template: "ydMMM") })
         let keys = group.map { $0.key }.sorted(by: { $0 > $1 })
@@ -22,7 +22,9 @@ struct OrderList: View {
                     let values = group[key]?.compactMap { $0 }.sorted(by: { $0.createdAt.dateValue() > $1.createdAt.dateValue()})
                     
                     ForEach(values!, id: \.id) { value in
-                        HStack(spacing: 0) {
+                        
+                        // > の表示のためだけにNavigationLinkを使用。画面遷移はしない。
+                        NavigationLink(destination: EmptyView()) {
                             HStack(spacing: 0) {
                                 if value.committed {
                                     Text(value.name)
@@ -36,8 +38,8 @@ struct OrderList: View {
                             .onTapGesture {
                                 self.onRowTap(value)
                             }
+                            .listRowInsets(.init(top: 0, leading: 20, bottom: 0, trailing: 20))
                         }
-                        .listRowInsets(.init(top: 0, leading: 20, bottom: 0, trailing: 20))
                     }
                 }
             }
