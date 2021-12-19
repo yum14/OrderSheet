@@ -16,6 +16,7 @@ struct User: Identifiable, Hashable, Codable {
     var avatarImage: Data?
     var teams: [String]
     var selectedTeam: String?
+    var notificationToken: String?
     var lastLogin: Timestamp? = Timestamp(date: Date())
     
     init(id: String = UUID().uuidString,
@@ -25,6 +26,7 @@ struct User: Identifiable, Hashable, Codable {
          avatarImage: Data? = nil,
          teams: [String],
          selectedTeam: String? = nil,
+         notificationToken: String? = nil,
          lastLogin: Date = Date()
     ) {
         self.id = id
@@ -34,6 +36,7 @@ struct User: Identifiable, Hashable, Codable {
         self.avatarImage = avatarImage
         self.teams = teams
         self.selectedTeam = selectedTeam
+        self.notificationToken = notificationToken
         self.lastLogin = Timestamp(date: lastLogin)
     }
     
@@ -44,6 +47,7 @@ struct User: Identifiable, Hashable, Codable {
          avatarImage: Data? = nil,
          teams: [String],
          selectedTeam: String? = nil,
+         notificationToken: String? = nil,
          lastLogin: Timestamp?
     ) {
         self.id = id
@@ -53,6 +57,7 @@ struct User: Identifiable, Hashable, Codable {
         self.avatarImage = avatarImage
         self.teams = teams
         self.selectedTeam = selectedTeam
+        self.notificationToken = notificationToken
         self.lastLogin = lastLogin
     }
     
@@ -64,6 +69,7 @@ struct User: Identifiable, Hashable, Codable {
         case avatarImage = "avatar_image"
         case teams
         case selectedTeam = "selected_team"
+        case notificationToken = "notification_token"
         case lastLogin = "last_login"
     }
 }

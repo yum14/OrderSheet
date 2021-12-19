@@ -45,7 +45,7 @@ struct NewOrderView: View {
                 
                 Section {
                     Button(action: {
-                        self.presenter.createNewOrder(owner: self.authStateObserver.appUser!.id)
+                        self.presenter.createNewOrder(user: self.authStateObserver.appUser!)
                         dismiss()
                     }) {
                         HStack {

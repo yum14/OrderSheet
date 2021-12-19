@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import SwiftUI
 import Firebase
 
-final class AuthStateObserver: ObservableObject {
+final class AuthStateObserver: UIResponder, ObservableObject {
     enum SignInStatus {
         case success
         case failed
@@ -21,24 +22,32 @@ final class AuthStateObserver: ObservableObject {
     @Published var appUser: User?
     @Published var token: String?
     @Published var firebaseLoginUser: Firebase.User?
+    var notificationToken: String?
     
-    var isSignedIn: Bool? {        
+    var isSignedIn: Bool? {
         if self.signInStatus == .failed {
             return false
         }
         
+        if notificationToken == nil {
+            return false
+        }
+
         if self.signInStatus == .success && self.firebaseLoginUser != nil && self.appUser != nil {
             return true
         }
-
+        
         return nil
     }
     
     private var firebaseAuthStateObserver: FirebaseAuthStateObserver?
     private var signInStatus: SignInStatus? = nil
-    private let store = UserStore()
+    private var userStore: UserStore?
     
-    init() {
+    override init() {}
+    
+    func addListener() {
+        self.userStore = UserStore()
         
         self.firebaseAuthStateObserver = FirebaseAuthStateObserver(
             onStateChanged: {(auth: Auth, user: Firebase.User?) in
@@ -47,12 +56,22 @@ final class AuthStateObserver: ObservableObject {
                     return
                 }
                 self.firebaseLoginUser = user
-
                 
-                self.store.setListener(id: user.uid) { user in
+                
+                self.userStore!.setListener(id: user.uid) { user in
                     if let user = user {
-                        self.appUser = user
-                        self.signInStatus = .success
+                        
+                        if let notificationToken = self.notificationToken, user.notificationToken != self.notificationToken {
+                            // プッシュ通知トークンを更新する（それにより再度ユーザ情報の読み込みがされる）
+                            self.userStore!.updateNotificationToken(id: user.id, notificationToken: notificationToken) { error in
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                }
+                            }
+                        } else {
+                            self.appUser = user
+                            self.signInStatus = .success
+                        }
                     } else {
                         self.appUser = nil
                         self.signInStatus = .failed
@@ -66,6 +85,7 @@ final class AuthStateObserver: ObservableObject {
                 self.token = token
             })
     }
+    
     
     func signIn(credential: AuthCredential, completion: ((AuthCredential) -> Void)? = { _ in }) {
         self.firebaseAuthStateObserver?.signIn(credential: credential) { _, error in
@@ -85,7 +105,7 @@ final class AuthStateObserver: ObservableObject {
     }
     
     func createAccount(completion: (() -> Void)? = {}) {
-        guard let user = self.firebaseLoginUser else {
+        guard let user = self.firebaseLoginUser, let userStore = self.userStore else {
             return
         }
         
@@ -95,9 +115,10 @@ final class AuthStateObserver: ObservableObject {
                            photoUrl: user.photoURL?.absoluteString,
                            avatarImage: nil,
                            teams: [],
+                           notificationToken: self.notificationToken,
                            lastLogin: Date())
         
-        self.store.set(newUser) { result in
+        userStore.set(newUser) { result in
             switch result {
             case .success():
                 self.appUser = newUser

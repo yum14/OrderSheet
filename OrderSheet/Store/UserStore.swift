@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-class UserStore {
+final class UserStore {
     private let db: Firestore
     private let collectionName = "users"
 
@@ -104,5 +104,9 @@ class UserStore {
     
     func updateAvatarImage(id: String, avatarImage: Data, completion: ((Error?) -> Void)?) {
         db.collection(self.collectionName).document(id).updateData(["avatar_image": avatarImage], completion: completion)
+    }
+    
+    func updateNotificationToken(id: String, notificationToken: String, completion: ((Error?) -> Void)?) {
+        db.collection(self.collectionName).document(id).updateData(["notification_token": notificationToken], completion: completion)
     }
 }
