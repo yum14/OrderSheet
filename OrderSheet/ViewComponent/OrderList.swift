@@ -32,7 +32,7 @@ struct OrderList: View {
                                 }
                                 Spacer()
                             }
-                            .background(Color(UIColor.systemBackground))
+                            .contentShape(Rectangle())
                             .onTapGesture {
                                 self.onRowTap(value)
                             }
