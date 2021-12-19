@@ -18,7 +18,6 @@ struct LoginView: View {
     var body: some View {
         ZStack {
             VStack {
-                
                 GoogleSignInButton(signedIn: { credential in
                     self.showLoadingIndicator = true
                     self.authStateObserver.signIn(credential: credential) { _ in
@@ -26,8 +25,6 @@ struct LoginView: View {
                         self.presenter.onFirebaseSignIn()
                     }
                 })
-                    .frame(width: 260)
-                
                 AppleSignInButton(signedIn: { credential in
                     self.showLoadingIndicator = true
                     self.authStateObserver.signIn(credential: credential) { _ in
@@ -37,14 +34,13 @@ struct LoginView: View {
                 })
                 
                 Divider()
-                    .frame(width: 260)
+                    .frame(width: 312)
                     .padding(.vertical, 4)
                 
                 Button(action: self.presenter.showAcountCreationSheet) {
                     Text("アカウントを作成")
-                        .font(.caption)
                         .fontWeight(.bold)
-                        .frame(width: 260, height: 40)
+                        .frame(width: 280, height: 44)
                 }
                 .foregroundColor(.white)
                 .background(Color("Main"))
@@ -61,7 +57,7 @@ struct LoginView: View {
                 }, onTapped: {
                     self.presenter.hideAccountCreationSheet()
                 })
-                    .frame(width: 260)
+                
                 AppleSignInButton(signedIn: { credential in
                     self.showLoadingIndicator = true
                     self.authStateObserver.signIn(credential: credential) { _ in
@@ -81,7 +77,6 @@ struct LoginView: View {
                               message: Text("アカウントを作成しますか？"),
                               primaryButton: .default(Text("作成する"), action: {
                             
-//                            self.showLoadingIndicator = true
                             self.authStateObserver.createAccount() {
                                 self.presenter.onCreateAccountAccept()
                             }

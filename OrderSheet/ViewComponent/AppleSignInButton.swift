@@ -16,8 +16,14 @@ struct AppleSignInButton: View {
     var onTapped: () -> Void = {}
     
     var body: some View {
-        AppleSignInButtonViewController(signedIn: self.signedIn, onTapped: self.onTapped)
-            .frame(width: 130, height: 30)
+        AppleSignInButtonViewController(signedIn: self.signedIn,
+                                        onTapped: self.onTapped,
+                                        type: .signIn,
+                                        style: .whiteOutline,
+                                        bounds: CGRect(x: 0, y: 0, width: 280, height: 44),
+                                        cornerRadius: 50)
+            .frame(width: 280, height: 44, alignment: .center)
+            .offset(x: 75, y: 7)
     }
 }
 
@@ -31,23 +37,38 @@ struct AppleSignInButtonViewController: UIViewControllerRepresentable {
     
     var signedIn: (AuthCredential) -> Void
     var onTapped: () -> Void
+    var type: ASAuthorizationAppleIDButton.ButtonType
+    var style: ASAuthorizationAppleIDButton.Style
+    var bounds: CGRect?
+    var cornerRadius: CGFloat?
     
-    init(signedIn: @escaping (AuthCredential) -> Void, onTapped: @escaping () -> Void) {
+    init(signedIn: @escaping (AuthCredential) -> Void,
+         onTapped: @escaping () -> Void,
+         type: ASAuthorizationAppleIDButton.ButtonType,
+         style: ASAuthorizationAppleIDButton.Style,
+         bounds: CGRect? = nil,
+         cornerRadius: CGFloat? = nil) {
         self.signedIn = signedIn
         self.onTapped = onTapped
+        self.type = type
+        self.style = style
+        self.bounds = bounds
+        self.cornerRadius = cornerRadius
     }
     
     func makeUIViewController(context: Context) -> UIViewController {
         let viewController = AppleSignInViewController()
         viewController.signedIn = self.signedIn
         viewController.onTapped = self.onTapped
+        viewController.type = self.type
+        viewController.style = self.style
+        viewController.bounds = self.bounds
+        viewController.cornerRadius = self.cornerRadius
         
         return viewController
     }
     
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        
-    }
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
 
@@ -55,12 +76,26 @@ class AppleSignInViewController: UIViewController {
 
     var signedIn: ((AuthCredential) -> Void)?
     var onTapped: (() -> Void)?
+    var type: ASAuthorizationAppleIDButton.ButtonType = .default
+    var style: ASAuthorizationAppleIDButton.Style = .whiteOutline
+    var bounds: CGRect?
+    var cornerRadius: CGFloat?
+    
     fileprivate var currentNonce: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let appleSignInButton = ASAuthorizationAppleIDButton(authorizationButtonType: .default, authorizationButtonStyle: .black)
+        let appleSignInButton = ASAuthorizationAppleIDButton(authorizationButtonType: self.type, authorizationButtonStyle: self.style)
+        
+        if let bounds = self.bounds {
+            appleSignInButton.bounds = bounds
+        }
+        
+        if let cornerRadius = self.cornerRadius {
+            appleSignInButton.cornerRadius = cornerRadius
+        }
+        
         appleSignInButton.addTarget(self, action: #selector(appleSignInButtonTapped(sender:)), for: .touchUpInside)
         self.view.addSubview(appleSignInButton)
     }

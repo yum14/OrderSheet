@@ -96,6 +96,7 @@
 		AA7573EA2766464D00149C86 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = AA7573E92766464D00149C86 /* FirebaseMessaging */; };
 		AA981C672764669900C785C8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA981C662764669900C785C8 /* Notification.swift */; };
 		AAAE96F227678B0D001A3C12 /* NotificationUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAE96F127678B0D001A3C12 /* NotificationUtility.swift */; };
+		AAAE96F5276A3A0B001A3C12 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAAE96F7276A3A0B001A3C12 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -183,6 +184,8 @@
 		AA7573DE27663C7500149C86 /* NotificationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStore.swift; sourceTree = "<group>"; };
 		AA981C662764669900C785C8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		AAAE96F127678B0D001A3C12 /* NotificationUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationUtility.swift; sourceTree = "<group>"; };
+		AAAE96F6276A3A0B001A3C12 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AAAE96F8276A3A13001A3C12 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +270,7 @@
 				759626AA26FDE91900460629 /* ContentView.swift */,
 				759626AC26FDE91B00460629 /* Assets.xcassets */,
 				759626AE26FDE91B00460629 /* Preview Content */,
+				AAAE96F7276A3A0B001A3C12 /* Localizable.strings */,
 			);
 			path = OrderSheet;
 			sourceTree = "<group>";
@@ -497,6 +501,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ja,
 				Base,
 			);
 			mainGroup = 7596269C26FDE91900460629;
@@ -521,6 +526,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				759626B026FDE91B00460629 /* Preview Assets.xcassets in Resources */,
+				AAAE96F5276A3A0B001A3C12 /* Localizable.strings in Resources */,
 				7596273126FDFA2300460629 /* GoogleService-Info.plist in Resources */,
 				759626AD26FDE91B00460629 /* Assets.xcassets in Resources */,
 			);
@@ -615,6 +621,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AAAE96F7276A3A0B001A3C12 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AAAE96F6276A3A0B001A3C12 /* en */,
+				AAAE96F8276A3A13001A3C12 /* ja */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		759626C726FDE91B00460629 /* Debug */ = {
