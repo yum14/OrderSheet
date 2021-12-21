@@ -19,7 +19,7 @@ struct AppleSignInButton: View {
         AppleSignInButtonViewController(signedIn: self.signedIn,
                                         onTapped: self.onTapped,
                                         type: .signIn,
-                                        style: .whiteOutline,
+                                        style: .white,
                                         bounds: CGRect(x: 0, y: 0, width: 280, height: 44),
                                         cornerRadius: 50)
             .frame(width: 280, height: 44, alignment: .center)

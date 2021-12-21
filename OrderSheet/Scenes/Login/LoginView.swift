@@ -17,57 +17,67 @@ struct LoginView: View {
     
     var body: some View {
         ZStack {
+            Color("Main")
+                .edgesIgnoringSafeArea(.all)
+            
             VStack {
-                GoogleSignInButton(signedIn: { credential in
-                    self.showLoadingIndicator = true
-                    self.authStateObserver.signIn(credential: credential) { _ in
-                        self.showLoadingIndicator = false
-                        self.presenter.onFirebaseSignIn()
-                    }
-                })
-                AppleSignInButton(signedIn: { credential in
-                    self.showLoadingIndicator = true
-                    self.authStateObserver.signIn(credential: credential) { _ in
-                        self.showLoadingIndicator = false
-                        self.presenter.onFirebaseSignIn()
-                    }
-                })
+                Spacer()
                 
-                Divider()
-                    .frame(width: 312)
-                    .padding(.vertical, 4)
-                
-                Button(action: self.presenter.showAcountCreationSheet) {
-                    Text("アカウントを作成")
-                        .fontWeight(.bold)
-                        .frame(width: 280, height: 44)
+                VStack {
+                    GoogleSignInButton(signedIn: { credential in
+                        self.showLoadingIndicator = true
+                        self.authStateObserver.signIn(credential: credential) { _ in
+                            self.showLoadingIndicator = false
+                            self.presenter.onFirebaseSignIn()
+                        }
+                    })
+                    
+                    AppleSignInButton(signedIn: { credential in
+                        self.showLoadingIndicator = true
+                        self.authStateObserver.signIn(credential: credential) { _ in
+                            self.showLoadingIndicator = false
+                            self.presenter.onFirebaseSignIn()
+                        }
+                    })
+                        .padding(.top, 4)
                 }
-                .foregroundColor(.white)
-                .background(Color("Main"))
-                .cornerRadius(50)
+                .padding(.bottom, 40)
                 
+//                Divider()
+//                    .frame(width: 312)
+//                    .padding(.vertical, 4)
+//
+//                Button(action: self.presenter.showAcountCreationSheet) {
+//                    Text("アカウントを作成")
+//                        .fontWeight(.bold)
+//                        .frame(width: 280, height: 44)
+//                }
+//                .foregroundColor(.white)
+//                .background(Color("Main"))
+//                .cornerRadius(50)
             }
-            .sheet(isPresented: self.$presenter.sheetPresented) {
-                GoogleSignInButton(signedIn: { credential in
-                    self.showLoadingIndicator = true
-                    self.authStateObserver.signIn(credential: credential) { _ in
-                        self.showLoadingIndicator = false
-                        self.presenter.onFirebaseSignInWithCreateAccount()
-                    }
-                }, onTapped: {
-                    self.presenter.hideAccountCreationSheet()
-                })
-                
-                AppleSignInButton(signedIn: { credential in
-                    self.showLoadingIndicator = true
-                    self.authStateObserver.signIn(credential: credential) { _ in
-                        self.showLoadingIndicator = false
-                        self.presenter.onFirebaseSignInWithCreateAccount()
-                    }
-                }, onTapped: {
-                    self.presenter.hideAccountCreationSheet()
-                })
-            }
+            
+//            .sheet(isPresented: self.$presenter.sheetPresented) {
+//                GoogleSignInButton(signedIn: { credential in
+//                    self.showLoadingIndicator = true
+//                    self.authStateObserver.signIn(credential: credential) { _ in
+//                        self.showLoadingIndicator = false
+//                        self.presenter.onFirebaseSignInWithCreateAccount()
+//                    }
+//                }, onTapped: {
+//                    self.presenter.hideAccountCreationSheet()
+//                })
+//
+//                AppleSignInButton(signedIn: { credential in
+//                    self.showLoadingIndicator = true
+//                    self.authStateObserver.signIn(credential: credential) { _ in
+//                        self.showLoadingIndicator = false
+//                        self.presenter.onFirebaseSignInWithCreateAccount()
+//                    }
+//                }, onTapped: {
+//                    self.presenter.hideAccountCreationSheet()
+//                })
+//            }
             
             if self.presenter.showNoAccountDummyView && self.authStateObserver.isSignedIn == false {
                 Text("")
@@ -92,30 +102,30 @@ struct LoginView: View {
                     }
             }
             
-            if self.presenter.showCreateAccountDummyView && self.authStateObserver.isSignedIn == false {
-                Text("")
-                    .frame(width: 0, height: 0)
-                    .alert(isPresented: self.$createAccountConfirmPresented) {
-                        Alert(title: Text("アカウント作成"),
-                              message: Text("アカウントを作成しますか？"),
-                              primaryButton: .default(Text("作成する"), action: {
-                            
-                            self.showLoadingIndicator = true
-                            self.authStateObserver.createAccount() {
-                                self.presenter.onCreateAccountAccept()
-                            }
-                        }),
-                              secondaryButton: .cancel({
-                            
-                            self.authStateObserver.signOut()
-                            self.presenter.onCreateAccountCancel()
-                        }))
-                    }
-                    .onAppear {
-                        self.createAccountConfirmPresented = true
-                    }
-            }
-            
+//            if self.presenter.showCreateAccountDummyView && self.authStateObserver.isSignedIn == false {
+//                Text("")
+//                    .frame(width: 0, height: 0)
+//                    .alert(isPresented: self.$createAccountConfirmPresented) {
+//                        Alert(title: Text("アカウント作成"),
+//                              message: Text("アカウントを作成しますか？"),
+//                              primaryButton: .default(Text("作成する"), action: {
+//
+//                            self.showLoadingIndicator = true
+//                            self.authStateObserver.createAccount() {
+//                                self.presenter.onCreateAccountAccept()
+//                            }
+//                        }),
+//                              secondaryButton: .cancel({
+//
+//                            self.authStateObserver.signOut()
+//                            self.presenter.onCreateAccountCancel()
+//                        }))
+//                    }
+//                    .onAppear {
+//                        self.createAccountConfirmPresented = true
+//                    }
+//            }
+//
             ActivityIndicator(isVisible: self.$showLoadingIndicator)
         }
         .onAppear {
