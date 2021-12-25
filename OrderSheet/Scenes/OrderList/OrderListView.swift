@@ -22,7 +22,6 @@ struct OrderListView: View {
                     .zIndex(1)
             }
             
-            
             NavigationView {
                 OrderList(orders: self.presenter.orders) { order in
                     self.presenter.showOrderDetailSheet(id: order.id)
@@ -37,7 +36,6 @@ struct OrderListView: View {
                 .fullScreenCover(isPresented: self.$presenter.showingNewOrder) {
                     self.presenter.makeAboutNewOrderSheetView()
                 }
-                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button {
@@ -48,7 +46,13 @@ struct OrderListView: View {
                                     AvatarImage(image: self.presenter.selectedTeam?.avatarImage != nil ? UIImage(data: self.presenter.selectedTeam!.avatarImage!) : nil, defaultImageName: "person.2.circle.fill", length: 28)
                                     Text(self.presenter.selectedTeam?.name ?? "")
                                         .foregroundColor(Color.primary)
+                                        .lineLimit(1)
+                                    
+                                    Image(systemName: "chevron.down")
+                                        .font(.caption2)
+                                        .foregroundColor(.secondary)
                                 }
+                                .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
                             }
                         }
                         .disabled(self.presenter.toolbarItemDisabled)
@@ -65,15 +69,17 @@ struct OrderListView: View {
                         }
                     }
                 }
+                .navigationBarTitleDisplayMode(.inline)
             }
         }
         .popup(isPresented: self.$presenter.showingTeamSelectPopup,
-               type: .default,
+               type: .floater(verticalPadding: 100),
                position: .top,
                animation: .spring(),
                closeOnTap: false,
                closeOnTapOutside: true,
                dismissCallback: {}) {
+
             TeamSelectList(teams: self.presenter.teams,
                            selectedTeam: self.$presenter.selectedTeam,
                            onTeamSelected: { team in
@@ -81,7 +87,7 @@ struct OrderListView: View {
             })
                 .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
                 .frame(width: 350)
-                .background(Color(UIColor.systemBackground))
+                .background(Color(UIColor.secondarySystemBackground))
                 .cornerRadius(10.0)
                 .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
         }

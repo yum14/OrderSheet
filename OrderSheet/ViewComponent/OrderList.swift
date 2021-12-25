@@ -24,12 +24,13 @@ struct OrderList: View {
                         
                         ForEach(values!, id: \.id) { value in
                             
-                            // > の表示のためだけにNavigationLinkを使用。画面遷移はしない。
+                            // >の表示のためだけにNavigationLinkを使用。画面遷移はしない。
                             NavigationLink(destination: EmptyView()) {
                                 HStack(spacing: 0) {
                                     if value.committed {
                                         Text(value.name)
                                             .strikethrough()
+                                            .foregroundColor(Color.secondary)
                                     } else {
                                         Text(value.name)
                                     }

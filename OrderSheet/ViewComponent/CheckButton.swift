@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CartCheckButton: View {
+struct CheckButton: View {
     var font: Font = .title
     var disabled: Bool = false
     var onTap: () -> Void = {}
@@ -17,16 +17,16 @@ struct CartCheckButton: View {
             self.onTap()
         } label: {
             Image(systemName: "checkmark.circle.fill")
-                .foregroundColor(self.disabled ? Color.secondary : Color("Main"))
+                .foregroundColor(self.disabled ? Color.secondary : Color("Complete"))
                 .font(self.font)
         }
         .disabled(self.disabled)
     }
 }
 
-struct CartCheckButton_Previews: PreviewProvider {
+struct CheckButton_Previews: PreviewProvider {
     static var previews: some View {
-        CartCheckButton()
+        CheckButton()
     }
 }
 
