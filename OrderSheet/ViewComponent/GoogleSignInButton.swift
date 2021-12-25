@@ -48,10 +48,12 @@ struct GoogleSignInButton: View {
             }
             .padding(.vertical, 7)
             .frame(width: 280)
-            .background(
-                RoundedRectangle(cornerRadius: 50)
-                    .strokeBorder(Color.primary, lineWidth: 0.7)
-            )
+            .background(Color.white)
+            .cornerRadius(50)
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 50)
+//                    .strokeBorder(Color.primary, lineWidth: 0.7)
+//            )
         }
     }
     

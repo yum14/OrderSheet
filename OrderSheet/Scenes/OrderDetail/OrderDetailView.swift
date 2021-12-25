@@ -37,7 +37,7 @@ struct OrderDetailView: View {
                                         VStack {
                                             Group {
                                                 if item.checked {
-                                                    CartCheckButton(disabled: self.presenter.formLocked) { self.presenter.updateItemChecked(itemId: item.id, checked: false) }
+                                                    CheckButton(disabled: self.presenter.formLocked) { self.presenter.updateItemChecked(itemId: item.id, checked: false) }
                                                 } else {
                                                     CartButton(disabled: self.presenter.formLocked) { self.presenter.updateItemChecked(itemId: item.id, checked: true) }
                                                 }

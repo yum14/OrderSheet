@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct CartButton: View {
-    var font: Font = .callout
-    var width: CGFloat? = 32
-    var height: CGFloat? = 32
+    var font: Font = .title
     var disabled: Bool = false
     var onTap: () -> Void = {}
     
@@ -18,12 +16,15 @@ struct CartButton: View {
         Button {
             self.onTap()
         } label: {
-            Image(systemName: "cart")
-                .foregroundColor(.white)
+//            Image(systemName: "cart")
+//                .foregroundColor(.white)
+//                .font(self.font)
+//                .frame(width: self.width, height: self.height, alignment: .center)
+//                .background(self.disabled ? Color.secondary : Color("Main"))
+//                .cornerRadius(50)
+            Image(systemName: "cart.circle.fill")
                 .font(self.font)
-                .frame(width: self.width, height: self.height, alignment: .center)
-                .background(self.disabled ? Color.secondary : Color("Main"))
-                .cornerRadius(50)
+                .foregroundColor(Color("Main"))
         }
         .disabled(self.disabled)
     }
@@ -32,12 +33,13 @@ struct CartButton: View {
 struct CartButton_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-        CartButton()
+            CartButton()
             Button(action: {}) {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundColor(Color("Main"))
                     .font(.title)
             }
+            CheckButton()
         }
     }
 }

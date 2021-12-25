@@ -26,7 +26,7 @@ struct TeamSelectList: View {
                     
                     if let selectedTeam = self.selectedTeam, selectedTeam.id == team.id {
                         Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(Color("Main"))
+                            .foregroundColor(Color("Complete"))
                             .font(.title2)
                     }
                 }

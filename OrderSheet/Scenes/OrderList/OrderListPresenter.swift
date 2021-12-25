@@ -22,7 +22,6 @@ final class OrderListPresenter: ObservableObject {
     @Published var teams: [Team]?
     @Published var showingTeamSelectPopup = false
     @Published var showingNewOrder = false
-    @Published var showingOrderEdit = false
     @Published var sheetType: SheetType = .detail
     
     var toolbarItemDisabled: Bool {

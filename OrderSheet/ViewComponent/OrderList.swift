@@ -16,33 +16,37 @@ struct OrderList: View {
         let group = Dictionary(grouping: self.orders, by: { DateUtility.toString(date: $0.createdAt.dateValue(), template: "ydMMM") })
         let keys = group.map { $0.key }.sorted(by: { $0 > $1 })
         
-        List {
-            ForEach(keys, id: \.self) { key in
-                Section(header: Text(key)) {
-                    let values = group[key]?.compactMap { $0 }.sorted(by: { $0.createdAt.dateValue() > $1.createdAt.dateValue()})
-                    
-                    ForEach(values!, id: \.id) { value in
+        NavigationView {
+            List {
+                ForEach(keys, id: \.self) { key in
+                    Section(header: Text(key)) {
+                        let values = group[key]?.compactMap { $0 }.sorted(by: { $0.createdAt.dateValue() > $1.createdAt.dateValue()})
                         
-                        // > の表示のためだけにNavigationLinkを使用。画面遷移はしない。
-                        NavigationLink(destination: EmptyView()) {
-                            HStack(spacing: 0) {
-                                if value.committed {
-                                    Text(value.name)
-                                        .strikethrough()
-                                } else {
-                                    Text(value.name)
+                        ForEach(values!, id: \.id) { value in
+                            
+                            // >の表示のためだけにNavigationLinkを使用。画面遷移はしない。
+                            NavigationLink(destination: EmptyView()) {
+                                HStack(spacing: 0) {
+                                    if value.committed {
+                                        Text(value.name)
+                                            .strikethrough()
+                                            .foregroundColor(Color.secondary)
+                                    } else {
+                                        Text(value.name)
+                                    }
+                                    Spacer()
                                 }
-                                Spacer()
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    self.onRowTap(value)
+                                }
+                                .listRowInsets(.init(top: 0, leading: 20, bottom: 0, trailing: 20))
                             }
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                self.onRowTap(value)
-                            }
-                            .listRowInsets(.init(top: 0, leading: 20, bottom: 0, trailing: 20))
                         }
                     }
                 }
             }
+            .navigationBarHidden(true)
         }
     }
 }
