@@ -71,16 +71,14 @@ struct NewOrderView: View {
             .navigationTitle("新しいオーダー")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    ViewDismissButton(onTap: {
                         if self.presenter.editing {
                             self.presenter.showDismissConfirm()
                         } else {
                             self.dismiss()
                         }
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
+                    })
                 }
             }
         }

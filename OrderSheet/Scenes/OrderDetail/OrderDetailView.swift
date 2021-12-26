@@ -99,11 +99,7 @@ struct OrderDetailView: View {
             .navigationViewStyle(StackNavigationViewStyle())
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        self.dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
+                    ViewDismissButton(onTap: { self.dismiss() })
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {

@@ -17,12 +17,8 @@ struct TeamQrCodeScannerView: View {
         
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        self.presenter.onDismiss?()
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    ViewDismissButton(onTap: self.presenter.onDismiss)
                 }
             }
     }
