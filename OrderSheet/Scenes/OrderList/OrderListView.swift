@@ -23,6 +23,7 @@ struct OrderListView: View {
             }
             
             NavigationView {
+                
                 OrderList(orders: self.presenter.orders) { order in
                     self.presenter.showOrderDetailSheet(id: order.id)
                 }
@@ -59,14 +60,14 @@ struct OrderListView: View {
                     }
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        if self.presenter.selectedTeam != nil {
-                            Button {
-                                self.presenter.showNewOrderSheet()
-                            } label: {
-                                Image(systemName: "plus")
-                            }
-                            .disabled(self.presenter.toolbarItemDisabled)
+                        //                        if self.presenter.selectedTeam != nil {
+                        Button {
+                            self.presenter.showNewOrderSheet()
+                        } label: {
+                            Image(systemName: "plus")
                         }
+                        .disabled(self.presenter.toolbarItemDisabled)
+                        //                        }
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
@@ -79,7 +80,7 @@ struct OrderListView: View {
                closeOnTap: false,
                closeOnTapOutside: true,
                dismissCallback: {}) {
-
+            
             TeamSelectList(teams: self.presenter.teams,
                            selectedTeam: self.$presenter.selectedTeam,
                            onTeamSelected: { team in
@@ -91,11 +92,11 @@ struct OrderListView: View {
                 .cornerRadius(10.0)
                 .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
         }
-        .onAppear {
-            if let user = self.authStateObserver.appUser {
-                self.presenter.load(user: user)
-            }
-        }
+               .onAppear {
+                   if let user = self.authStateObserver.appUser {
+                       self.presenter.load(user: user)
+                   }
+               }
     }
 }
 
