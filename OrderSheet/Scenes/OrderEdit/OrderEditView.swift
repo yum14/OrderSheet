@@ -95,12 +95,8 @@ struct OrderEditView: View {
             .navigationTitle("オーダーの編集")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        self.dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    ViewDismissButton(onTap: { self.dismiss() })
                 }
             }
         }

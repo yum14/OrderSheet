@@ -16,7 +16,7 @@ struct OrderList: View {
         let group = Dictionary(grouping: self.orders, by: { DateUtility.toString(date: $0.createdAt.dateValue(), template: "ydMMM") })
         let keys = group.map { $0.key }.sorted(by: { $0 > $1 })
         
-        NavigationView {
+        if self.orders.count > 0 {
             List {
                 ForEach(keys, id: \.self) { key in
                     Section(header: Text(key)) {
@@ -46,7 +46,6 @@ struct OrderList: View {
                     }
                 }
             }
-            .navigationBarHidden(true)
         }
     }
 }
