@@ -99,15 +99,14 @@ struct HomeView: View {
                                     Spacer()
                                 }
                             }
-                            .alert("ログアウト", isPresented: self.$presenter.showingLogoutAlert) {
-                                Button("OK") {
+                            .alert(self.authStateObserver.appUser?.displayName ?? self.presenter.inputName, isPresented: self.$presenter.showingLogoutAlert) {
+                                Button("ログアウト") {
                                     self.authStateObserver.signOut()
                                 }
                                 Button("キャンセル", role: .cancel) {}
                             } message: {
                                 Text("ログアウトしますか？")
                             }
-                            
                         }
                     }
                     .fullScreenCover(isPresented: self.$presenter.showingNewTeamView) {
