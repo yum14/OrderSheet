@@ -15,12 +15,10 @@ protocol HomeWireframe {
 }
 
 final class HomeRouter {
-
-    static let interactor = HomeInteractor()
-    static let router = HomeRouter()
-    static let presenter = HomePresenter(interactor: interactor, router: router)
-    
     static func assembleModules() -> AnyView {
+        let interactor = HomeInteractor()
+        let router = HomeRouter()
+        let presenter = HomePresenter(interactor: interactor, router: router)
         let view = HomeView(presenter: presenter)
         return AnyView(view)
     }
