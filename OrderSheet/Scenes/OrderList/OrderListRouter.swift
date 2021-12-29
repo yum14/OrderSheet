@@ -15,12 +15,10 @@ protocol OrderListWireframe {
 }
 
 final class OrderListRouter {
-    
-    static let interactor = OrderListInteractor()
-    static let router = OrderListRouter()
-    static let presenter = OrderListPresenter(interactor: interactor, router: router)
-    
     static func assembleModules() -> AnyView {
+        let interactor = OrderListInteractor()
+        let router = OrderListRouter()
+        let presenter = OrderListPresenter(interactor: interactor, router: router)
         let view = OrderListView(presenter: presenter)
         return AnyView(view)
     }

@@ -24,8 +24,30 @@ struct OrderListView: View {
             
             NavigationView {
                 
-                OrderList(orders: self.presenter.orders) { order in
-                    self.presenter.showOrderDetailSheet(id: order.id)
+                ZStack {
+                    
+                    if self.presenter.selectedTeam == nil {
+                        VStack {
+                        Text("まずはチームに参加、")
+                                .foregroundColor(Color.secondary)
+                        Text("または新たにチームを作成しましょう。")
+                                .foregroundColor(Color.secondary)
+                        }
+                    } else {
+                        OrderList(orders: self.presenter.orders) { order in
+                            self.presenter.showOrderDetailSheet(id: order.id)
+                        }
+                        
+                        // ZStackのalignment指定だと初期ロード時に中央に配置されてしまうので、Spacerによって右下よせとする
+                        VStack {
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                PlusButton(onTap: self.presenter.showNewOrderSheet)
+                                    .padding()
+                            }
+                        }
+                    }
                 }
                 .sheet(isPresented: self.$presenter.showingOrderDetailOrEdit) {
                     if self.presenter.sheetType == .edit {
@@ -58,19 +80,13 @@ struct OrderListView: View {
                         }
                         .disabled(self.presenter.toolbarItemDisabled)
                     }
-                    
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        //                        if self.presenter.selectedTeam != nil {
-                        Button {
-                            self.presenter.showNewOrderSheet()
-                        } label: {
-                            Image(systemName: "plus")
-                        }
-                        .disabled(self.presenter.toolbarItemDisabled)
-                        //                        }
-                    }
                 }
                 .navigationBarTitleDisplayMode(.inline)
+            }
+        }
+        .onAppear {
+            if let user = self.authStateObserver.appUser {
+                self.presenter.load(user: user)
             }
         }
         .popup(isPresented: self.$presenter.showingTeamSelectPopup,
@@ -92,11 +108,6 @@ struct OrderListView: View {
                 .cornerRadius(10.0)
                 .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
         }
-               .onAppear {
-                   if let user = self.authStateObserver.appUser {
-                       self.presenter.load(user: user)
-                   }
-               }
     }
 }
 

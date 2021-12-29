@@ -20,8 +20,8 @@ final class AuthStateObserver: UIResponder, ObservableObject {
     }
     
     @Published var appUser: User?
-    @Published var token: String?
-    @Published var firebaseLoginUser: Firebase.User?
+    private var token: String?
+    private var firebaseLoginUser: Firebase.User?
     var notificationToken: String?
     
     var isSignedIn: Bool? {

@@ -88,6 +88,7 @@
 		75F5DE7E2700A45B0044A782 /* TeamDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE7D2700A45B0044A782 /* TeamDetailRouter.swift */; };
 		75F5DE802700A8900044A782 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE7F2700A8900044A782 /* UserStore.swift */; };
 		75F5DE842702178A0044A782 /* AuthStateObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE832702178A0044A782 /* AuthStateObserver.swift */; };
+		AA081F572779FDA7001A6A5C /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA081F562779FDA7001A6A5C /* PlusButton.swift */; };
 		AA39503D27775801004E7118 /* ViewDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA39503C27775801004E7118 /* ViewDismissButton.swift */; };
 		AA7573DF27663C7500149C86 /* NotificationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7573DE27663C7500149C86 /* NotificationStore.swift */; };
 		AA7573E22766464D00149C86 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = AA7573E12766464D00149C86 /* FirebaseAnalytics */; };
@@ -182,6 +183,7 @@
 		75F5DE7D2700A45B0044A782 /* TeamDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailRouter.swift; sourceTree = "<group>"; };
 		75F5DE7F2700A8900044A782 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 		75F5DE832702178A0044A782 /* AuthStateObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateObserver.swift; sourceTree = "<group>"; };
+		AA081F562779FDA7001A6A5C /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		AA39503C27775801004E7118 /* ViewDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDismissButton.swift; sourceTree = "<group>"; };
 		AA7573DE27663C7500149C86 /* NotificationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStore.swift; sourceTree = "<group>"; };
 		AA981C662764669900C785C8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
@@ -438,6 +440,7 @@
 				7582F61027357CD2001D9EA5 /* AvatarImagePicker.swift */,
 				7567FAC52736A309002620C3 /* AvatarImage.swift */,
 				AA39503C27775801004E7118 /* ViewDismissButton.swift */,
+				AA081F562779FDA7001A6A5C /* PlusButton.swift */,
 			);
 			path = ViewComponent;
 			sourceTree = "<group>";
@@ -585,6 +588,7 @@
 				7596271A26FDE9DB00460629 /* NewOrderView.swift in Sources */,
 				7571BFEA27397FB000E0FA1E /* NewTeamRouter.swift in Sources */,
 				7596270E26FDE9DB00460629 /* NewTeamPresenter.swift in Sources */,
+				AA081F572779FDA7001A6A5C /* PlusButton.swift in Sources */,
 				7596271926FDE9DB00460629 /* OrderListRouter.swift in Sources */,
 				AAAE96F227678B0D001A3C12 /* NotificationUtility.swift in Sources */,
 				75F5DE73270082370044A782 /* NewTeamInteractor.swift in Sources */,

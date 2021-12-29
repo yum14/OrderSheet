@@ -16,15 +16,9 @@ struct CartButton: View {
         Button {
             self.onTap()
         } label: {
-//            Image(systemName: "cart")
-//                .foregroundColor(.white)
-//                .font(self.font)
-//                .frame(width: self.width, height: self.height, alignment: .center)
-//                .background(self.disabled ? Color.secondary : Color("Main"))
-//                .cornerRadius(50)
             Image(systemName: "cart.circle.fill")
                 .font(self.font)
-                .foregroundColor(Color("Main"))
+                .foregroundColor(self.disabled ? Color.secondary : Color("Main"))
         }
         .disabled(self.disabled)
     }

@@ -25,6 +25,7 @@ struct OrderDetailView: View {
                                             if item.checked {
                                                 Text(item.name)
                                                 .strikethrough()
+                                                .foregroundColor(Color.secondary)
                                             } else {
                                                 Text(item.name)
                                             }
@@ -68,14 +69,14 @@ struct OrderDetailView: View {
                         self.presenter.onUnlockButtonTap()
                     }
                     .padding()
-                    .alert("オーダー完了済の解除", isPresented: self.$presenter.showingUnlockConfirm) {
+                    .alert("完了済オーダーの解除", isPresented: self.$presenter.showingUnlockConfirm) {
                         Button("キャンセル", role: .cancel) {}
                         Button("解除") {
                             self.presenter.unlock()
                             self.dismiss()
                         }
                     } message: {
-                        Text("オーダー完了済を解除しますか？")
+                        Text("完了済オーダーを解除しますか？")
                     }
                 } else {
                     CommitButton() {
@@ -87,7 +88,7 @@ struct OrderDetailView: View {
                         Button("キャンセル", role: .cancel) {
                             
                         }
-                        Button("OK") {
+                        Button("完了") {
                             self.presenter.commit()
                         }
                     } message: {

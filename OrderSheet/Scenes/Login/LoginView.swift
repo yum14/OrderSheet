@@ -42,90 +42,32 @@ struct LoginView: View {
                         .padding(.top, 4)
                 }
                 .padding(.bottom, 40)
-                
-//                Divider()
-//                    .frame(width: 312)
-//                    .padding(.vertical, 4)
-//
-//                Button(action: self.presenter.showAcountCreationSheet) {
-//                    Text("アカウントを作成")
-//                        .fontWeight(.bold)
-//                        .frame(width: 280, height: 44)
-//                }
-//                .foregroundColor(.white)
-//                .background(Color("Main"))
-//                .cornerRadius(50)
             }
-            
-//            .sheet(isPresented: self.$presenter.sheetPresented) {
-//                GoogleSignInButton(signedIn: { credential in
-//                    self.showLoadingIndicator = true
-//                    self.authStateObserver.signIn(credential: credential) { _ in
-//                        self.showLoadingIndicator = false
-//                        self.presenter.onFirebaseSignInWithCreateAccount()
-//                    }
-//                }, onTapped: {
-//                    self.presenter.hideAccountCreationSheet()
-//                })
-//
-//                AppleSignInButton(signedIn: { credential in
-//                    self.showLoadingIndicator = true
-//                    self.authStateObserver.signIn(credential: credential) { _ in
-//                        self.showLoadingIndicator = false
-//                        self.presenter.onFirebaseSignInWithCreateAccount()
-//                    }
-//                }, onTapped: {
-//                    self.presenter.hideAccountCreationSheet()
-//                })
-//            }
             
             if self.presenter.showNoAccountDummyView && self.authStateObserver.isSignedIn == false {
                 Text("")
                     .frame(width: 0, height: 0)
-                    .alert(isPresented: self.$noAccountConfirmPresented) {
-                        Alert(title: Text("ユーザが存在しない"),
-                              message: Text("アカウントを作成しますか？"),
-                              primaryButton: .default(Text("作成する"), action: {
-                            
+                
+                    .alert("アカウントが存在しません。",
+                           isPresented: self.$noAccountConfirmPresented) {
+                        
+                        Button("作成する", role: .none) {
                             self.authStateObserver.createAccount() {
                                 self.presenter.onCreateAccountAccept()
                             }
-                        }),
-                              secondaryButton: .cancel({
-                            
+                        }
+                        Button("キャンセル", role: .cancel) {
                             self.authStateObserver.signOut()
                             self.presenter.onCreateAccountCancel()
-                        }))
+                        }
+                    } message: {
+                        Text("新規作成しますか？")
                     }
                     .onAppear {
                         self.noAccountConfirmPresented = true
                     }
             }
-            
-//            if self.presenter.showCreateAccountDummyView && self.authStateObserver.isSignedIn == false {
-//                Text("")
-//                    .frame(width: 0, height: 0)
-//                    .alert(isPresented: self.$createAccountConfirmPresented) {
-//                        Alert(title: Text("アカウント作成"),
-//                              message: Text("アカウントを作成しますか？"),
-//                              primaryButton: .default(Text("作成する"), action: {
-//
-//                            self.showLoadingIndicator = true
-//                            self.authStateObserver.createAccount() {
-//                                self.presenter.onCreateAccountAccept()
-//                            }
-//                        }),
-//                              secondaryButton: .cancel({
-//
-//                            self.authStateObserver.signOut()
-//                            self.presenter.onCreateAccountCancel()
-//                        }))
-//                    }
-//                    .onAppear {
-//                        self.createAccountConfirmPresented = true
-//                    }
-//            }
-//
+
             ActivityIndicator(isVisible: self.$showLoadingIndicator)
         }
         .onAppear {
