@@ -15,7 +15,6 @@ struct User: Identifiable, Hashable, Codable {
     var photoUrl: String?
     var avatarImage: Data?
     var teams: [String]
-    var selectedTeam: String?
     var notificationToken: String?
     var lastLogin: Timestamp? = Timestamp(date: Date())
     
@@ -25,7 +24,6 @@ struct User: Identifiable, Hashable, Codable {
          photoUrl: String? = nil,
          avatarImage: Data? = nil,
          teams: [String],
-         selectedTeam: String? = nil,
          notificationToken: String? = nil,
          lastLogin: Date = Date()
     ) {
@@ -35,7 +33,6 @@ struct User: Identifiable, Hashable, Codable {
         self.photoUrl = photoUrl
         self.avatarImage = avatarImage
         self.teams = teams
-        self.selectedTeam = selectedTeam
         self.notificationToken = notificationToken
         self.lastLogin = Timestamp(date: lastLogin)
     }
@@ -46,7 +43,6 @@ struct User: Identifiable, Hashable, Codable {
          photoUrl: String? = nil,
          avatarImage: Data? = nil,
          teams: [String],
-         selectedTeam: String? = nil,
          notificationToken: String? = nil,
          lastLogin: Timestamp?
     ) {
@@ -56,7 +52,6 @@ struct User: Identifiable, Hashable, Codable {
         self.photoUrl = photoUrl
         self.avatarImage = avatarImage
         self.teams = teams
-        self.selectedTeam = selectedTeam
         self.notificationToken = notificationToken
         self.lastLogin = lastLogin
     }
@@ -68,7 +63,6 @@ struct User: Identifiable, Hashable, Codable {
         case photoUrl = "photo_url"
         case avatarImage = "avatar_image"
         case teams
-        case selectedTeam = "selected_team"
         case notificationToken = "notification_token"
         case lastLogin = "last_login"
     }

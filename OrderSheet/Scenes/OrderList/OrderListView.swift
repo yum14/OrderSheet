@@ -28,16 +28,22 @@ struct OrderListView: View {
                     
                     if self.presenter.selectedTeam == nil {
                         VStack {
-                        Text("まずはチームに参加、")
+                            Text("まずはチームに参加、")
                                 .foregroundColor(Color.secondary)
-                        Text("または新たにチームを作成しましょう。")
+                            Text("または新たにチームを作成しましょう。")
                                 .foregroundColor(Color.secondary)
                         }
+                    }
+                    else if !(self.presenter.orders.count > 0) {
+                        Text("オーダーを作成しましょう。")
+                            .foregroundColor(Color.secondary)
                     } else {
                         OrderList(orders: self.presenter.orders) { order in
                             self.presenter.showOrderDetailSheet(id: order.id)
                         }
-                        
+                    }
+                    
+                    if self.presenter.selectedTeam != nil {
                         // ZStackのalignment指定だと初期ロード時に中央に配置されてしまうので、Spacerによって右下よせとする
                         VStack {
                             Spacer()

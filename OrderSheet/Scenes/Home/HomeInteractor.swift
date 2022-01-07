@@ -56,7 +56,6 @@ extension HomeInteractor: HomeUsecase {
                                        photoUrl: user.photoUrl,
                                        avatarImage: user.avatarImage,
                                        teams: newTeams,
-                                       selectedTeam: user.selectedTeam,
                                        lastLogin: user.lastLogin)
                     
                     self.userStore.set(newUser) { userResult in
