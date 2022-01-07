@@ -31,6 +31,7 @@ final class OrderListPresenter: ObservableObject {
     private var orderIdAndOwners: [String:User] = [:]
     private let interactor: OrderListUsecase
     private let router: OrderListWireframe
+    private var selectedTeamByUser: SelectedTeam?
     
     init(interactor: OrderListUsecase, router: OrderListWireframe) {
         self.interactor = interactor
@@ -86,60 +87,78 @@ final class OrderListPresenter: ObservableObject {
     }
 
     func load(user: User) {
-        if user.selectedTeam == nil && user.teams.count == 0 {
+        if self.selectedTeamByUser == nil && user.teams.count == 0 {
             return
         }
         
-        if let userSelectedTeamId = user.selectedTeam, let mySelectedTeam = self.selectedTeam {
-            
-            if user.teams.contains(userSelectedTeamId) {
+        if let selectedTeamByUser = self.selectedTeamByUser, let mySelectedTeam = self.selectedTeam {
+            if user.teams.contains(selectedTeamByUser.teamId) {
                 // 変更がない場合は終了
-                if userSelectedTeamId == mySelectedTeam.id {
+                if selectedTeamByUser.teamId == mySelectedTeam.id {
                     return
                 }
             }
         }
         
-        self.interactor.loadTeams(userId: user.id) { teams in
-            
-            self.teams = teams
-            
-            var team: Team?
-            if let selectedTeamId = user.selectedTeam {
-                team = teams?.first(where: { $0.id == selectedTeamId })
+        
+        self.interactor.loadSelectedTeam(userId: user.id) { selectedTeam in
+            self.interactor.loadTeams(userId: user.id) { teams in
                 
-                // ユーザ情報の選択チームが存在しない場合、最初のチームを選択チームとする
-                if team == nil, let firstTeam = teams?.first {
-                    self.updateSelectedUser(user: user, selectedTeamId: firstTeam.id)
-                    team = firstTeam
+                self.teams = teams
+                
+                var team: Team?
+                if let selectedTeam = selectedTeam {
+                    team = teams?.first(where: { $0.id == selectedTeam.id })
+                    
+                    // ユーザ情報の選択チームが存在しない場合、最初のチームを選択チームとする
+                    if team == nil, let firstTeam = teams?.first {
+                        let newValue = SelectedTeam(teamId: firstTeam.id)
+                        self.interactor.setSelectedTeam(userId: user.id, newValue) { error in
+                            if let error = error {
+                                print(error.localizedDescription)
+                            }
+                        }
+                        team = firstTeam
+                    }
+                } else {
+                    team = teams?.first
+                    if let firstTeam = team {
+                        let newValue = SelectedTeam(teamId: firstTeam.id)
+                        self.interactor.setSelectedTeam(userId: user.id, newValue) { error in
+                            if let error = error {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
                 }
-            } else {
-                team = teams?.first
-                if let firstTeam = team {
-                    self.updateSelectedUser(user: user, selectedTeamId: firstTeam.id)
+                
+                self.selectedTeam = team
+                self.selectedTeamByUser = selectedTeam
+                
+                guard let selectedTeam = team else {
+                    return
                 }
+                
+                // OrderのListener設定
+                self.setOrderListener(teamId: selectedTeam.id)
             }
-            
-            self.selectedTeam = team
+        }
+        
+        
+    }
+    
+    func teamSelected(user: User, team: Team) {
 
-            guard let selectedTeam = team else {
+        let newValue = SelectedTeam(teamId: team.id)
+        self.interactor.setSelectedTeam(userId: user.id, newValue) { error in
+            if let error = error {
+                print(error.localizedDescription)
                 return
             }
             
             // OrderのListener設定
-            self.setOrderListener(teamId: selectedTeam.id)
-        }
-    }
-    
-    func teamSelected(user: User, team: Team) {
-                
-        self.interactor.updateSelectedTeam(id: user.id, selectedTeam: team.id) { error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-
-            // OrderのListener設定
             self.setOrderListener(teamId: team.id)
+            self.selectedTeamByUser = newValue
         }
         
         self.showingTeamSelectPopup = false
@@ -199,22 +218,21 @@ final class OrderListPresenter: ObservableObject {
     }
 
     
-    private func updateSelectedUser(user: User, selectedTeamId: String) {
-        // はじめての使用の場合は選択チームが存在しないので、最初のチームを選択チームに更新する
-        let newUser = User(id: user.id,
-                           displayName: user.displayName,
-                           email: user.email,
-                           photoUrl: user.photoUrl,
-                           avatarImage: user.avatarImage,
-                           teams: user.teams,
-                           selectedTeam: selectedTeamId,
-                           lastLogin: user.lastLogin)
-        
-        self.interactor.setUser(newUser) { error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-        }
-    }
+//    private func updateSelectedUser(id: String, userId: String, teamId: String) {
+//        self.interactor.updateSelectedTeam(id: id, userId: userId, teamId: teamId) { error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//                return
+//            }
+//        }
+//    }
+//
+//    private func createSelectedUser(userId: String, teamId: String) {
+//        self.interactor.createSelectedTeam(userId: userId, teamId: teamId) { error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//                return
+//            }
+//        }
+//    }
 }
