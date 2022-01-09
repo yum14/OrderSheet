@@ -9,7 +9,6 @@ import SwiftUI
 
 struct NewOrderView: View {
     @ObservedObject var presenter: NewOrderPresenter
-    @EnvironmentObject var authStateObserver: AuthStateObserver
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -45,7 +44,7 @@ struct NewOrderView: View {
                 
                 Section {
                     Button(action: {
-                        self.presenter.createNewOrder(user: self.authStateObserver.appUser!)
+                        self.presenter.createNewOrder()
                         dismiss()
                     }) {
                         HStack {
@@ -88,7 +87,7 @@ struct NewOrderView: View {
 struct NewOrderView_Previews: PreviewProvider {
     static var previews: some View {
         let interactor = NewOrderInteractor()
-        let presenter = NewOrderPresenter(interactor: interactor, team: Team(name: "チーム", members: [], owner: "owner"))
+        let presenter = NewOrderPresenter(interactor: interactor, profile: Profile(id: "a", displayName: "アカウント", teams: []), team: Team(name: "チーム", members: [], owner: "owner"))
         
         NewOrderView(presenter: presenter)
     }

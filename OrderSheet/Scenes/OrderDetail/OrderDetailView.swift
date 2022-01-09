@@ -131,7 +131,11 @@ struct OrderView_Previews: PreviewProvider {
                           owner: "owner")
         let team = Team(name: "team", members: [], owner: "owner")
         let interactor = OrderDetailInteractor()
-        let presenter = OrderDetailPresenter(interactor: interactor, team: team, order: order, owner: User(displayName: "オーナー", teams: []), commitButtonTap: {}, editButtonTap: {})
+        let presenter = OrderDetailPresenter(interactor: interactor,
+                                             team: team,
+                                             order: order,
+                                             owner: Profile(id: "owner", displayName: "オーナー", teams: []),
+                                             commitButtonTap: {}, editButtonTap: {})
         
         OrderDetailView(presenter: presenter)
     }

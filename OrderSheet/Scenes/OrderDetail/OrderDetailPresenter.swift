@@ -14,7 +14,7 @@ final class OrderDetailPresenter: ObservableObject {
     @Published var showingUnlockConfirm = false
     
     var order: Order
-    var owner: User
+    var owner: Profile
     
     var formLocked: Bool {
         return self.order.committed
@@ -29,7 +29,7 @@ final class OrderDetailPresenter: ObservableObject {
         return !self.order.committed
     }
     
-    init(interactor: OrderDetailUsecase, team: Team, order: Order, owner: User, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) {
+    init(interactor: OrderDetailUsecase, team: Team, order: Order, owner: Profile, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) {
         self.order = order
         self.team = team
         self.commitButtonTap = commitButtonTap
@@ -52,7 +52,7 @@ final class OrderDetailPresenter: ObservableObject {
                                 createdAt: self.order.createdAt.dateValue(),
                                 updatedAt: Date())
         
-        self.interactor.updateOrderAndNotification(user: self.owner, teamId: self.team.id, order: commitOrder) { error in
+        self.interactor.updateOrderAndNotification(profile: self.owner, teamId: self.team.id, order: commitOrder) { error in
             if let error = error {
                 print(error.localizedDescription)
             }

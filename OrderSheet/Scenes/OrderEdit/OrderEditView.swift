@@ -9,7 +9,6 @@ import SwiftUI
 
 struct OrderEditView: View {
     @ObservedObject var presenter: OrderEditPresenter
-    @EnvironmentObject var authStateObserver: AuthStateObserver
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -44,7 +43,7 @@ struct OrderEditView: View {
                 }
                 
                 Section(header: Text("作成者")) {
-                    Text(self.presenter.createUser?.displayName ?? "")
+                    Text(self.presenter.profile.displayName)
                 }
                 
                 Section {
@@ -69,7 +68,7 @@ struct OrderEditView: View {
                             Spacer()
                         }
                     }
-                    .disabled(self.presenter.orderDeleteDisabled(loginUserId: self.authStateObserver.appUser!.id))
+                    .disabled(self.presenter.orderDeleteDisabled())
                     .alert("オーダーの削除",
                            isPresented: self.$presenter.showingDeleteOrderConfirm) {
                         Button(role: .cancel) {
@@ -112,7 +111,10 @@ struct OrderEditView_Previews: PreviewProvider {
                           owner: "owner")
         let team = Team(name: "team", members: [], owner: "owner")
         let interactor = OrderEditInteractor()
-        let presenter = OrderEditPresenter(interactor: interactor, team: team, order: order)
+        let presenter = OrderEditPresenter(interactor: interactor,
+                                           profile: Profile(id: "owner", displayName: "アカウント", teams: []),
+                                           team: team,
+                                           order: order)
         
         NavigationView {
             OrderEditView(presenter: presenter)

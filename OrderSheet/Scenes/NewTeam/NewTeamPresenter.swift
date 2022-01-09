@@ -16,27 +16,31 @@ final class NewTeamPresenter: ObservableObject {
     private let interactor: NewTeamUsecase
     private var onCommit: ((String) -> Void)?
     private var onCanceled: (() -> Void)?
+
+    private var profile: Profile
     
     var editing: Bool {
         return !self.text.isEmpty
     }
     
     init(interactor: NewTeamUsecase,
+         profile: Profile,
          onCommit: ((String) -> Void)?,
          onCanceled: (() -> Void)?) {
         
         self.interactor = interactor
+        self.profile = profile
         self.text = ""
         self.onCommit = onCommit
         self.onCanceled = onCanceled
     }
     
-    func inputCommit(user: User) -> Void {
-        if user.teams.count >= 10 {
+    func inputCommit() -> Void {
+        if self.profile.teams.count >= 10 {
             return
         }
         
-        self.interactor.addTeam(user: user, name: self.text, completion: { result in
+        self.interactor.addTeam(profile: self.profile, name: self.text) { result in
             switch result {
             case .success(let team):
                 if let team = team {
@@ -47,9 +51,9 @@ final class NewTeamPresenter: ObservableObject {
             case .failure(let error):
                 print(error.localizedDescription)
             }
-        })
-        
-        self.onCommit?(self.text)
+            
+            self.onCommit?(self.text)
+        }
     }
     
     func inputCancel() -> Void {

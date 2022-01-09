@@ -28,10 +28,10 @@ final class OrderListPresenter: ObservableObject {
         self.showingTeamSelectPopup
     }
     
-    private var orderIdAndOwners: [String:User] = [:]
+    private var orderIdAndOwners: [String:Profile] = [:]
     private let interactor: OrderListUsecase
     private let router: OrderListWireframe
-    private var selectedTeamByUser: SelectedTeam?
+    private var profile: Profile?
     
     init(interactor: OrderListUsecase, router: OrderListWireframe) {
         self.interactor = interactor
@@ -76,44 +76,47 @@ final class OrderListPresenter: ObservableObject {
     }
     
     func makeAboutNewOrderSheetView() -> some View {
-        return router.makeNewOrderView(team: self.selectedTeam!)
+        return router.makeNewOrderView(profile: self.profile!, team: self.selectedTeam!)
     }
 
     func makeAboutOrderEditSheetView() -> some View {
-        return router.makeOrderEditView(team: self.selectedTeam!, order: self.selectedOrder!)
+        return router.makeOrderEditView(profile: self.profile!, team: self.selectedTeam!, order: self.selectedOrder!)
             .onDisappear {
                 self.sheetType = .detail
             }
     }
 
     func load(user: User) {
-        if self.selectedTeamByUser == nil && user.teams.count == 0 {
-            return
-        }
+//        if self.selectedTeamByUser == nil && user.teams.count == 0 {
+//            return
+//        }
+//
+//        if let selectedTeamByUser = self.selectedTeamByUser, let mySelectedTeam = self.selectedTeam {
+//            if user.teams.contains(selectedTeamByUser.teamId) {
+//                // 変更がない場合は終了
+//                if selectedTeamByUser.teamId == mySelectedTeam.id {
+//                    return
+//                }
+//            }
+//        }
         
-        if let selectedTeamByUser = self.selectedTeamByUser, let mySelectedTeam = self.selectedTeam {
-            if user.teams.contains(selectedTeamByUser.teamId) {
-                // 変更がない場合は終了
-                if selectedTeamByUser.teamId == mySelectedTeam.id {
-                    return
-                }
+        self.interactor.loadProfile(userId: user.id) { profile in
+            
+            guard let profile = profile else {
+                return
             }
-        }
-        
-        
-        self.interactor.loadSelectedTeam(userId: user.id) { selectedTeam in
+            
             self.interactor.loadTeams(userId: user.id) { teams in
                 
                 self.teams = teams
                 
                 var team: Team?
-                if let selectedTeam = selectedTeam {
-                    team = teams?.first(where: { $0.id == selectedTeam.id })
+                if let selectedTeamId = profile.selectedTeam {
+                    team = teams?.first(where: { $0.id == selectedTeamId })
                     
                     // ユーザ情報の選択チームが存在しない場合、最初のチームを選択チームとする
                     if team == nil, let firstTeam = teams?.first {
-                        let newValue = SelectedTeam(teamId: firstTeam.id)
-                        self.interactor.setSelectedTeam(userId: user.id, newValue) { error in
+                        self.interactor.updateSelectedTeam(id: profile.id, selectedTeamId: firstTeam.id) { error in
                             if let error = error {
                                 print(error.localizedDescription)
                             }
@@ -123,8 +126,7 @@ final class OrderListPresenter: ObservableObject {
                 } else {
                     team = teams?.first
                     if let firstTeam = team {
-                        let newValue = SelectedTeam(teamId: firstTeam.id)
-                        self.interactor.setSelectedTeam(userId: user.id, newValue) { error in
+                        self.interactor.updateSelectedTeam(id: profile.id, selectedTeamId: firstTeam.id) { error in
                             if let error = error {
                                 print(error.localizedDescription)
                             }
@@ -133,7 +135,7 @@ final class OrderListPresenter: ObservableObject {
                 }
                 
                 self.selectedTeam = team
-                self.selectedTeamByUser = selectedTeam
+                self.profile = profile
                 
                 guard let selectedTeam = team else {
                     return
@@ -149,16 +151,18 @@ final class OrderListPresenter: ObservableObject {
     
     func teamSelected(user: User, team: Team) {
 
-        let newValue = SelectedTeam(teamId: team.id)
-        self.interactor.setSelectedTeam(userId: user.id, newValue) { error in
+        guard let profile = self.profile else {
+            return
+        }
+        
+        self.interactor.updateSelectedTeam(id: profile.id, selectedTeamId: team.id) { error in
             if let error = error {
                 print(error.localizedDescription)
-                return
             }
             
             // OrderのListener設定
             self.setOrderListener(teamId: team.id)
-            self.selectedTeamByUser = newValue
+            self.profile = Profile(id: profile.id, displayName: profile.displayName, avatarImage: profile.avatarImage, teams: profile.teams, selectedTeam: team.id)
         }
         
         self.showingTeamSelectPopup = false
@@ -171,7 +175,7 @@ final class OrderListPresenter: ObservableObject {
         }
         
         return AnyView(NavigationLink(isActive: isActive) {
-            router.makeOrderEditView(team: team, order: order)
+            router.makeOrderEditView(profile: self.profile!, team: team, order: order)
         } label: {
             content()
         })
@@ -185,14 +189,14 @@ final class OrderListPresenter: ObservableObject {
                 let owners = Array(Set(orders.map { $0.owner }))
                 
                 // オーダーの作成者名を取得
-                self.interactor.getUser(ids: owners) { result in
+                self.interactor.getProfiles(ids: owners) { result in
                     switch result {
-                    case .success(let users):
-                        if let users = users {
-                            var orderIdAndOwners: [String:User] = [:]
+                    case .success(let profiles):
+                        if let profiles = profiles {
+                            var orderIdAndOwners: [String:Profile] = [:]
                             for order in orders {
-                                if let user = users.first(where: { $0.id == order.owner }) {
-                                    orderIdAndOwners[order.id] = user
+                                if let profile = profiles.first(where: { $0.id == order.owner }) {
+                                    orderIdAndOwners[order.id] = profile
                                 }
                             }
                             
@@ -216,23 +220,4 @@ final class OrderListPresenter: ObservableObject {
             }
         }
     }
-
-    
-//    private func updateSelectedUser(id: String, userId: String, teamId: String) {
-//        self.interactor.updateSelectedTeam(id: id, userId: userId, teamId: teamId) { error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                return
-//            }
-//        }
-//    }
-//
-//    private func createSelectedUser(userId: String, teamId: String) {
-//        self.interactor.createSelectedTeam(userId: userId, teamId: teamId) { error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                return
-//            }
-//        }
-//    }
 }

@@ -89,9 +89,9 @@
 		75F5DE802700A8900044A782 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE7F2700A8900044A782 /* UserStore.swift */; };
 		75F5DE842702178A0044A782 /* AuthStateObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5DE832702178A0044A782 /* AuthStateObserver.swift */; };
 		AA081F572779FDA7001A6A5C /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA081F562779FDA7001A6A5C /* PlusButton.swift */; };
+		AA30DD212788837400977358 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA30DD202788837400977358 /* Profile.swift */; };
+		AA30DD232788873200977358 /* ProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA30DD222788873200977358 /* ProfileStore.swift */; };
 		AA39503D27775801004E7118 /* ViewDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA39503C27775801004E7118 /* ViewDismissButton.swift */; };
-		AA53EED127872164001DA212 /* SelectedTeamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA53EED027872164001DA212 /* SelectedTeamStore.swift */; };
-		AA53EED32787220F001DA212 /* SelectedTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA53EED22787220F001DA212 /* SelectedTeam.swift */; };
 		AA7573DF27663C7500149C86 /* NotificationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7573DE27663C7500149C86 /* NotificationStore.swift */; };
 		AA7573E22766464D00149C86 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = AA7573E12766464D00149C86 /* FirebaseAnalytics */; };
 		AA7573E42766464D00149C86 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AA7573E32766464D00149C86 /* FirebaseAuth */; };
@@ -186,9 +186,9 @@
 		75F5DE7F2700A8900044A782 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 		75F5DE832702178A0044A782 /* AuthStateObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateObserver.swift; sourceTree = "<group>"; };
 		AA081F562779FDA7001A6A5C /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
+		AA30DD202788837400977358 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		AA30DD222788873200977358 /* ProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStore.swift; sourceTree = "<group>"; };
 		AA39503C27775801004E7118 /* ViewDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDismissButton.swift; sourceTree = "<group>"; };
-		AA53EED027872164001DA212 /* SelectedTeamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTeamStore.swift; sourceTree = "<group>"; };
-		AA53EED22787220F001DA212 /* SelectedTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTeam.swift; sourceTree = "<group>"; };
 		AA7573DE27663C7500149C86 /* NotificationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStore.swift; sourceTree = "<group>"; };
 		AA981C662764669900C785C8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		AAAE96F127678B0D001A3C12 /* NotificationUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationUtility.swift; sourceTree = "<group>"; };
@@ -310,7 +310,7 @@
 				759626D726FDE9DB00460629 /* Order.swift */,
 				759626D826FDE9DB00460629 /* Team.swift */,
 				759626D926FDE9DB00460629 /* User.swift */,
-				AA53EED22787220F001DA212 /* SelectedTeam.swift */,
+				AA30DD202788837400977358 /* Profile.swift */,
 				759626DA26FDE9DB00460629 /* FirebaseAuthStateObserver.swift */,
 				75F5DE832702178A0044A782 /* AuthStateObserver.swift */,
 				7504C5C72719CADE00C13FD3 /* BannerContent.swift */,
@@ -457,7 +457,7 @@
 				75F5DE7F2700A8900044A782 /* UserStore.swift */,
 				AA7573DE27663C7500149C86 /* NotificationStore.swift */,
 				751F62B32717360400D19E8F /* OrderStore.swift */,
-				AA53EED027872164001DA212 /* SelectedTeamStore.swift */,
+				AA30DD222788873200977358 /* ProfileStore.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -574,6 +574,7 @@
 				7503560226FE039B004FA7E7 /* TeamQrCodeView.swift in Sources */,
 				751015C8271F15E100DE7E99 /* TeamSelectList.swift in Sources */,
 				7503560D26FF28F5004FA7E7 /* TeamQrCodeScannerView.swift in Sources */,
+				AA30DD232788873200977358 /* ProfileStore.swift in Sources */,
 				751F62B22717357E00D19E8F /* NewOrderInteractor.swift in Sources */,
 				7582F61127357CD2001D9EA5 /* AvatarImagePicker.swift in Sources */,
 				7596271026FDE9DB00460629 /* TeamDetailView.swift in Sources */,
@@ -583,14 +584,12 @@
 				7503560926FF28CB004FA7E7 /* QrCodeScannerView.swift in Sources */,
 				7596271626FDE9DB00460629 /* OrderDetailView.swift in Sources */,
 				7596270426FDE9DB00460629 /* FirebaseAuth.swift in Sources */,
-				AA53EED127872164001DA212 /* SelectedTeamStore.swift in Sources */,
 				7596271526FDE9DB00460629 /* OrderDetailPresenter.swift in Sources */,
 				75595E29272586BB00C33B79 /* ActivityIndicator.swift in Sources */,
 				7571BFEE273981D900E0FA1E /* TeamQrCodeScannerRouter.swift in Sources */,
 				7596272326FDE9DB00460629 /* CustomTextField.swift in Sources */,
 				AA39503D27775801004E7118 /* ViewDismissButton.swift in Sources */,
 				7596271826FDE9DB00460629 /* OrderListPresenter.swift in Sources */,
-				AA53EED32787220F001DA212 /* SelectedTeam.swift in Sources */,
 				7596272626FDE9DB00460629 /* OrderItemList.swift in Sources */,
 				750355FF26FE02C4004FA7E7 /* TeamQrCodeManager.swift in Sources */,
 				7596271A26FDE9DB00460629 /* NewOrderView.swift in Sources */,
@@ -608,6 +607,7 @@
 				7571BFE427397D9000E0FA1E /* NewOrderRouter.swift in Sources */,
 				7596271D26FDE9DB00460629 /* LoginPresenter.swift in Sources */,
 				759626AB26FDE91900460629 /* ContentView.swift in Sources */,
+				AA30DD212788837400977358 /* Profile.swift in Sources */,
 				7596272126FDE9DB00460629 /* GoogleSignInButton.swift in Sources */,
 				7571BFEC2739816200E0FA1E /* TeamQrCodeRouter.swift in Sources */,
 				7596271726FDE9DB00460629 /* OrderListView.swift in Sources */,

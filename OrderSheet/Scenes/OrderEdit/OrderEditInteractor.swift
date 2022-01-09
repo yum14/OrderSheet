@@ -11,17 +11,16 @@ protocol OrderEditUsecase {
     func getOrder(teamId: String, orderId: String, completion: ((Result<Order?, Error>) -> Void)?)
     func updateOrder(teamId: String, order: Order, completion: ((Result<Order?, Error>) -> Void)?)
     func deleteOrder(teamIid: String, orderId: String, completion: ((Error?) -> Void)?)
-    func getUser(id: String, completion: @escaping (Result<User?, Error>) -> Void)
+    func getProfile(id: String, completion: @escaping (Result<Profile?, Error>) -> Void)
 }
 
 final class OrderEditInteractor {
     let orderStore = OrderStore()
-    let userStore = UserStore()
+    let profileStore = ProfileStore()
 }
 
 extension OrderEditInteractor: OrderEditUsecase {
     func getOrder(teamId: String, orderId: String, completion: ((Result<Order?, Error>) -> Void)?) {
-        
         self.orderStore.get(teamId: teamId, id: orderId, completion: completion)
     }
     
@@ -51,7 +50,7 @@ extension OrderEditInteractor: OrderEditUsecase {
         self.orderStore.delete(teamId: teamIid, orderId: orderId, completion: completion)
     }
     
-    func getUser(id: String, completion: @escaping (Result<User?, Error>) -> Void) {
-        self.userStore.get(id: id, completion: completion)
+    func getProfile(id: String, completion: @escaping (Result<Profile?, Error>) -> Void) {
+        self.profileStore.get(id: id, completion: completion)
     }
 }

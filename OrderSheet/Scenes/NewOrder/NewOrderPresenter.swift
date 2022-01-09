@@ -18,6 +18,7 @@ final class NewOrderPresenter: ObservableObject {
     @Published var showingDismissConfirm = false
     
     private var interactor: NewOrderUsecase
+    private var profile: Profile
     private var team: Team
     
     var commitButtonDisabled: Bool {
@@ -29,8 +30,10 @@ final class NewOrderPresenter: ObservableObject {
     }
     
     init(interactor: NewOrderUsecase,
+         profile: Profile,
          team: Team) {
         self.interactor = interactor
+        self.profile = profile
         self.team = team
         self.title = ""
         self.items = []
@@ -59,8 +62,8 @@ final class NewOrderPresenter: ObservableObject {
         return self.items.count == 0 || self.showNewItem
     }
     
-    func createNewOrder(user: User) {
-        self.interactor.addNewOrder(user: user,
+    func createNewOrder() {
+        self.interactor.addNewOrder(profile: profile,
                                     team: self.team,
                                     name: self.title,
                                     items: self.items.map { OrderItem(name: $0.text) },

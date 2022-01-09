@@ -9,34 +9,35 @@ import Foundation
 import SwiftUI
 
 protocol TeamDetailUsecase {
-    func memberLoad(ids: [String], completion: @escaping ([User]?) -> Void)
+    func memberLoad(ids: [String], completion: (([Profile]?) -> Void)?)
     func set(_ newValue: Team, completion: ((Error?) -> Void)?)
-    func leaveMember(user: User, team: Team, completion: ((Error?) -> Void)?)
+    func leaveMember(profile: Profile, team: Team, completion: ((Error?) -> Void)?)
     func deleteTeamAndOrder(id: String, completion: ((Error?) -> Void)?)
     func updateAvatarImage(id: String, avatarImage: Data, completion: ((Error?) -> Void)?)
 }
 
 final class TeamDetailInteractor {
     let teamStore = TeamStore()
-    let userStore = UserStore()
+//    let userStore = UserStore()
+    let profileStore = ProfileStore()
     
     init() {}
 }
 
 extension TeamDetailInteractor: TeamDetailUsecase {
-    func memberLoad(ids: [String], completion: @escaping ([User]?) -> Void) {
-        self.userStore.get(ids: ids) { result in
+    func memberLoad(ids: [String], completion: (([Profile]?) -> Void)?) {
+        self.profileStore.get(ids: ids) { result in
             switch result {
-            case .success(let users):
-                if let users = users {
-                    completion(users)
-                    return
+            case .success(let profiles):
+                if let profiles = profiles {
+                    completion?(profiles)
+                } else {
+                    completion?(nil)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
+                completion?(nil)
             }
-            
-            completion(nil)
         }
     }
     
@@ -51,33 +52,21 @@ extension TeamDetailInteractor: TeamDetailUsecase {
         }
     }
     
-    func leaveMember(user: User, team: Team, completion: ((Error?) -> Void)?) {
-        guard let teamIndex = team.members.firstIndex(where: { $0 == user.id }) else {
+    func leaveMember(profile: Profile, team: Team, completion: ((Error?) -> Void)?) {
+        guard let teamIndex = team.members.firstIndex(where: { $0 == profile.id }) else {
             return
         }
                 
-        guard let userIndex = user.teams.firstIndex(where: { $0 == team.id }) else {
+        guard let userIndex = profile.teams.firstIndex(where: { $0 == team.id }) else {
             return
         }
 
-        var newTeams = user.teams
+        var newTeams = profile.teams
         newTeams.remove(at: userIndex)
         
-        let newUser = User(id: user.id,
-                           displayName: user.displayName,
-                           email: user.email,
-                           photoUrl: user.photoUrl,
-                           avatarImage: user.avatarImage,
-                           teams: newTeams,
-                           lastLogin: user.lastLogin)
-        
-        self.userStore.set(newUser) { result in
-            switch result {
-            case .success():
-                break
-            case .failure(let error):
+        self.profileStore.updateTeams(id: profile.id, newTeams: newTeams) { error in
+            if let error = error {
                 print(error.localizedDescription)
-                completion?(error)
                 return
             }
             
@@ -94,14 +83,11 @@ extension TeamDetailInteractor: TeamDetailUsecase {
             self.teamStore.set(newTeam) { result in
                 switch result {
                 case .success():
-                    break
+                    completion?(nil)
                 case .failure(let error):
                     print(error.localizedDescription)
                     completion?(error)
-                    return
                 }
-                
-                completion?(nil)
             }
         }
     }

@@ -14,10 +14,10 @@ protocol TeamDetailWireframe {
 }
 
 final class TeamDetailRouter {
-    static func assembleModules(team: Team) -> AnyView {
+    static func assembleModules(profile: Profile, team: Team) -> AnyView {
         let interactor = TeamDetailInteractor()
         let router = TeamDetailRouter()
-        let presenter = TeamDetailPresenter(interactor: interactor, router: router, team: team)
+        let presenter = TeamDetailPresenter(interactor: interactor, router: router, profile: profile, team: team)
         let view = TeamDetailView(presenter: presenter)
         return AnyView(view)
     }

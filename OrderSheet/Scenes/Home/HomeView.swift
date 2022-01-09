@@ -59,7 +59,7 @@ struct HomeView: View {
                                     Spacer()
                                 }
                             }
-                            .disabled(self.authStateObserver.appUser?.teams.count ?? 0 >= 10)
+                            .disabled(self.presenter.profile?.teams.count ?? 0 >= 10)
 
                             Button {
                                 self.presenter.onJoinTeamButtonTapped()
@@ -99,7 +99,7 @@ struct HomeView: View {
                                     Spacer()
                                 }
                             }
-                            .alert(self.authStateObserver.appUser?.displayName ?? self.presenter.inputName, isPresented: self.$presenter.showingLogoutAlert) {
+                            .alert(self.presenter.profile?.displayName ?? self.presenter.inputName, isPresented: self.$presenter.showingLogoutAlert) {
                                 Button("ログアウト") {
                                     self.authStateObserver.signOut()
                                 }
@@ -115,7 +115,7 @@ struct HomeView: View {
                 }
                 .fullScreenCover(isPresented: self.$presenter.showingTeamQrCodeScannerView) {
                     NavigationView {
-                        self.presenter.makeAboutTeamQrCodeScannerView(user: self.authStateObserver.appUser!)
+                        self.presenter.makeAboutTeamQrCodeScannerView()
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
@@ -124,7 +124,7 @@ struct HomeView: View {
                 ActivityIndicator(isVisible: self.$presenter.showingIndicator)
             }
             .onAppear {
-                self.presenter.initialLoad(user: self.authStateObserver.appUser!)
+                self.presenter.initialLoad(userId: self.authStateObserver.appUser!.id)
             }
             .popup(isPresented: self.$presenter.showingTeamQrCodeScanBanner,
                    type: .floater(),
@@ -143,9 +143,10 @@ struct HomeView_Previews: PreviewProvider {
         let router = HomeRouter()
         let teams = [Team(name: "team1", members: [], owner: "owner"),
                      Team(name: "team2", members: [], owner: "owner")]
-        let presenter = HomePresenter(interactor: interactor, router: router, teams: teams)
+        let profile = Profile(id: "a", displayName: "アカウント名", teams: ["team1","team2"])
+        let presenter = HomePresenter(interactor: interactor, router: router, teams: teams, profile: profile)
         
         HomeView(presenter: presenter)
-            .environmentObject(AuthStateObserver(user: User(displayName: "アカウント名", teams: [])))
+            .environmentObject(AuthStateObserver(user: User()))
     }
 }
