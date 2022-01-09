@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 
 protocol OrderListWireframe {
-    func makeOrderDetailView(team: Team, order: Order, owner: User, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) -> AnyView
-    func makeNewOrderView(team: Team) -> AnyView
-    func makeOrderEditView(team: Team, order: Order) -> AnyView
+    func makeOrderDetailView(team: Team, order: Order, owner: Profile, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) -> AnyView
+    func makeNewOrderView(profile: Profile, team: Team) -> AnyView
+    func makeOrderEditView(profile: Profile, team: Team, order: Order) -> AnyView
 }
 
 final class OrderListRouter {
@@ -25,15 +25,15 @@ final class OrderListRouter {
 }
 
 extension OrderListRouter: OrderListWireframe {
-    func makeOrderDetailView(team: Team, order: Order, owner: User, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) -> AnyView {
+    func makeOrderDetailView(team: Team, order: Order, owner: Profile, commitButtonTap: (() -> Void)?, editButtonTap: (() -> Void)?) -> AnyView {
         return OrderDetailRouter.assembleModules(team: team, order: order, owner: owner, commitButtonTap: commitButtonTap, editButtonTap: editButtonTap)
     }
     
-    func makeNewOrderView(team: Team) -> AnyView {
-        return NewOrderRouter.assembleModules(team: team)
+    func makeNewOrderView(profile: Profile, team: Team) -> AnyView {
+        return NewOrderRouter.assembleModules(profile: profile, team: team)
     }
     
-    func makeOrderEditView(team: Team, order: Order) -> AnyView {
-        return OrderEditRouter.assembleModules(team: team, order: order)
+    func makeOrderEditView(profile: Profile, team: Team, order: Order) -> AnyView {
+        return OrderEditRouter.assembleModules(profile: profile, team: team, order: order)
     }
 }

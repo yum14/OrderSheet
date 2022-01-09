@@ -11,7 +11,7 @@ import Combine
 
 final class TeamDetailPresenter: ObservableObject {
     @Published var team: Team
-    @Published var members: [User] = []
+    @Published var members: [Profile] = []
     @Published var sheetPresented = false
     @Published var inputName: String = ""
     @Published var showingLeaveTeamConfirm = false
@@ -19,15 +19,18 @@ final class TeamDetailPresenter: ObservableObject {
     @Published var avatarImage: UIImage?
     @Published var showingIndicator = false
     
+    var profile: Profile
+    
     private let interactor: TeamDetailUsecase
     private let router: TeamDetailWireframe
     
     private var beginEditingName: String = ""
     private var avatarInitialLoading: Bool = false
     
-    init(interactor: TeamDetailInteractor, router: TeamDetailWireframe, team: Team) {
+    init(interactor: TeamDetailInteractor, router: TeamDetailWireframe, profile: Profile, team: Team) {
         self.interactor = interactor
         self.router = router
+        self.profile = profile
         self.team = team
         self.inputName = team.name
 
@@ -37,8 +40,8 @@ final class TeamDetailPresenter: ObservableObject {
         }
     }
     
-    convenience init(interactor: TeamDetailInteractor, router: TeamDetailWireframe, team: Team, members: [User]) {
-        self.init(interactor: interactor, router: router, team: team)
+    convenience init(interactor: TeamDetailInteractor, router: TeamDetailWireframe, profile: Profile, team: Team, members: [Profile]) {
+        self.init(interactor: interactor, router: router, profile: profile, team: team)
         self.members = members
     }
     
@@ -90,8 +93,8 @@ final class TeamDetailPresenter: ObservableObject {
         self.showingLeaveTeamConfirm = true
     }
     
-    func leaveTeam(user: User, completion: (() -> Void)? = {}) {
-        if !self.team.members.contains(user.id) {
+    func leaveTeam(completion: (() -> Void)? = {}) {
+        if !self.team.members.contains(self.profile.id) {
             return
         }
         
@@ -102,7 +105,7 @@ final class TeamDetailPresenter: ObservableObject {
         
         self.showingIndicator = true
         
-        self.interactor.leaveMember(user: user, team: self.team) { error in
+        self.interactor.leaveMember(profile: self.profile, team: self.team) { error in
             if let error = error {
                 print(error.localizedDescription)
                 self.showingIndicator = false
@@ -114,10 +117,10 @@ final class TeamDetailPresenter: ObservableObject {
         }
     }
     
-    func leaveAndDeleteTeam(user: User, completion: (() -> Void)? = {}) {
+    func leaveAndDeleteTeam(completion: (() -> Void)? = {}) {
         self.showingIndicator = true
         
-        self.interactor.leaveMember(user: user, team: self.team) { error in
+        self.interactor.leaveMember(profile: self.profile, team: self.team) { error in
             if let error = error {
                 print(error.localizedDescription)
                 self.showingIndicator = false
@@ -135,7 +138,6 @@ final class TeamDetailPresenter: ObservableObject {
                 self.showingIndicator = false
             }
         }
-
     }
     
     func makeAboutTeamQRCodeView() -> some View {

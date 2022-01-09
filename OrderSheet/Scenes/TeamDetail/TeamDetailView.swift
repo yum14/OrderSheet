@@ -9,7 +9,6 @@ import SwiftUI
 
 struct TeamDetailView: View {
     @ObservedObject var presenter: TeamDetailPresenter
-    @EnvironmentObject var authStateObserver: AuthStateObserver
     @Environment(\.presentationMode) var presentation
     
     var body: some View {
@@ -40,7 +39,7 @@ struct TeamDetailView: View {
                                   message: Text("メンバーが存在しないため、チームおよびすべてのメッセージが削除されます。"),
                                   primaryButton: .default(Text("削除する")) {
                                 
-                                self.presenter.leaveAndDeleteTeam(user: self.authStateObserver.appUser!) {
+                                self.presenter.leaveAndDeleteTeam() {
                                     self.presentation.wrappedValue.dismiss()
                                 }
                             },
@@ -52,7 +51,7 @@ struct TeamDetailView: View {
                         Section(header: Text("メンバー")) {
                             ForEach(self.presenter.members, id: \.self) { member in
                                 HStack {
-                                    AvatarImage(image: self.authStateObserver.appUser?.avatarImage != nil ? UIImage(data: self.authStateObserver.appUser!.avatarImage!) : nil, defaultImageName: "person.crop.circle.fill", length: 28)
+                                    AvatarImage(image: member.avatarImage != nil ? UIImage(data: member.avatarImage!) : nil, defaultImageName: "person.crop.circle.fill", length: 28)
                                     Text(member.displayName)
                                     Spacer()
                                 }
@@ -83,7 +82,7 @@ struct TeamDetailView: View {
                             
                             .alert(self.presenter.team.name, isPresented: self.$presenter.showingLeaveTeamConfirm) {
                                 Button("抜ける", role: .destructive) {
-                                    self.presenter.leaveTeam(user: self.authStateObserver.appUser!) {
+                                    self.presenter.leaveTeam() {
                                         self.presentation.wrappedValue.dismiss()
                                     }
                                 }
@@ -115,7 +114,11 @@ struct TeamDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let router = TeamDetailRouter()
         let interactor = TeamDetailInteractor()
-        let presenter = TeamDetailPresenter(interactor: interactor, router: router, team: Team(name: "チーム名", members: [], owner: ""), members: [User(displayName: "メンバー1", teams: []), User(displayName: "メンバー2", teams: [])])
+        let presenter = TeamDetailPresenter(interactor: interactor,
+                                            router: router,
+                                            profile: Profile(id: "me", displayName: "アカウント", teams: []),
+                                            team: Team(name: "チーム名", members: [], owner: ""),
+                                            members: [Profile(id: "a", displayName: "メンバー1", teams: []), Profile(id: "b", displayName: "メンバー2", teams: [])])
         let authStateObserver = AuthStateObserver()
         
         NavigationView {

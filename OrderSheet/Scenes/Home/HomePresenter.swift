@@ -22,10 +22,19 @@ final class HomePresenter: ObservableObject {
     @Published var avatarImage: UIImage?
     
     var joinTeam: Team?
+    var profile: Profile? {
+        didSet {
+            self.inputName = profile?.displayName ?? ""
+            
+            if let avatarImage = profile?.avatarImage {
+                self.avatarInitialLoading = true
+                self.avatarImage = UIImage(data: avatarImage)
+            }
+        }
+    }
     
     private var interactor: HomeUsecase
     private var router: HomeWireframe
-    
     private var beginEditingName: String = ""
     private var avatarInitialLoading: Bool = false
     
@@ -35,27 +44,38 @@ final class HomePresenter: ObservableObject {
         self.router = router
     }
     
-    convenience init(interactor: HomeUsecase, router: HomeWireframe, teams: [Team]) {
+    convenience init(interactor: HomeUsecase, router: HomeWireframe, teams: [Team], profile: Profile) {
         self.init(interactor: interactor, router: router)
         self.teams = teams
+        self.profile = profile
     }
 }
- 
+
 extension HomePresenter {
-    func initialLoad(user: User) {
+    func initialLoad(userId: String) {
         self.showingIndicator = true
-        self.inputName = user.displayName
-        self.loadTeams(userId: user.id) {
-            self.showingIndicator = false
-        }
-        if let avatarImage = user.avatarImage {
-            self.avatarInitialLoading = true
-            self.avatarImage = UIImage(data: avatarImage)
+        self.interactor.getProfile(id: userId) { result in
+            switch result {
+            case .success(let profile):
+                guard let profile = profile else {
+                    return
+                }
+                
+                self.profile = profile
+                
+                self.loadTeams(userId: userId) {
+                    self.showingIndicator = false
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+                return
+            }
         }
     }
     
     private func loadTeams(userId: String, completion: (() -> Void)?) {
-        self.interactor.loadTeams(userId: userId) { result in
+        self.interactor.getTeams(userId: userId) { result in
             switch result {
             case .success(let teams):
                 if let teams = teams {
@@ -66,20 +86,21 @@ extension HomePresenter {
             case .failure(let error):
                 print(error.localizedDescription)
             }
-
+            
             completion?()
         }
     }
     
     func linkBuilder<Content: View>(userId: String, team: Team, @ViewBuilder content: () -> Content) -> some View {
         return NavigationLink(destination:
-                                router.makeTeamDetailView(team: team)) {
+                                router.makeTeamDetailView(profile: self.profile!, team: team)) {
             content()
         }
     }
     
     func makeAboutNewTeamView(userId: String) -> some View {
-        return router.makeNewTeamView(onCommit: { _ in self.showingNewTeamView = false },
+        return router.makeNewTeamView(profile: self.profile!,
+                                      onCommit: { _ in self.showingNewTeamView = false },
                                       onCanceled: { self.showingNewTeamView = false })
             .onDisappear {
                 self.showingIndicator = true
@@ -89,7 +110,7 @@ extension HomePresenter {
             }
     }
     
-    func makeAboutTeamQrCodeScannerView(user: User) -> some View {
+    func makeAboutTeamQrCodeScannerView() -> some View {
         
         return router.makeTeamQrCodeScannerView(
             onFound: { code in
@@ -112,7 +133,7 @@ extension HomePresenter {
                         if let team = team {
                             
                             // すでに参加済のチームの場合
-                            if user.teams.contains(team.id) {
+                            if self.profile!.teams.contains(team.id) {
                                 self.joinTeam = team
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                     self.showingJoinTeamCancelAlert = true
@@ -174,7 +195,7 @@ extension HomePresenter {
             return
         }
         
-        if let dbValue = user.avatarImage, dbValue == imageData {
+        if let dbValue = self.profile!.avatarImage, dbValue == imageData {
             return
         }
         
@@ -197,10 +218,9 @@ extension HomePresenter {
     }
     
     func onJoinTeamAgreementButtonTapped(user: User) {
-        if let team = self.joinTeam {
+        if let team = self.joinTeam, let profile = self.profile {
             self.showingIndicator = true
-            
-            self.interactor.addTeam(user: user, teamId: team.id, completion: { error in
+            self.interactor.addTeam(profile: profile, teamId: team.id) { error in
                 if let error = error {
                     print(error.localizedDescription)
                     self.showingIndicator = false
@@ -212,7 +232,7 @@ extension HomePresenter {
                     self.showingIndicator = false
                 }
                 self.joinTeam = nil
-            })
+            }
         }
     }
     

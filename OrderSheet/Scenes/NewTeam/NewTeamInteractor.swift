@@ -8,48 +8,39 @@
 import Foundation
 
 protocol NewTeamUsecase {
-    func addTeam(user: User, name: String, completion: @escaping (Result<Team?, Error>) -> Void)
+    func addTeam(profile: Profile, name: String, completion: ((Result<Team?, Error>) -> Void)?)
 }
 
 final class NewTeamInteractor {
     private let teamStore = TeamStore()
     private let userStore = UserStore()
+    private let profileStore = ProfileStore()
     
     init() {}
 }
 
 extension NewTeamInteractor: NewTeamUsecase {
-    func addTeam(user: User, name: String, completion: @escaping (Result<Team?, Error>) -> Void = { _ in }) {
+    func addTeam(profile: Profile, name: String, completion: ((Result<Team?, Error>) -> Void)?) {
         
-        let newTeam = Team(name: name, members: [user.id], owner: user.id, createdAt: Date())
+        let newTeam = Team(name: name, members: [profile.id], owner: profile.id, createdAt: Date())
 
-        var teams = user.teams
-        teams.append(newTeam.id)
+        var newTeams = profile.teams
+        newTeams.append(newTeam.id)
         
-        let newUser = User(id: user.id,
-                           displayName: user.displayName,
-                           email: user.email,
-                           photoUrl: user.photoUrl,
-                           avatarImage: user.avatarImage,
-                           teams: teams,
-                           lastLogin: user.lastLogin)
-        
-        
-        self.userStore.set(newUser) { userResult in
-            switch userResult {
-            case .success():
-                self.teamStore.set(newTeam) { result in
-                    switch result {
-                    case .success():
-                        completion(Result.success(newTeam))
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                        completion(Result.failure(error))
-                    }
+        self.profileStore.updateTeams(id: profile.id, newTeams: newTeams) { error in
+            if let error = error {
+                completion?(Result.failure(error))
+                return
+            }
+            
+            self.teamStore.set(newTeam) { result in
+                switch result {
+                case .success():
+                    completion?(Result.success(newTeam))
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    completion?(Result.failure(error))
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
-                completion(Result.failure(error))
             }
         }
     }

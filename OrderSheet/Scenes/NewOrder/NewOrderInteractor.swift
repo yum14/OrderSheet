@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NewOrderUsecase {
-    func addNewOrder(user: User, team: Team, name: String, items: [OrderItem], comment: String?, completion: ((Result<Order?, Error>) -> Void)?)
+    func addNewOrder(profile: Profile, team: Team, name: String, items: [OrderItem], comment: String?, completion: ((Result<Order?, Error>) -> Void)?)
 }
 
 final class NewOrderInteractor {
@@ -17,22 +17,22 @@ final class NewOrderInteractor {
 }
 
 extension NewOrderInteractor: NewOrderUsecase {
-    func addNewOrder(user: User, team: Team, name: String, items: [OrderItem], comment: String?, completion: ((Result<Order?, Error>) -> Void)?) {
+    func addNewOrder(profile: Profile, team: Team, name: String, items: [OrderItem], comment: String?, completion: ((Result<Order?, Error>) -> Void)?) {
         
         let newOrder = Order(name: name,
                              items: items,
                              comment: comment,
-                             owner: user.id)
+                             owner: profile.id)
         
         self.orderStore.set(teamId: team.id, newOrder) { result in
             switch result {
             case .success():
 
                 // プッシュ通知用コレクションにデータ追加
-                let destination = team.members.filter { $0 != user.id }
+                let destination = team.members.filter { $0 != profile.id }
                 if destination.count > 0 {
                     
-                    let newNotification = NotificationUtility.createNewOrderNotification(userId: user.id, userName: user.displayName, destination: destination)
+                    let newNotification = NotificationUtility.createNewOrderNotification(userId: profile.id, userName: profile.displayName, destination: destination)
                     
                     self.notificationStore.set(newNotification) { notificationResult in
                         switch notificationResult {

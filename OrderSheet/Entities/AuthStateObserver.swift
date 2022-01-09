@@ -43,11 +43,13 @@ final class AuthStateObserver: UIResponder, ObservableObject {
     private var firebaseAuthStateObserver: FirebaseAuthStateObserver?
     private var signInStatus: SignInStatus? = nil
     private var userStore: UserStore?
+    private var profileStore: ProfileStore?
     
     override init() {}
     
     func addListener() {
         self.userStore = UserStore()
+        self.profileStore = ProfileStore()
         
         self.firebaseAuthStateObserver = FirebaseAuthStateObserver(
             onStateChanged: {(auth: Auth, user: Firebase.User?) in
@@ -105,25 +107,33 @@ final class AuthStateObserver: UIResponder, ObservableObject {
     }
     
     func createAccount(completion: (() -> Void)? = {}) {
-        guard let user = self.firebaseLoginUser, let userStore = self.userStore else {
+        guard let user = self.firebaseLoginUser, let userStore = self.userStore, let profileStore = self.profileStore else {
             return
         }
         
         let newUser = User(id: user.uid,
-                           displayName: user.displayName ?? "",
                            email: user.email,
                            photoUrl: user.photoURL?.absoluteString,
-                           avatarImage: nil,
-                           teams: [],
                            notificationToken: self.notificationToken,
                            lastLogin: Date())
         
         userStore.set(newUser) { result in
             switch result {
             case .success():
-                self.appUser = newUser
-                self.signInStatus = .success
-                completion?()
+                let newProfile = Profile(id: user.uid,
+                                         displayName: user.displayName ?? "",
+                                         teams: [])
+                
+                profileStore.set(newProfile) { result in
+                    switch result {
+                    case .success():
+                        self.appUser = newUser
+                        self.signInStatus = .success
+                        completion?()
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
