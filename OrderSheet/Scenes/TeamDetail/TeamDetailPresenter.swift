@@ -65,14 +65,7 @@ final class TeamDetailPresenter: ObservableObject {
             return
         }
         
-        let newTeam = Team(id: self.team.id,
-                           name: self.inputName,
-                           avatarImage: self.team.avatarImage,
-                           members: self.team.members,
-                           owner: self.team.owner,
-                           createdAt: self.team.createdAt.dateValue(),
-                           updatedAt: Date())
-        self.interactor.set(newTeam) { error in
+        self.interactor.updateTeamName(id: self.team.id, name: self.inputName) { error in
             if let error = error {
                 print(error.localizedDescription)
             }
