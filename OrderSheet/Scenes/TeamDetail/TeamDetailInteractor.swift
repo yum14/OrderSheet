@@ -14,11 +14,11 @@ protocol TeamDetailUsecase {
     func leaveMember(profile: Profile, team: Team, completion: ((Error?) -> Void)?)
     func deleteTeamAndOrder(id: String, completion: ((Error?) -> Void)?)
     func updateAvatarImage(id: String, avatarImage: Data, completion: ((Error?) -> Void)?)
+    func updateTeamName(id: String, name: String, completion: ((Error?) -> Void)?)
 }
 
 final class TeamDetailInteractor {
     let teamStore = TeamStore()
-//    let userStore = UserStore()
     let profileStore = ProfileStore()
     
     init() {}
@@ -98,5 +98,9 @@ extension TeamDetailInteractor: TeamDetailUsecase {
     
     func updateAvatarImage(id: String, avatarImage: Data, completion: ((Error?) -> Void)?) {
         self.teamStore.updateAvatarImage(id: id, avatarImage: avatarImage, completion: completion)
+    }
+    
+    func updateTeamName(id: String, name: String, completion: ((Error?) -> Void)?) {
+        self.teamStore.updateTeamName(id: id, name: name, completion: completion)
     }
 }

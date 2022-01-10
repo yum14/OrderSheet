@@ -178,4 +178,8 @@ final class TeamStore {
     func updateAvatarImage(id: String, avatarImage: Data, completion: ((Error?) -> Void)?) {
         db.collection(self.collectionName).document(id).updateData(["avatar_image": avatarImage], completion: completion)
     }
+    
+    func updateTeamName(id: String, name: String, completion: ((Error?) -> Void)?) {
+        db.collection(self.collectionName).document(id).updateData(["name": name], completion: completion)
+    }
 }
