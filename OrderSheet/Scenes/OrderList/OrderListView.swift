@@ -28,7 +28,7 @@ struct OrderListView: View {
                     
                     if self.presenter.selectedTeam == nil {
                         VStack {
-                            Text("まずはチームに参加、")
+                            Text("チームに参加、")
                                 .foregroundColor(Color.secondary)
                             Text("または新たにチームを作成しましょう。")
                                 .foregroundColor(Color.secondary)
