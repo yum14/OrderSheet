@@ -22,8 +22,7 @@ final class NewTeamInteractor {
 extension NewTeamInteractor: NewTeamUsecase {
     func addTeam(profile: Profile, name: String, completion: ((Result<Team?, Error>) -> Void)?) {
         
-        let newTeam = Team(name: name, members: [profile.id], owner: profile.id, createdAt: Date())
-
+        let newTeam = Team(name: name, avatarImage: nil, members: [profile.id], owner: profile.id, disabled: false, createdAt: Date())
         var newTeams = profile.teams
         newTeams.append(newTeam.id)
         

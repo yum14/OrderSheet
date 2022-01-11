@@ -22,7 +22,7 @@ struct HomeView: View {
                             .onChange(of: self.presenter.avatarImage) { newValue in
                                 
                                 if let newImage = newValue {
-                                    self.presenter.onAvatarImageChanged(user: self.authStateObserver.appUser!, image: newImage)
+                                    self.presenter.onAvatarImageChanged(image: newImage)
                                 }
                             }
                         
