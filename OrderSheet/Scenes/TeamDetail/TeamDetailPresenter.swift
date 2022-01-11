@@ -32,12 +32,6 @@ final class TeamDetailPresenter: ObservableObject {
         self.router = router
         self.profile = profile
         self.team = team
-        self.inputName = team.name
-
-        if let avatarImage = team.avatarImage {
-            self.avatarInitialLoading = true
-            self.avatarImage = UIImage(data: avatarImage)
-        }
     }
     
     convenience init(interactor: TeamDetailInteractor, router: TeamDetailWireframe, profile: Profile, team: Team, members: [Profile]) {
@@ -47,6 +41,15 @@ final class TeamDetailPresenter: ObservableObject {
     
     func load() {
         self.showingIndicator = true
+        self.avatarInitialLoading = true
+        
+        self.inputName = team.name
+
+        if let avatarImage = team.avatarImage {
+            self.avatarInitialLoading = true
+            self.avatarImage = UIImage(data: avatarImage)
+        }
+        
         self.interactor.memberLoad(ids: self.team.members) { users in
             guard let users = users else {
                 self.members = []
@@ -68,7 +71,12 @@ final class TeamDetailPresenter: ObservableObject {
         self.interactor.updateTeamName(id: self.team.id, name: self.inputName) { error in
             if let error = error {
                 print(error.localizedDescription)
+                return
             }
+            
+            let newProfile = Profile(id: self.profile.id, displayName: self.inputName, avatarImage: self.profile.avatarImage, teams: self.profile.teams, selectedTeam: self.profile.selectedTeam)
+            
+            self.profile = newProfile
         }
     }
     
@@ -143,7 +151,7 @@ final class TeamDetailPresenter: ObservableObject {
             return
         }
         
-        guard let imageData = image.jpegData(compressionQuality: 1) else {
+        guard let imageData = image.jpegData(compressionQuality: 0.1) else {
             return
         }
         
@@ -154,7 +162,12 @@ final class TeamDetailPresenter: ObservableObject {
         self.interactor.updateAvatarImage(id: self.team.id, avatarImage: imageData) { error in
             if let error = error {
                 print(error.localizedDescription)
+                return
             }
+            
+            let newProfile = Profile(id: self.profile.id, displayName: self.profile.displayName, avatarImage: imageData, teams: self.profile.teams, selectedTeam: self.profile.selectedTeam)
+            
+            self.profile = newProfile
         }
     }
 }

@@ -25,9 +25,8 @@ final class HomePresenter: ObservableObject {
     var profile: Profile? {
         didSet {
             self.inputName = profile?.displayName ?? ""
-            
+
             if let avatarImage = profile?.avatarImage {
-                self.avatarInitialLoading = true
                 self.avatarImage = UIImage(data: avatarImage)
             }
         }
@@ -54,6 +53,8 @@ final class HomePresenter: ObservableObject {
 extension HomePresenter {
     func initialLoad(userId: String) {
         self.showingIndicator = true
+        self.avatarInitialLoading = true
+        
         self.interactor.getProfile(id: userId) { result in
             switch result {
             case .success(let profile):
@@ -167,6 +168,11 @@ extension HomePresenter {
 
 extension HomePresenter {
     func onNameCommit(user: User) {
+        guard let profile = self.profile else {
+            return
+        }
+        
+        
         if self.inputName.isEmpty {
             self.inputName = self.beginEditingName
             return
@@ -175,7 +181,12 @@ extension HomePresenter {
         self.interactor.updateUserDisplayName(id: user.id, displayName: self.inputName) { error in
             if let error = error {
                 print(error.localizedDescription)
+                return
             }
+            
+            let newProfile = Profile(id: profile.id, displayName: self.inputName, avatarImage: profile.avatarImage, teams: profile.teams, selectedTeam: profile.selectedTeam)
+            
+            self.profile = newProfile
         }
     }
     
@@ -185,13 +196,17 @@ extension HomePresenter {
         }
     }
     
-    func onAvatarImageChanged(user: User, image: UIImage) {
+    func onAvatarImageChanged(image: UIImage) {
+        guard let profile = self.profile else {
+            return
+        }
+        
         if self.avatarInitialLoading {
             self.avatarInitialLoading = false
             return
         }
         
-        guard let imageData = image.jpegData(compressionQuality: 1) else {
+        guard let imageData = image.jpegData(compressionQuality: 0.1) else {
             return
         }
         
@@ -199,10 +214,15 @@ extension HomePresenter {
             return
         }
         
-        self.interactor.updateAvatarImage(id: user.id, avatarImage: imageData) { error in
+        self.interactor.updateAvatarImage(id: profile.id, avatarImage: imageData) { error in
             if let error = error {
                 print(error.localizedDescription)
+                return
             }
+            
+            let newProfile = Profile(id: profile.id, displayName: profile.displayName, avatarImage: imageData, teams: profile.teams, selectedTeam: profile.selectedTeam)
+            
+            self.profile = newProfile
         }
     }
 }

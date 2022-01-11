@@ -48,9 +48,7 @@ struct AvatarImagePicker: View {
                 if let cgImage = uiImage.cgImage {
                     let clipRect = CGRect(x: xOffset, y: yOffset, width: self.length * scale, height: self.length * scale)
                     let crippedImage = UIImage(cgImage: cgImage.cropping(to: clipRect)!)
-                    let compressionImageData = crippedImage.jpegData(compressionQuality: 0.01)!
-                    
-                    self.selectedImage = UIImage(data: compressionImageData)
+                    self.selectedImage = crippedImage
                 }
             }
         }
