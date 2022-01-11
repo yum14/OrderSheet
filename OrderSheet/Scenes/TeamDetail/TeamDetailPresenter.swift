@@ -41,7 +41,6 @@ final class TeamDetailPresenter: ObservableObject {
     
     func load() {
         self.showingIndicator = true
-        self.avatarInitialLoading = true
         
         self.inputName = team.name
 

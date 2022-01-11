@@ -22,15 +22,7 @@ final class HomePresenter: ObservableObject {
     @Published var avatarImage: UIImage?
     
     var joinTeam: Team?
-    var profile: Profile? {
-        didSet {
-            self.inputName = profile?.displayName ?? ""
-
-            if let avatarImage = profile?.avatarImage {
-                self.avatarImage = UIImage(data: avatarImage)
-            }
-        }
-    }
+    var profile: Profile?
     
     private var interactor: HomeUsecase
     private var router: HomeWireframe
@@ -53,7 +45,6 @@ final class HomePresenter: ObservableObject {
 extension HomePresenter {
     func initialLoad(userId: String) {
         self.showingIndicator = true
-        self.avatarInitialLoading = true
         
         self.interactor.getProfile(id: userId) { result in
             switch result {
@@ -63,6 +54,13 @@ extension HomePresenter {
                 }
                 
                 self.profile = profile
+        
+                self.inputName = profile.displayName
+                
+                if let avatarImage = profile.avatarImage {
+                    self.avatarInitialLoading = true
+                    self.avatarImage = UIImage(data: avatarImage)
+                }
                 
                 self.loadTeams(userId: userId) {
                     self.showingIndicator = false
@@ -192,6 +190,7 @@ extension HomePresenter {
             let newProfile = Profile(id: profile.id, displayName: self.inputName, avatarImage: profile.avatarImage, teams: profile.teams, selectedTeam: profile.selectedTeam)
             
             self.profile = newProfile
+            self.inputName = profile.displayName
         }
     }
     
@@ -228,6 +227,10 @@ extension HomePresenter {
             let newProfile = Profile(id: profile.id, displayName: profile.displayName, avatarImage: imageData, teams: profile.teams, selectedTeam: profile.selectedTeam)
             
             self.profile = newProfile
+            if let avatarImage = profile.avatarImage {
+                self.avatarImage = UIImage(data: avatarImage)
+            }
+
         }
     }
 }
