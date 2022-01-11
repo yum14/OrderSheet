@@ -100,15 +100,20 @@ extension HomePresenter {
     }
     
     func makeAboutNewTeamView(userId: String) -> some View {
-        return router.makeNewTeamView(profile: self.profile!,
-                                      onCommit: { _ in self.showingNewTeamView = false },
-                                      onCanceled: { self.showingNewTeamView = false })
-            .onDisappear {
-                self.showingIndicator = true
-                self.loadTeams(userId: userId) {
-                    self.showingIndicator = false
+        return router.makeNewTeamView(
+            profile: self.profile!,
+            onCommit: { _ in
+                self.showingNewTeamView = false
+            
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.showingIndicator = true
+                    self.loadTeams(userId: userId) {
+                        self.showingIndicator = false
+                    }
                 }
-            }
+                
+            },
+            onCanceled: { self.showingNewTeamView = false })
     }
     
     func makeAboutTeamQrCodeScannerView() -> some View {
